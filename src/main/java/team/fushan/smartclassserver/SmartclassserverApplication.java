@@ -1,12 +1,12 @@
-package team.fushan.smartclass;
+package team.fushan.smartclassserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SmartclassApplication {
+public class SmartclassserverApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SmartclassApplication.class, args);
+		SpringApplication.run(SmartclassserverApplication.class, args);
 	}
 }
