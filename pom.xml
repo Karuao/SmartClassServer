@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>team.fushan</groupId>
-	<artifactId>smartclass</artifactId>
+	<artifactId>smartclassserver</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>smartclass</name>
+	<name>smartclassserver</name>
 	<description>Demo project for Spring Boot</description>
 
 	<parent>
