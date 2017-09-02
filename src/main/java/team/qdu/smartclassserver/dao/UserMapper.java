@@ -1,8 +1,8 @@
-package team.fushan.smartclassserver.dao;
+package team.qdu.smartclassserver.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
-import team.fushan.smartclassserver.domain.User;
+import team.qdu.smartclassserver.domain.User;
 
 @Mapper
 @Component

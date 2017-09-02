@@ -1,4 +1,4 @@
-package team.fushan.smartclassserver;
+package team.qdu.smartclassserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

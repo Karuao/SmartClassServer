@@ -1,9 +1,9 @@
-package team.fushan.smartclassserver.service;
+package team.qdu.smartclassserver.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import team.fushan.smartclassserver.dao.UserMapper;
-import team.fushan.smartclassserver.domain.User;
+import team.qdu.smartclassserver.dao.UserMapper;
+import team.qdu.smartclassserver.domain.User;
 
 @Service
 public class UserService {

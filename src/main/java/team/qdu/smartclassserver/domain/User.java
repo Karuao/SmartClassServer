@@ -1,4 +1,4 @@
-package team.fushan.smartclassserver.domain;
+package team.qdu.smartclassserver.domain;
 
 import java.io.Serializable;
 import java.util.Date;
