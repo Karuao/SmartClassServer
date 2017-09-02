@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!-- 驱动包路径！ -->
+    <classPathEntry location="C:\Users\Rock\.m2\repository\mysql\mysql-connector-java\5.1.43\mysql-connector-java-5.1.43.jar"/>
+    <context id="MysqlTables" targetRuntime="MyBatis3">
+        <!-- 生成的pojo，将implements Serializable-->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
+        <commentGenerator>
+            <property name="suppressAllComments" value="true" />
+        </commentGenerator>
+        <!-- jdbc url地址 ！ -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://127.0.0.1:3306/smartclass?generateSimpleParameterMetadata=true" userId="root" password="123456">
+        </jdbcConnection>
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+        <!-- targetPackage 生成后的路径 ，targetProject 绝对路径  该配置生成java代码  -->
+        <javaModelGenerator targetPackage="team.fushan.smartclass.domain" targetProject=".\src\main\java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <!-- 该配置生成 mybatis 映射文件   -->
+        <sqlMapGenerator targetPackage="mapper" targetProject=".\src\main\resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+        <!-- 生成 java 接口代码  -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="team.fushan.smartclass.dao" targetProject=".\src\main\java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+        <!--  表配置    tableName 表名      domainObjectName java类名，首字母必须大写，否则报字符串越界错误 -->
+        <table schema="smartclass" tableName="user" domainObjectName="User" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+
+    </context>
+
+
+</generatorConfiguration>
