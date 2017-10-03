@@ -2,10 +2,9 @@ package team.qdu.smartclassserver.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import team.qdu.smartclassserver.domain.User;
 
-@Mapper
-@Component
 public interface UserMapper {
     int deleteByPrimaryKey(Integer user_id);
 
