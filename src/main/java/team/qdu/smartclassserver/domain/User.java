@@ -3,6 +3,7 @@ package team.qdu.smartclassserver.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+
 public class User implements Serializable {
     private Integer user_id;
 

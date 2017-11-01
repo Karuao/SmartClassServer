@@ -18,17 +18,13 @@ public class UserController {
 
     @RequestMapping(value = "/login")
     public void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/plain; charset=utf-8");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-//        return userService.login(email, password);
-//        return "{\"event\": \"0\", \"msg\": \"success\"}";
-//        try {
-//            response.getWriter().write("{\"event\": \"0\", \"msg\": \"success\"}");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+
         PrintWriter out = response.getWriter();
-        out.print("{\"event\":\"0\", \"msg\":null, \"obj\":null, \"objList\":null}");
+        String responseJson = userService.login(email, password);
+        out.print(responseJson);
         out.close();
     }
 }
