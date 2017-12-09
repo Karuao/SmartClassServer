@@ -3,11 +3,10 @@ package team.qdu.smartclassserver.domain;
 import java.io.Serializable;
 import java.util.Date;
 
-
 public class User implements Serializable {
     private Integer user_id;
 
-    private String email;
+    private String account;
 
     private String password;
 
@@ -15,7 +14,9 @@ public class User implements Serializable {
 
     private String name;
 
-    private Byte gender;
+    private String gender;
+
+    private String status_message;
 
     private Date birthday;
 
@@ -23,7 +24,11 @@ public class User implements Serializable {
 
     private Short department;
 
-    private Byte if_show_closed_classes;
+    private String if_show_closed_classes;
+
+    private Date create_date_time;
+
+    private Date modify_date_time;
 
     private static final long serialVersionUID = 1L;
 
@@ -35,12 +40,12 @@ public class User implements Serializable {
         this.user_id = user_id;
     }
 
-    public String getEmail() {
-        return email;
+    public String getAccount() {
+        return account;
     }
 
-    public void setEmail(String email) {
-        this.email = email == null ? null : email.trim();
+    public void setAccount(String account) {
+        this.account = account == null ? null : account.trim();
     }
 
     public String getPassword() {
@@ -67,12 +72,20 @@ public class User implements Serializable {
         this.name = name == null ? null : name.trim();
     }
 
-    public Byte getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(Byte gender) {
-        this.gender = gender;
+    public void setGender(String gender) {
+        this.gender = gender == null ? null : gender.trim();
+    }
+
+    public String getStatus_message() {
+        return status_message;
+    }
+
+    public void setStatus_message(String status_message) {
+        this.status_message = status_message == null ? null : status_message.trim();
     }
 
     public Date getBirthday() {
@@ -99,11 +112,27 @@ public class User implements Serializable {
         this.department = department;
     }
 
-    public Byte getIf_show_closed_classes() {
+    public String getIf_show_closed_classes() {
         return if_show_closed_classes;
     }
 
-    public void setIf_show_closed_classes(Byte if_show_closed_classes) {
-        this.if_show_closed_classes = if_show_closed_classes;
+    public void setIf_show_closed_classes(String if_show_closed_classes) {
+        this.if_show_closed_classes = if_show_closed_classes == null ? null : if_show_closed_classes.trim();
+    }
+
+    public Date getCreate_date_time() {
+        return create_date_time;
+    }
+
+    public void setCreate_date_time(Date create_date_time) {
+        this.create_date_time = create_date_time;
+    }
+
+    public Date getModify_date_time() {
+        return modify_date_time;
+    }
+
+    public void setModify_date_time(Date modify_date_time) {
+        this.modify_date_time = modify_date_time;
     }
 }

@@ -1,4 +1,4 @@
-package team.qdu.smartclassserver.dao;
+package team.qdu.smartclass.dao;
 
 import team.qdu.smartclassserver.domain.User;
 
@@ -9,7 +9,6 @@ public interface UserMapper {
 
     int insertSelective(User record);
 
-    User selectByAccount(String account);
     User selectByPrimaryKey(Integer user_id);
 
     int updateByPrimaryKeySelective(User record);

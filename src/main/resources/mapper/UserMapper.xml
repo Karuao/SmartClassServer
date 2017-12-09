@@ -3,45 +3,50 @@
 <mapper namespace="team.qdu.smartclassserver.dao.UserMapper">
   <resultMap id="BaseResultMap" type="team.qdu.smartclassserver.domain.User">
     <id column="user_id" jdbcType="INTEGER" property="user_id" />
-    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="account" jdbcType="VARCHAR" property="account" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="avatar" jdbcType="VARCHAR" property="avatar" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="gender" jdbcType="TINYINT" property="gender" />
+    <result column="gender" jdbcType="VARCHAR" property="gender" />
+    <result column="status_message" jdbcType="VARCHAR" property="status_message" />
     <result column="birthday" jdbcType="DATE" property="birthday" />
     <result column="university" jdbcType="SMALLINT" property="university" />
     <result column="department" jdbcType="SMALLINT" property="department" />
-    <result column="if_show_closed_classes" jdbcType="TINYINT" property="if_show_closed_classes" />
+    <result column="if_show_closed_classes" jdbcType="VARCHAR" property="if_show_closed_classes" />
+    <result column="create_date_time" jdbcType="TIMESTAMP" property="create_date_time" />
+    <result column="modify_date_time" jdbcType="TIMESTAMP" property="modify_date_time" />
   </resultMap>
+  <select id="selectByAccount" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where account = #{account,jdbcType=VARCHAR}
+  </select>
   <sql id="Base_Column_List">
-    user_id, email, password, avatar, name, gender, birthday, university, department, 
-    if_show_closed_classes
+    user_id, account, password, avatar, name, gender, status_message, birthday, university, 
+    department, if_show_closed_classes, create_date_time, modify_date_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select
+    select 
     <include refid="Base_Column_List" />
     from user
     where user_id = #{user_id,jdbcType=INTEGER}
-  </select>
-  <select id="selectByEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from user
-    where email = #{email,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user
     where user_id = #{user_id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="team.qdu.smartclassserver.domain.User">
-    insert into user (user_id, email, password, 
+    insert into user (user_id, account, password, 
       avatar, name, gender, 
-      birthday, university, department, 
-      if_show_closed_classes)
-    values (#{user_id,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{avatar,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, 
-      #{birthday,jdbcType=DATE}, #{university,jdbcType=SMALLINT}, #{department,jdbcType=SMALLINT}, 
-      #{if_show_closed_classes,jdbcType=TINYINT})
+      status_message, birthday, university, 
+      department, if_show_closed_classes, create_date_time, 
+      modify_date_time)
+    values (#{user_id,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{avatar,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
+      #{status_message,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{university,jdbcType=SMALLINT}, 
+      #{department,jdbcType=SMALLINT}, #{if_show_closed_classes,jdbcType=VARCHAR}, #{create_date_time,jdbcType=TIMESTAMP}, 
+      #{modify_date_time,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="team.qdu.smartclassserver.domain.User">
     insert into user
@@ -49,8 +54,8 @@
       <if test="user_id != null">
         user_id,
       </if>
-      <if test="email != null">
-        email,
+      <if test="account != null">
+        account,
       </if>
       <if test="password != null">
         password,
@@ -64,6 +69,9 @@
       <if test="gender != null">
         gender,
       </if>
+      <if test="status_message != null">
+        status_message,
+      </if>
       <if test="birthday != null">
         birthday,
       </if>
@@ -76,13 +84,19 @@
       <if test="if_show_closed_classes != null">
         if_show_closed_classes,
       </if>
+      <if test="create_date_time != null">
+        create_date_time,
+      </if>
+      <if test="modify_date_time != null">
+        modify_date_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="user_id != null">
         #{user_id,jdbcType=INTEGER},
       </if>
-      <if test="email != null">
-        #{email,jdbcType=VARCHAR},
+      <if test="account != null">
+        #{account,jdbcType=VARCHAR},
       </if>
       <if test="password != null">
         #{password,jdbcType=VARCHAR},
@@ -94,7 +108,10 @@
         #{name,jdbcType=VARCHAR},
       </if>
       <if test="gender != null">
-        #{gender,jdbcType=TINYINT},
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="status_message != null">
+        #{status_message,jdbcType=VARCHAR},
       </if>
       <if test="birthday != null">
         #{birthday,jdbcType=DATE},
@@ -106,15 +123,21 @@
         #{department,jdbcType=SMALLINT},
       </if>
       <if test="if_show_closed_classes != null">
-        #{if_show_closed_classes,jdbcType=TINYINT},
+        #{if_show_closed_classes,jdbcType=VARCHAR},
+      </if>
+      <if test="create_date_time != null">
+        #{create_date_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modify_date_time != null">
+        #{modify_date_time,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="team.qdu.smartclassserver.domain.User">
     update user
     <set>
-      <if test="email != null">
-        email = #{email,jdbcType=VARCHAR},
+      <if test="account != null">
+        account = #{account,jdbcType=VARCHAR},
       </if>
       <if test="password != null">
         password = #{password,jdbcType=VARCHAR},
@@ -126,7 +149,10 @@
         name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="gender != null">
-        gender = #{gender,jdbcType=TINYINT},
+        gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="status_message != null">
+        status_message = #{status_message,jdbcType=VARCHAR},
       </if>
       <if test="birthday != null">
         birthday = #{birthday,jdbcType=DATE},
@@ -138,22 +164,31 @@
         department = #{department,jdbcType=SMALLINT},
       </if>
       <if test="if_show_closed_classes != null">
-        if_show_closed_classes = #{if_show_closed_classes,jdbcType=TINYINT},
+        if_show_closed_classes = #{if_show_closed_classes,jdbcType=VARCHAR},
+      </if>
+      <if test="create_date_time != null">
+        create_date_time = #{create_date_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modify_date_time != null">
+        modify_date_time = #{modify_date_time,jdbcType=TIMESTAMP},
       </if>
     </set>
     where user_id = #{user_id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="team.qdu.smartclassserver.domain.User">
     update user
-    set email = #{email,jdbcType=VARCHAR},
+    set account = #{account,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       avatar = #{avatar,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
-      gender = #{gender,jdbcType=TINYINT},
+      gender = #{gender,jdbcType=VARCHAR},
+      status_message = #{status_message,jdbcType=VARCHAR},
       birthday = #{birthday,jdbcType=DATE},
       university = #{university,jdbcType=SMALLINT},
       department = #{department,jdbcType=SMALLINT},
-      if_show_closed_classes = #{if_show_closed_classes,jdbcType=TINYINT}
+      if_show_closed_classes = #{if_show_closed_classes,jdbcType=VARCHAR},
+      create_date_time = #{create_date_time,jdbcType=TIMESTAMP},
+      modify_date_time = #{modify_date_time,jdbcType=TIMESTAMP}
     where user_id = #{user_id,jdbcType=INTEGER}
   </update>
 </mapper>

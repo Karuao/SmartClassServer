@@ -13,8 +13,8 @@ public class UserService {
     @Autowired
     UserMapper userMapper;
 
-    public String login(String email, String password) {
-        User user = userMapper.selectByEmail(email);
+    public String login(String account, String password) {
+        User user = userMapper.selectByAccount(account);
         ApiResponse apiResponse;
 
         if (user != null) {

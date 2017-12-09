@@ -19,11 +19,11 @@ public class UserController {
     @RequestMapping(value = "/login")
     public void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/plain; charset=utf-8");
-        String email = request.getParameter("email");
+        String account = request.getParameter("email");
         String password = request.getParameter("password");
 
         PrintWriter out = response.getWriter();
-        String responseJson = userService.login(email, password);
+        String responseJson = userService.login(account, password);
         out.print(responseJson);
         out.close();
     }
