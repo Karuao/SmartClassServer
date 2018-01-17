@@ -30,6 +30,26 @@ public class User implements Serializable {
 
     private Date modify_date_time;
 
+    private String security_question;
+
+    private String security_answer;
+
+    public String getSecurity_question() {
+        return security_question;
+    }
+
+    public void setSecurity_question(String security_question) {
+        this.security_question = security_question;
+    }
+
+    public String getSecurity_answer() {
+        return security_answer;
+    }
+
+    public void setSecurity_answer(String security_answer) {
+        this.security_answer = security_answer;
+    }
+
     private static final long serialVersionUID = 1L;
 
     public Integer getUser_id() {

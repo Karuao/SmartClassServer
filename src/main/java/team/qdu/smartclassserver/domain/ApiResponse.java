@@ -20,6 +20,14 @@ public class ApiResponse<T> implements Serializable {
         this.objList = null;
     }
 
+
+    public ApiResponse(T user,String event, String msg) {
+        this.event = event;
+        this.msg = msg;
+        this.obj = user;
+        this.objList = null;
+    }
+
     public ApiResponse(String event, String msg, T obj, T objList) {
         this.event = event;
         this.msg = msg;

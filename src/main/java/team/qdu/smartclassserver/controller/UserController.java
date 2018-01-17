@@ -27,4 +27,16 @@ public class UserController {
         out.print(responseJson);
         out.close();
     }
+
+    @RequestMapping(value = "/findPass_one")
+    public void checkAccount(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/plain; charset=utf-8");
+        String account = request.getParameter("email");
+
+        PrintWriter out = response.getWriter();
+        String responseJson = userService.checkAccount(account);
+        out.print(responseJson);
+        out.close();
+    }
+
 }

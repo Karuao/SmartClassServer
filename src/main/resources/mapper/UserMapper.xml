@@ -13,6 +13,8 @@
     <result column="university" jdbcType="SMALLINT" property="university" />
     <result column="department" jdbcType="SMALLINT" property="department" />
     <result column="if_show_closed_classes" jdbcType="VARCHAR" property="if_show_closed_classes" />
+    <result column="security_question" jdbcType="VARCHAR" property="security_question" />
+    <result column="security_answer" jdbcType="VARCHAR" property="security_answer" />
     <result column="create_date_time" jdbcType="TIMESTAMP" property="create_date_time" />
     <result column="modify_date_time" jdbcType="TIMESTAMP" property="modify_date_time" />
   </resultMap>
@@ -23,8 +25,8 @@
     where account = #{account,jdbcType=VARCHAR}
   </select>
   <sql id="Base_Column_List">
-    user_id, account, password, avatar, name, gender, status_message, birthday, university, 
-    department, if_show_closed_classes, create_date_time, modify_date_time
+    user_id, account, password, avatar, name, gender, status_message, birthday, university,
+    department, if_show_closed_classes, security_question, security_answer, create_date_time, modify_date_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -38,7 +40,7 @@
   </delete>
   <insert id="insert" parameterType="team.qdu.smartclassserver.domain.User">
     insert into user (user_id, account, password, 
-      avatar, name, gender, 
+      avatar, name, gender,
       status_message, birthday, university, 
       department, if_show_closed_classes, create_date_time, 
       modify_date_time)
