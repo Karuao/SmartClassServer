@@ -3,13 +3,10 @@ package team.qdu.smartclassserver.service;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import team.qdu.smartclassserver.dao.UserMapper;
-import team.qdu.smartclassserver.domain.A;
-import team.qdu.smartclassserver.domain.ApiResponse;
-import team.qdu.smartclassserver.domain.B;
-import team.qdu.smartclassserver.domain.User;
 
-import java.util.HashMap;
+import team.qdu.smartclassserver.dao.UserMapper;
+import team.qdu.smartclassserver.domain.ApiResponse;
+import team.qdu.smartclassserver.domain.User;
 
 @Service
 public class UserService {
@@ -20,6 +17,8 @@ public class UserService {
     public String login(String account, String password) {
         User user = userMapper.selectByAccount(account);
         ApiResponse apiResponse;
+
+
 
         if (user != null) {
             //该用户存在
@@ -39,22 +38,51 @@ public class UserService {
         return jsonResponse;
     }
 
-    public String register(String account, String password) {
-        User user = new User();
-        user.setAccount(account);
-        user.setPassword(password);
+    public String register(String account,String password,String question,String answer) {
+        User user = userMapper.selectByAccount(account);
         ApiResponse apiResponse;
-        HashMap
 
-        int result = userMapper.insert(user);
 
-        if (result == 0) {
-            apiResponse = new ApiResponse("1", "注册失败");
+
+        if (user != null) {
+            apiResponse = new ApiResponse("2", "该用户已被注册");
+            //该用户已被注册
+
         } else {
+            // 用户不存在 注册成功
+            User user1=new User();
+            user1.setAccount(account);
+            user1.setPassword(password);
+            user1.setSecurity_question(question);
+            user1.setSecurity_answer(answer);
+
+
+            int msg=userMapper.insert(user1);
             apiResponse = new ApiResponse("0", "注册成功");
         }
-        System.out.println(result);
         String jsonResponse = new Gson().toJson(apiResponse);
+
         return jsonResponse;
     }
+    public String checkAccount(String account){
+        User user = userMapper.selectByAccount(account);
+        ApiResponse<User> apiResponse;
+        //ApiResponse<User> apiResponse = new ApiResponse<User>("0", "返回用户信息");
+        //apiResponse.obj = user;
+        if(user!=null){
+            //该用户存在
+            user.setPassword("");
+            user.setSecurity_question(user.getSecurity_question());
+            apiResponse = new ApiResponse<>("0","用户存在");
+            apiResponse.obj = user;
+        }else{
+            //该用户不存在
+            apiResponse = new ApiResponse<>(user,"2", "用户不存在");
+        }
+        String jsonResponse = new Gson().toJson(apiResponse);
+
+        return jsonResponse;
+    }
+
+
 }
