@@ -7,6 +7,8 @@ import team.qdu.smartclassserver.dao.UserMapper;
 import team.qdu.smartclassserver.domain.ApiResponse;
 import team.qdu.smartclassserver.domain.User;
 
+import java.util.Date;
+
 @Service
 public class UserService {
 
@@ -45,12 +47,28 @@ public class UserService {
         if(user!=null){
             //该用户存在
             user.setPassword("");
-            user.setSecurity_question(user.getSecurity_question());
             apiResponse = new ApiResponse<>("0","用户存在");
             apiResponse.obj = user;
         }else{
             //该用户不存在
-            apiResponse = new ApiResponse<>(user,"2", "用户不存在");
+            apiResponse = new ApiResponse<>("2", "用户不存在");
+        }
+        String jsonResponse = new Gson().toJson(apiResponse);
+
+        return jsonResponse;
+    }
+
+    public String updatePassword(int id,String newPass){
+        ApiResponse apiResponse;
+        User user = userMapper.selectByPrimaryKey(id);
+        user.setPassword(newPass);
+        Date now=new Date();
+        user.setModify_date_time(now);
+        int result=userMapper.updateByPrimaryKey(user);
+        if(result==1){
+            apiResponse = new ApiResponse("0", "修改密码成功");
+        }else{
+            apiResponse = new ApiResponse("1", "修改密码失败");
         }
         String jsonResponse = new Gson().toJson(apiResponse);
 

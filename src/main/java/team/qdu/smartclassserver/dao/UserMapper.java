@@ -11,6 +11,7 @@ public interface UserMapper {
 
     User selectByAccount(String account);
 
+
     User selectByPrimaryKey(Integer user_id);
 
     int updateByPrimaryKeySelective(User record);

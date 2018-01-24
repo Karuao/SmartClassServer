@@ -28,7 +28,7 @@ public class UserController {
         out.close();
     }
 
-    @RequestMapping(value = "/findPass_one")
+    @RequestMapping(value = "/findPassOne")
     public void checkAccount(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/plain; charset=utf-8");
         String account = request.getParameter("email");
@@ -39,4 +39,14 @@ public class UserController {
         out.close();
     }
 
+    @RequestMapping(value = "/updatePass")
+    public void updatePassword(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/plain; charset=utf-8");
+        int id = Integer.parseInt(request.getParameter("id"));
+        String newPass = request.getParameter("newPass");
+        PrintWriter out = response.getWriter();
+        String responseJson=userService.updatePassword(id,newPass);
+        out.print(responseJson);
+        out.close();
+    }
 }
