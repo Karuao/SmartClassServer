@@ -19,7 +19,7 @@ public class UserController {
     @RequestMapping(value = "/login")
     public void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/plain; charset=utf-8");
-        String account = request.getParameter("email");
+        String account = request.getParameter("account");
         String password = request.getParameter("password");
 
         PrintWriter out = response.getWriter();
@@ -30,7 +30,7 @@ public class UserController {
     @RequestMapping(value="/register")
     public void register(HttpServletRequest request, HttpServletResponse response) throws IOException{
         response.setContentType("text/plain; charset=utf-8");
-        String account=request.getParameter("email");
+        String account=request.getParameter("account");
         String password=request.getParameter("password");
         String answer=request.getParameter("answer");
         String question=request.getParameter("question");
@@ -43,7 +43,7 @@ public class UserController {
     @RequestMapping(value = "/findPassOne")
     public void checkAccount(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/plain; charset=utf-8");
-        String account = request.getParameter("email");
+        String account = request.getParameter("account");
 
         PrintWriter out = response.getWriter();
         String responseJson = userService.checkAccount(account);

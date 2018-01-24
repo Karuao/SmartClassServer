@@ -1,1 +1,1 @@
-insert into user(email, password) VALUE('123456@qq.com', '123456')
+insert into user(account, password) VALUE('123456@qq.com', '123456')
