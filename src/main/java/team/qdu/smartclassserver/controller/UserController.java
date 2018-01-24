@@ -27,6 +27,18 @@ public class UserController {
         out.print(responseJson);
         out.close();
     }
+    @RequestMapping(value="/register")
+    public void register(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        response.setContentType("text/plain; charset=utf-8");
+        String account=request.getParameter("email");
+        String password=request.getParameter("password");
+        String answer=request.getParameter("answer");
+        String question=request.getParameter("question");
+        PrintWriter out = response.getWriter();
+        String responseJson=userService.register(account,password,question,answer);
+        out.print(responseJson);
+        out.close();
+    }
 
     @RequestMapping(value = "/findPassOne")
     public void checkAccount(HttpServletRequest request, HttpServletResponse response) throws IOException {

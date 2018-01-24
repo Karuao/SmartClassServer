@@ -42,12 +42,12 @@
     insert into user (user_id, account, password, 
       avatar, name, gender,
       status_message, birthday, university, 
-      department, if_show_closed_classes, create_date_time, 
+      department, if_show_closed_classes,security_question,security_answer,create_date_time,
       modify_date_time)
     values (#{user_id,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{avatar,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
       #{status_message,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{university,jdbcType=SMALLINT}, 
-      #{department,jdbcType=SMALLINT}, #{if_show_closed_classes,jdbcType=VARCHAR}, #{create_date_time,jdbcType=TIMESTAMP}, 
+      #{department,jdbcType=SMALLINT}, #{if_show_closed_classes,jdbcType=VARCHAR}, #{security_question,jdbcType=VARCHAR},#{security_answer,jdbcType=VARCHAR},#{create_date_time,jdbcType=TIMESTAMP},
       #{modify_date_time,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="team.qdu.smartclassserver.domain.User">
