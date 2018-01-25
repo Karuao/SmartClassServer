@@ -54,10 +54,10 @@ public class UserController {
     @RequestMapping(value = "/updatePass")
     public void updatePassword(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/plain; charset=utf-8");
-        int id = Integer.parseInt(request.getParameter("id"));
+        String account = request.getParameter("account");
         String newPass = request.getParameter("newPass");
         PrintWriter out = response.getWriter();
-        String responseJson=userService.updatePassword(id,newPass);
+        String responseJson=userService.updatePassword(account,newPass);
         out.print(responseJson);
         out.close();
     }

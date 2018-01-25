@@ -10,8 +10,8 @@
     <result column="gender" jdbcType="VARCHAR" property="gender" />
     <result column="status_message" jdbcType="VARCHAR" property="status_message" />
     <result column="birthday" jdbcType="DATE" property="birthday" />
-    <result column="university" jdbcType="SMALLINT" property="university" />
-    <result column="department" jdbcType="SMALLINT" property="department" />
+    <result column="university" jdbcType="VARCHAR" property="university" />
+    <result column="department" jdbcType="VARCHAR" property="department" />
     <result column="if_show_closed_classes" jdbcType="VARCHAR" property="if_show_closed_classes" />
     <result column="security_question" jdbcType="VARCHAR" property="security_question" />
     <result column="security_answer" jdbcType="VARCHAR" property="security_answer" />
@@ -46,8 +46,8 @@
       modify_date_time)
     values (#{user_id,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{avatar,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
-      #{status_message,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{university,jdbcType=SMALLINT}, 
-      #{department,jdbcType=SMALLINT}, #{if_show_closed_classes,jdbcType=VARCHAR}, #{security_question,jdbcType=VARCHAR},#{security_answer,jdbcType=VARCHAR},#{create_date_time,jdbcType=TIMESTAMP},
+      #{status_message,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{university,jdbcType=VARCHAR},
+      #{department,jdbcType=VARCHAR}, #{if_show_closed_classes,jdbcType=VARCHAR}, #{security_question,jdbcType=VARCHAR},#{security_answer,jdbcType=VARCHAR},#{create_date_time,jdbcType=TIMESTAMP},
       #{modify_date_time,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="team.qdu.smartclassserver.domain.User">
@@ -119,10 +119,10 @@
         #{birthday,jdbcType=DATE},
       </if>
       <if test="university != null">
-        #{university,jdbcType=SMALLINT},
+        #{university,jdbcType=VARCHAR},
       </if>
       <if test="department != null">
-        #{department,jdbcType=SMALLINT},
+        #{department,jdbcType=VARCHAR},
       </if>
       <if test="if_show_closed_classes != null">
         #{if_show_closed_classes,jdbcType=VARCHAR},
@@ -160,10 +160,10 @@
         birthday = #{birthday,jdbcType=DATE},
       </if>
       <if test="university != null">
-        university = #{university,jdbcType=SMALLINT},
+        university = #{university,jdbcType=VARCHAR},
       </if>
       <if test="department != null">
-        department = #{department,jdbcType=SMALLINT},
+        department = #{department,jdbcType=VARCHAR},
       </if>
       <if test="if_show_closed_classes != null">
         if_show_closed_classes = #{if_show_closed_classes,jdbcType=VARCHAR},
@@ -177,6 +177,45 @@
     </set>
     where user_id = #{user_id,jdbcType=INTEGER}
   </update>
+  <update id="updateByAccount" parameterType="String">
+    update user
+    <set>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null">
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="status_message != null">
+        status_message = #{status_message,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="university != null">
+        university = #{university,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null">
+        department = #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="if_show_closed_classes != null">
+        if_show_closed_classes = #{if_show_closed_classes,jdbcType=VARCHAR},
+      </if>
+      <if test="create_date_time != null">
+        create_date_time = #{create_date_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modify_date_time != null">
+        modify_date_time = #{modify_date_time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where account = #{account,jdbcType=VARCHAR}
+  </update>
   <update id="updateByPrimaryKey" parameterType="team.qdu.smartclassserver.domain.User">
     update user
     set account = #{account,jdbcType=VARCHAR},
@@ -186,8 +225,8 @@
       gender = #{gender,jdbcType=VARCHAR},
       status_message = #{status_message,jdbcType=VARCHAR},
       birthday = #{birthday,jdbcType=DATE},
-      university = #{university,jdbcType=SMALLINT},
-      department = #{department,jdbcType=SMALLINT},
+      university = #{university,jdbcType=VARCHAR},
+      department = #{department,jdbcType=VARCHAR},
       if_show_closed_classes = #{if_show_closed_classes,jdbcType=VARCHAR},
       create_date_time = #{create_date_time,jdbcType=TIMESTAMP},
       modify_date_time = #{modify_date_time,jdbcType=TIMESTAMP}
