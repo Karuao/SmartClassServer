@@ -82,9 +82,9 @@ public class UserService {
         return jsonResponse;
     }
 
-    public String updatePassword(int id,String newPass){
+    public String updatePassword(String account,String newPass){
         ApiResponse apiResponse;
-        User user = userMapper.selectByPrimaryKey(id);
+        User user = userMapper.selectByAccount(account);
         user.setPassword(newPass);
         Date now=new Date();
         user.setModify_date_time(now);
