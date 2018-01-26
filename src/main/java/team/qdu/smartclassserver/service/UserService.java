@@ -43,9 +43,6 @@ public class UserService {
     public String register(String account,String password,String question,String answer) {
         User user = userMapper.selectByAccount(account);
         ApiResponse apiResponse;
-
-
-
         if (user != null) {
             apiResponse = new ApiResponse("2", "该用户已被注册");
             //该用户已被注册
