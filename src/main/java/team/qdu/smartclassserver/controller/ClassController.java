@@ -8,6 +8,7 @@ import team.qdu.smartclassserver.service.ClassService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @Controller
 public class ClassController {
@@ -19,5 +20,9 @@ public class ClassController {
     public void getJoinedClasses(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/plain; charset=utf-8");
         int userId = Integer.parseInt(request.getParameter("userId"));
+        PrintWriter out = response.getWriter();
+        String responseJson = classService.getJoinedClasses(userId);
+        out.print(responseJson);
+        out.close();
     }
 }
