@@ -25,4 +25,15 @@ public class ClassController {
         out.print(responseJson);
         out.close();
     }
+
+    @RequestMapping(value = "/jumpClass")
+    public void jumpClass(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/plain; charset=utf-8");
+        int classId = Integer.parseInt(request.getParameter("classId"));
+        int userId = Integer.parseInt(request.getParameter("userId"));
+        PrintWriter out = response.getWriter();
+        String responseJson = classService.judgeTitle(classId, userId);
+        out.print(responseJson);
+        out.close();
+    }
 }
