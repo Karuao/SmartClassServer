@@ -18,15 +18,14 @@ public class UserService {
 
     public String login(String account, String password) {
         User user = userMapper.selectByAccount(account);
-        ApiResponse apiResponse;
-
-
+        ApiResponse<String> apiResponse;
 
         if (user != null) {
             //该用户存在
             if (user.getPassword().equals(password)) {
                 //密码正确
                 apiResponse = new ApiResponse("0", "登陆成功");
+                apiResponse.obj = Integer.toString(user.getUser_id());
             } else {
                 //密码错误
                 apiResponse = new ApiResponse("1", "密码错误");

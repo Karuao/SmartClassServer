@@ -21,4 +21,16 @@ public class ClassService  {
         String jsonResponse = new Gson().toJson(apiResponse);
         return jsonResponse;
     }
+
+    public String judgeTitle(int classId, int userId) {
+        ApiResponse<Void> apiResponse;
+        Class clickedClass = classMapper.selectByPrimaryKey(classId);
+        if (userId == clickedClass.getUser_id()) {
+            apiResponse = new ApiResponse<>("0", "teacher");
+        } else {
+            apiResponse = new ApiResponse<>("0", "student");
+        }
+        String jsonResponse = new Gson().toJson(apiResponse);
+        return jsonResponse;
+    }
 }
