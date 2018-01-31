@@ -84,6 +84,7 @@ public class UserService {
         return jsonResponse;
     }
 
+    //找回密码时修改密码
     public String updatePassword(String account,String newPass){
         ApiResponse apiResponse;
         User user = userMapper.selectByAccount(account);
@@ -101,6 +102,7 @@ public class UserService {
         return jsonResponse;
     }
 
+    //修改个人信息
     public String updateUserInformation(String oldAccount,String newAccount,String name,String gender,String university,
                                         String department,String motto){
         ApiResponse apiResponse;
