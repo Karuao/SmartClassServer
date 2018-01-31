@@ -61,4 +61,20 @@ public class UserController {
         out.print(responseJson);
         out.close();
     }
+
+    @RequestMapping(value = "/updateUserInformation")
+    public void updateUserInformation(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/plain; charset=utf-8");
+        String oldAccount = request.getParameter("oldAccount");
+        String newAccount = request.getParameter("newAccount");
+        String name = request.getParameter("name");
+        String gender = request.getParameter("gender");
+        String university = request.getParameter("university");
+        String department = request.getParameter("department");
+        String motto = request.getParameter("motto");
+        PrintWriter out = response.getWriter();
+        String responseJson=userService.updateUserInformation(oldAccount,newAccount,name,gender,university,department,motto);
+        out.print(responseJson);
+        out.close();
+    }
 }
