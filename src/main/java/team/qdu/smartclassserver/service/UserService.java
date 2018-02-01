@@ -81,6 +81,7 @@ public class UserService {
         return jsonResponse;
     }
 
+    //找回密码时修改密码
     public String updatePassword(String account,String newPass){
         ApiResponse apiResponse;
         User user = userMapper.selectByAccount(account);
@@ -92,6 +93,30 @@ public class UserService {
             apiResponse = new ApiResponse("0", "修改密码成功");
         }else{
             apiResponse = new ApiResponse("1", "修改密码失败");
+        }
+        String jsonResponse = new Gson().toJson(apiResponse);
+
+        return jsonResponse;
+    }
+
+    //修改个人信息
+    public String updateUserInformation(String oldAccount,String newAccount,String name,String gender,String university,
+                                        String department,String motto){
+        ApiResponse apiResponse;
+        User user = userMapper.selectByAccount(oldAccount);
+        user.setAccount(newAccount);
+        user.setName(name);
+        user.setGender(gender);
+        user.setUniversity(university);
+        user.setDepartment(department);
+        user.setStatus_message(motto);
+        Date now=new Date();
+        user.setModify_date_time(now);
+        int result=userMapper.updateByPrimaryKey(user);
+        if(result==1){
+            apiResponse = new ApiResponse("0", "修改成功");
+        }else{
+            apiResponse = new ApiResponse("1", "修改失败");
         }
         String jsonResponse = new Gson().toJson(apiResponse);
 
