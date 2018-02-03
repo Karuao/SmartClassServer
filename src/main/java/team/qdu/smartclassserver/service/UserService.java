@@ -100,11 +100,10 @@ public class UserService {
     }
 
     //修改个人信息
-    public String updateUserInformation(String oldAccount,String newAccount,String name,String gender,String university,
+    public String updateUserInformation(String account,String name,String gender,String university,
                                         String department,String motto){
         ApiResponse apiResponse;
-        User user = userMapper.selectByAccount(oldAccount);
-        user.setAccount(newAccount);
+        User user = userMapper.selectByAccount(account);
         user.setName(name);
         user.setGender(gender);
         user.setUniversity(university);
