@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.qdu.smartclassserver.dao.ClassUserMapper">
+  <resultMap id="BaseResultMap" type="team.qdu.smartclassserver.domain.ClassUser">
+    <id column="class_user_id" jdbcType="INTEGER" property="class_user_id" />
+    <result column="class_id" jdbcType="INTEGER" property="class_id" />
+    <result column="user_id" jdbcType="INTEGER" property="user_id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="if_in_class" jdbcType="VARCHAR" property="if_in_class" />
+    <result column="unread_information_num" jdbcType="INTEGER" property="unread_information_num" />
+    <result column="exp" jdbcType="INTEGER" property="exp" />
+    <result column="create_date_time" jdbcType="TIMESTAMP" property="create_date_time" />
+    <result column="modify_date_time" jdbcType="TIMESTAMP" property="modify_date_time" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    class_user_id, class_id, user_id, title, if_in_class, unread_information_num, exp, 
+    create_date_time, modify_date_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from class_user
+    where class_user_id = #{class_user_id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from class_user
+    where class_user_id = #{class_user_id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="team.qdu.smartclassserver.domain.ClassUser">
+    insert into class_user (class_user_id, class_id, user_id, 
+      title, if_in_class, unread_information_num, 
+      exp, create_date_time, modify_date_time
+      )
+    values (#{class_user_id,jdbcType=INTEGER}, #{class_id,jdbcType=INTEGER}, #{user_id,jdbcType=INTEGER}, 
+      #{title,jdbcType=VARCHAR}, #{if_in_class,jdbcType=VARCHAR}, #{unread_information_num,jdbcType=INTEGER}, 
+      #{exp,jdbcType=INTEGER}, #{create_date_time,jdbcType=TIMESTAMP}, #{modify_date_time,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="team.qdu.smartclassserver.domain.ClassUser">
+    insert into class_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="class_user_id != null">
+        class_user_id,
+      </if>
+      <if test="class_id != null">
+        class_id,
+      </if>
+      <if test="user_id != null">
+        user_id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="if_in_class != null">
+        if_in_class,
+      </if>
+      <if test="unread_information_num != null">
+        unread_information_num,
+      </if>
+      <if test="exp != null">
+        exp,
+      </if>
+      <if test="create_date_time != null">
+        create_date_time,
+      </if>
+      <if test="modify_date_time != null">
+        modify_date_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="class_user_id != null">
+        #{class_user_id,jdbcType=INTEGER},
+      </if>
+      <if test="class_id != null">
+        #{class_id,jdbcType=INTEGER},
+      </if>
+      <if test="user_id != null">
+        #{user_id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="if_in_class != null">
+        #{if_in_class,jdbcType=VARCHAR},
+      </if>
+      <if test="unread_information_num != null">
+        #{unread_information_num,jdbcType=INTEGER},
+      </if>
+      <if test="exp != null">
+        #{exp,jdbcType=INTEGER},
+      </if>
+      <if test="create_date_time != null">
+        #{create_date_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modify_date_time != null">
+        #{modify_date_time,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="team.qdu.smartclassserver.domain.ClassUser">
+    update class_user
+    <set>
+      <if test="class_id != null">
+        class_id = #{class_id,jdbcType=INTEGER},
+      </if>
+      <if test="user_id != null">
+        user_id = #{user_id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="if_in_class != null">
+        if_in_class = #{if_in_class,jdbcType=VARCHAR},
+      </if>
+      <if test="unread_information_num != null">
+        unread_information_num = #{unread_information_num,jdbcType=INTEGER},
+      </if>
+      <if test="exp != null">
+        exp = #{exp,jdbcType=INTEGER},
+      </if>
+      <if test="create_date_time != null">
+        create_date_time = #{create_date_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modify_date_time != null">
+        modify_date_time = #{modify_date_time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where class_user_id = #{class_user_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="team.qdu.smartclassserver.domain.ClassUser">
+    update class_user
+    set class_id = #{class_id,jdbcType=INTEGER},
+      user_id = #{user_id,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      if_in_class = #{if_in_class,jdbcType=VARCHAR},
+      unread_information_num = #{unread_information_num,jdbcType=INTEGER},
+      exp = #{exp,jdbcType=INTEGER},
+      create_date_time = #{create_date_time,jdbcType=TIMESTAMP},
+      modify_date_time = #{modify_date_time,jdbcType=TIMESTAMP}
+    where class_user_id = #{class_user_id,jdbcType=INTEGER}
+  </update>
+</mapper>

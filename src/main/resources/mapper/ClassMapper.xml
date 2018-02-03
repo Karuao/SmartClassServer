@@ -20,13 +20,6 @@
     <result column="modify_date_time" jdbcType="TIMESTAMP" property="modify_date_time" />
     <result column="teacher" jdbcType="VARCHAR" property="teacher" />
   </resultMap>
-  <!--<resultMap id="JoinedClassesResultMap" type="team.qdu.smartclassserver.domain.Class">-->
-    <!--<id column="class_id" jdbcType="INTEGER" property="class_id" />-->
-    <!--<result column="name" jdbcType="VARCHAR" property="name" />-->
-    <!--<result column="avatar" jdbcType="VARCHAR" property="avatar" />-->
-    <!--<result column="course" jdbcType="VARCHAR" property="course" />-->
-    <!--<result column="teacher" jdbcType="VARCHAR" property="name" />-->
-  <!--</resultMap>-->
   <sql id="Base_Column_List">
     class_id, invite_code, name, avatar, course, university, department, textbook, detail, 
     exam_shedule, population, if_open, if_allow_to_join, user_id, create_date_time, modify_date_time
@@ -48,7 +41,7 @@
     delete from class
     where class_id = #{class_id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="team.qdu.smartclassserver.domain.Class">
+  <insert id="insert" parameterType="team.qdu.smartclassserver.domain.Class" useGeneratedKeys="true" keyProperty="class_id">
     insert into class (class_id, invite_code, name, 
       avatar, course, university, 
       department, textbook, detail, 
