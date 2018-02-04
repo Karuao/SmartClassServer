@@ -3,13 +3,11 @@
 <mapper namespace="team.qdu.smartclassserver.dao.ClassMapper">
   <resultMap id="BaseResultMap" type="team.qdu.smartclassserver.domain.Class">
     <id column="class_id" jdbcType="INTEGER" property="class_id" />
-    <result column="invite_code" jdbcType="INTEGER" property="invite_code" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="avatar" jdbcType="VARCHAR" property="avatar" />
     <result column="course" jdbcType="VARCHAR" property="course" />
     <result column="university" jdbcType="VARCHAR" property="university" />
     <result column="department" jdbcType="VARCHAR" property="department" />
-    <result column="textbook" jdbcType="VARCHAR" property="textbook" />
     <result column="detail" jdbcType="VARCHAR" property="detail" />
     <result column="exam_shedule" jdbcType="VARCHAR" property="exam_shedule" />
     <result column="population" jdbcType="SMALLINT" property="population" />
@@ -21,7 +19,7 @@
     <result column="teacher" jdbcType="VARCHAR" property="teacher" />
   </resultMap>
   <sql id="Base_Column_List">
-    class_id, invite_code, name, avatar, course, university, department, textbook, detail, 
+    class_id, name, avatar, course, university, department, detail,
     exam_shedule, population, if_open, if_allow_to_join, user_id, create_date_time, modify_date_time
   </sql>
   <select id="selectJoinedClassesByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -42,15 +40,15 @@
     where class_id = #{class_id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="team.qdu.smartclassserver.domain.Class" useGeneratedKeys="true" keyProperty="class_id">
-    insert into class (class_id, invite_code, name, 
+    insert into class (class_id, name,
       avatar, course, university, 
-      department, textbook, detail, 
+      department, detail,
       exam_shedule, population, if_open, 
       if_allow_to_join, user_id, create_date_time, 
       modify_date_time)
-    values (#{class_id,jdbcType=INTEGER}, #{invite_code,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+    values (#{class_id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
       #{avatar,jdbcType=VARCHAR}, #{course,jdbcType=VARCHAR}, #{university,jdbcType=VARCHAR}, 
-      #{department,jdbcType=VARCHAR}, #{textbook,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, 
+      #{department,jdbcType=VARCHAR},  #{detail,jdbcType=VARCHAR},
       #{exam_shedule,jdbcType=VARCHAR}, #{population,jdbcType=SMALLINT}, #{if_open,jdbcType=VARCHAR}, 
       #{if_allow_to_join,jdbcType=VARCHAR}, #{user_id,jdbcType=INTEGER}, #{create_date_time,jdbcType=TIMESTAMP}, 
       #{modify_date_time,jdbcType=TIMESTAMP})
@@ -60,9 +58,6 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="class_id != null">
         class_id,
-      </if>
-      <if test="invite_code != null">
-        invite_code,
       </if>
       <if test="name != null">
         name,
@@ -78,9 +73,6 @@
       </if>
       <if test="department != null">
         department,
-      </if>
-      <if test="textbook != null">
-        textbook,
       </if>
       <if test="detail != null">
         detail,
@@ -111,9 +103,6 @@
       <if test="class_id != null">
         #{class_id,jdbcType=INTEGER},
       </if>
-      <if test="invite_code != null">
-        #{invite_code,jdbcType=INTEGER},
-      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
@@ -128,9 +117,6 @@
       </if>
       <if test="department != null">
         #{department,jdbcType=VARCHAR},
-      </if>
-      <if test="textbook != null">
-        #{textbook,jdbcType=VARCHAR},
       </if>
       <if test="detail != null">
         #{detail,jdbcType=VARCHAR},
@@ -161,9 +147,6 @@
   <update id="updateByPrimaryKeySelective" parameterType="team.qdu.smartclassserver.domain.Class">
     update class
     <set>
-      <if test="invite_code != null">
-        invite_code = #{invite_code,jdbcType=INTEGER},
-      </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
@@ -178,9 +161,6 @@
       </if>
       <if test="department != null">
         department = #{department,jdbcType=VARCHAR},
-      </if>
-      <if test="textbook != null">
-        textbook = #{textbook,jdbcType=VARCHAR},
       </if>
       <if test="detail != null">
         detail = #{detail,jdbcType=VARCHAR},
@@ -211,13 +191,11 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="team.qdu.smartclassserver.domain.Class">
     update class
-    set invite_code = #{invite_code,jdbcType=INTEGER},
-      name = #{name,jdbcType=VARCHAR},
+    set name = #{name,jdbcType=VARCHAR},
       avatar = #{avatar,jdbcType=VARCHAR},
       course = #{course,jdbcType=VARCHAR},
       university = #{university,jdbcType=VARCHAR},
       department = #{department,jdbcType=VARCHAR},
-      textbook = #{textbook,jdbcType=VARCHAR},
       detail = #{detail,jdbcType=VARCHAR},
       exam_shedule = #{exam_shedule,jdbcType=VARCHAR},
       population = #{population,jdbcType=SMALLINT},
