@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.qdu.smartclassserver.dao.InformMapper">
+  <resultMap id="BaseResultMap" type="team.qdu.smartclassserver.domain.Inform">
+    <id column="inform_id" jdbcType="INTEGER" property="inform_id" />
+    <result column="detail" jdbcType="VARCHAR" property="detail" />
+    <result column="read_num" jdbcType="INTEGER" property="read_num" />
+    <result column="class_id" jdbcType="INTEGER" property="class_id" />
+    <result column="create_date_time" jdbcType="TIMESTAMP" property="create_date_time" />
+    <result column="modify_date_time" jdbcType="TIMESTAMP" property="modify_date_time" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    inform_id, detail, read_num, class_id, create_date_time, modify_date_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from inform
+    where inform_id = #{inform_id,jdbcType=INTEGER}
+  </select>
+  <select id="selectInformByClassId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT  *
+    FROM
+    inform
+    WHERE class_id=#{class_id,jdbcType=INTEGER}
+  </select>
+  <select id="selectInformByClassIdUserId" parameterType="team.qdu.smartclassserver.domain.Inform_User">
+    SELECT *
+    FROM
+    inform_user
+    WHERE class_id=#{class_id,jdbcType=INTEGER} AND user_id=#{user_id,jdbcType=INTEGER}
+  </select>
+  <select id="judgeByInformIdUserId" parameterType="team.qdu.smartclassserver.domain.Inform_User" resultMap="BaseResultMap">
+    select if_read
+    form
+    inform_user
+    where inform_id=#{inform_id,jdbcType=INTEGER} AND user_id=#{user_id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from inform
+    where inform_id = #{inform_id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="team.qdu.smartclassserver.domain.Inform" useGeneratedKeys="true" keyProperty="inform_id">
+
+    insert into inform (inform_id, detail, read_num, 
+      class_id, create_date_time, modify_date_time
+      )
+    values (#{inform_id,jdbcType=INTEGER}, #{detail,jdbcType=VARCHAR}, '0',
+      #{class_id,jdbcType=INTEGER}, #{create_date_time,jdbcType=TIMESTAMP}, #{modify_date_time,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="team.qdu.smartclassserver.domain.Inform">
+    insert into inform
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="inform_id != null">
+        inform_id,
+      </if>
+      <if test="detail != null">
+        detail,
+      </if>
+      <if test="read_num != null">
+        read_num,
+      </if>
+      <if test="class_id != null">
+        class_id,
+      </if>
+      <if test="create_date_time != null">
+        create_date_time,
+      </if>
+      <if test="modify_date_time != null">
+        modify_date_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="inform_id != null">
+        #{inform_id,jdbcType=INTEGER},
+      </if>
+      <if test="detail != null">
+        #{detail,jdbcType=VARCHAR},
+      </if>
+      <if test="read_num != null">
+        #{read_num,jdbcType=INTEGER},
+      </if>
+      <if test="class_id != null">
+        #{class_id,jdbcType=INTEGER},
+      </if>
+      <if test="create_date_time != null">
+        #{create_date_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modify_date_time != null">
+        #{modify_date_time,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertBatch" parameterType="team.qdu.smartclassserver.domain.Inform_User">
+      insert into inform_user(inform_id,detail,if_read,class_id,user_id,create_date_time,modify_date_time)
+      VALUES
+
+          (#{inform_id,jdbcType=INTEGER},#{detail,jdbcType=VARCHAR}, '否', #{class_id, jdbcType=VARCHAR}, #{user_id,jdbcType=VARCHAR}, #{create_date_time,jdbcType=TIMESTAMP}, #{modify_date_time,jdbcType=TIMESTAMP})
+
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="team.qdu.smartclassserver.domain.Inform">
+    update inform
+    <set>
+      <if test="detail != null">
+        detail = #{detail,jdbcType=VARCHAR},
+      </if>
+      <if test="read_num != null">
+        read_num = #{read_num,jdbcType=INTEGER},
+      </if>
+      <if test="class_id != null">
+        class_id = #{class_id,jdbcType=INTEGER},
+      </if>
+      <if test="create_date_time != null">
+        create_date_time = #{create_date_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modify_date_time != null">
+        modify_date_time = #{modify_date_time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where inform_id = #{inform_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="team.qdu.smartclassserver.domain.Inform">
+    update inform
+    set detail = #{detail,jdbcType=VARCHAR},
+      read_num = #{read_num,jdbcType=INTEGER},
+      class_id = #{class_id,jdbcType=INTEGER},
+      create_date_time = #{create_date_time,jdbcType=TIMESTAMP},
+      modify_date_time = #{modify_date_time,jdbcType=TIMESTAMP}
+    where inform_id = #{inform_id,jdbcType=INTEGER}
+  </update>
+
+</mapper>
