@@ -14,4 +14,6 @@ public interface ClassUserMapper {
     int updateByPrimaryKeySelective(ClassUser record);
 
     int updateByPrimaryKey(ClassUser record);
+
+    ClassUser selectByClassIdUserId(ClassUser record);
 }

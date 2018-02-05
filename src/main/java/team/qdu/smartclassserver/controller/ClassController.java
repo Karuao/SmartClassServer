@@ -24,10 +24,12 @@ public class ClassController {
     @Autowired
     ClassService classService;
 
+    private static final String CONTENTTYPE= "text/plain; charset=utf-8";
+
     //获取用户班课列表
     @RequestMapping(value = "/getJoinedClasses")
     public void getJoinedClasses(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("text/plain; charset=utf-8");
+        response.setContentType(CONTENTTYPE);
         int userId = Integer.parseInt(request.getParameter("userId"));
         PrintWriter out = response.getWriter();
         String responseJson = classService.getJoinedClasses(userId);
@@ -38,7 +40,7 @@ public class ClassController {
     //进入班课判断用户是老师还是学生
     @RequestMapping(value = "/jumpClass")
     public void jumpClass(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("text/plain; charset=utf-8");
+        response.setContentType(CONTENTTYPE);
         int classId = Integer.parseInt(request.getParameter("classId"));
         int userId = Integer.parseInt(request.getParameter("userId"));
         PrintWriter out = response.getWriter();
@@ -50,6 +52,7 @@ public class ClassController {
     //创建班课
     @RequestMapping(value = "/createClass")
     public void createClass(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType(CONTENTTYPE);
         MultipartHttpServletRequest params = ((MultipartHttpServletRequest) request);
         List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("uploadfile");
         String name = params.getParameter("name");
@@ -76,6 +79,31 @@ public class ClassController {
             stream = null;
             responseJson = new Gson().toJson(new ApiResponse<String>("1", "上传班课信息失败"));
         }
+        responseJson = new Gson().toJson(new ApiResponse<String>("1", "上传班课信息失败"));
+        out.print(responseJson);
+        out.close();
+    }
+
+    //加入班课
+    @RequestMapping("/joinClass")
+    public void joinClass(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType(CONTENTTYPE);
+        int classId = Integer.parseInt(request.getParameter("classId"));
+        int userId = Integer.parseInt(request.getParameter("userId"));
+        PrintWriter out = response.getWriter();
+        String responseJson = classService.joinClass(classId, userId);
+        out.print(responseJson);
+        out.close();
+    }
+
+    //确认加入班课
+    @RequestMapping("/confirmJoinClass")
+    public void confirmJoinClas(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType(CONTENTTYPE);
+        int classId = Integer.parseInt(request.getParameter("classId"));
+        int userId = Integer.parseInt(request.getParameter("userId"));
+        PrintWriter out = response.getWriter();
+        String responseJson = classService.confirmjoinClass(classId, userId);
         out.print(responseJson);
         out.close();
     }

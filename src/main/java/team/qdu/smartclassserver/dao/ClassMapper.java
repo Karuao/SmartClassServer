@@ -18,4 +18,6 @@ public interface ClassMapper {
     int updateByPrimaryKey(Class record);
 
     List<Class> selectJoinedClassesByUserId(Integer user_id);
+
+    Class selectJoinClassByClassId(Integer class_id);
 }

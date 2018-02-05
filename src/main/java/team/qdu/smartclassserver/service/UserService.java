@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import team.qdu.smartclassserver.dao.UserMapper;
 import team.qdu.smartclassserver.domain.ApiResponse;
+import team.qdu.smartclassserver.domain.Class;
 import team.qdu.smartclassserver.domain.User;
 
 import java.util.Date;
@@ -124,6 +125,4 @@ public class UserService {
 
         return jsonResponse;
     }
-
-
 }

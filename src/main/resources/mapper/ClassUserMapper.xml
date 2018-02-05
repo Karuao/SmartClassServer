@@ -22,6 +22,12 @@
     from class_user
     where class_user_id = #{class_user_id,jdbcType=INTEGER}
   </select>
+  <select id="selectByClassIdUserId" parameterType="team.qdu.smartclassserver.domain.ClassUser" resultMap="BaseResultMap">
+    select class_user_id
+    from class_user
+    where class_user.class_id = #{class_id, jdbcType=INTEGER}
+    and class_user.user_id = #{user_id, jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from class_user
     where class_user_id = #{class_user_id,jdbcType=INTEGER}

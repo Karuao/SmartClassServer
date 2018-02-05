@@ -83,4 +83,60 @@ public class ClassService  {
         String jsonResponse = new Gson().toJson(apiResponse);
         return jsonResponse;
     }
+
+
+    //加入班课
+    public String joinClass(int classId, int userId) {
+        ApiResponse apiResponse;
+        Class joinedClass = classMapper.selectJoinClassByClassId(classId);
+        ClassUser classUser = new ClassUser();
+        classUser.setClass_id(classId);
+        classUser.setUser_id(userId);
+        if (joinedClass == null) {
+            //班课不存在
+            apiResponse = new ApiResponse("1", "班课不存在");
+        } else if (joinedClass.getIf_allow_to_join().equals("已结束")) {
+            //班课已结束
+            apiResponse = new ApiResponse("2", "班课已结束");
+        } else if (joinedClass.getIf_allow_to_join().equals("已删除")) {
+            //班课已删除
+            apiResponse = new ApiResponse("3", "班课已删除");
+        } else if (joinedClass.getIf_allow_to_join().equals("否")) {
+            //班课不允许加入
+            apiResponse = new ApiResponse("4", "班课不允许加入");
+        } else if (classUserMapper.selectByClassIdUserId(classUser) != null) {
+            //用户已加入班课
+            apiResponse = new ApiResponse("5", "您已加入该班课");
+        } else {
+            apiResponse = new ApiResponse("0", "查找班课成功");
+            apiResponse.setObj(joinedClass);
+        }
+
+        String jsonResponse = new Gson().toJson(apiResponse);
+        return jsonResponse;
+    }
+
+    public String confirmjoinClass(int classId, int userId) {
+        ApiResponse apiResponse;
+        //生成要插入到ClassUser表的记录
+        ClassUser classUser = new ClassUser();
+        Date date = new Date();
+        classUser.setClass_id(classId);
+        classUser.setUser_id(userId);
+        classUser.setTitle("学生");
+        classUser.setIf_in_class("是");
+        classUser.setUnread_information_num(0);
+        classUser.setExp(0);
+        classUser.setCreate_date_time(date);
+        classUser.setModify_date_time(date);
+        int result = classUserMapper.insert(classUser);
+
+        if (result == 1) {
+            apiResponse = new ApiResponse("0", "加入班课成功");
+        } else {
+            apiResponse = new ApiResponse("1", "加入班课失败，请稍后再试");
+        }
+        String jsonResponse = new Gson().toJson(apiResponse);
+        return jsonResponse;
+    }
 }
