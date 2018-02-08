@@ -79,7 +79,6 @@ public class ClassController {
             stream = null;
             responseJson = new Gson().toJson(new ApiResponse<String>("1", "上传班课信息失败"));
         }
-        responseJson = new Gson().toJson(new ApiResponse<String>("1", "上传班课信息失败"));
         out.print(responseJson);
         out.close();
     }
