@@ -47,6 +47,79 @@ public class ClassService  {
         return jsonResponse;
     }
 
+    //不允许加入班课
+    public String notAllowToJoin(int classId){
+        ApiResponse apiResponse;
+        Class cls=classMapper.selectByPrimaryKey(classId);
+        cls.setIf_allow_to_join("否");
+        int result=classMapper.updateByPrimaryKey(cls);
+        if(result==1){
+            apiResponse = new ApiResponse("0", "已设置为不允许加入");
+        }else{
+            apiResponse = new ApiResponse("1", "设置失败");
+        }
+        String jsonResponse = new Gson().toJson(apiResponse);
+        return jsonResponse;
+    }
+
+    public String allowToJoin(int classId){
+        ApiResponse apiResponse;
+        Class cls=classMapper.selectByPrimaryKey(classId);
+        cls.setIf_allow_to_join("是");
+        int result=classMapper.updateByPrimaryKey(cls);
+        if(result==1){
+            apiResponse = new ApiResponse("0", "已设置为允许加入");
+        }else{
+            apiResponse = new ApiResponse("1", "设置失败");
+        }
+        String jsonResponse = new Gson().toJson(apiResponse);
+        return jsonResponse;
+    }
+
+    public String getClassInfor(int classId){
+        Class cls = classMapper.selectByPrimaryKey(classId);
+        ApiResponse<Class> apiResponse;
+        if(cls!=null){
+            //该课程存在
+            apiResponse = new ApiResponse<>("0","课程存在");
+            apiResponse.obj = cls;
+        }else{
+            //该课程不存在
+            apiResponse = new ApiResponse<>("2", "课程不存在");
+        }
+        String jsonResponse = new Gson().toJson(apiResponse);
+
+        return jsonResponse;
+    }
+
+    public String finishClass(int classId){
+        ApiResponse apiResponse;
+        Class cls=classMapper.selectByPrimaryKey(classId);
+        cls.setIf_allow_to_join("已结束");
+        int result=classMapper.updateByPrimaryKey(cls);
+        if(result==1){
+            apiResponse = new ApiResponse("0", "此班课已结束");
+        }else{
+            apiResponse = new ApiResponse("1", "失败");
+        }
+        String jsonResponse = new Gson().toJson(apiResponse);
+        return jsonResponse;
+    }
+
+    public String deleteClass(int classId){
+        ApiResponse apiResponse;
+        Class cls=classMapper.selectByPrimaryKey(classId);
+        cls.setIf_allow_to_join("已删除");
+        int result=classMapper.updateByPrimaryKey(cls);
+        if(result==1){
+            apiResponse = new ApiResponse("0", "此班课已删除");
+        }else{
+            apiResponse = new ApiResponse("1", "删除失败");
+        }
+        String jsonResponse = new Gson().toJson(apiResponse);
+        return jsonResponse;
+    }
+
     //创建班课
     public String createClass(String name, String course, int userId, String avatarPath) {
         ApiResponse<String> apiResponse;
@@ -84,6 +157,28 @@ public class ClassService  {
         return jsonResponse;
     }
 
+    //修改班课信息
+    public String modifyClass(int classId,String avatarPath,String className,String  course,String university,String department,String goal,String exam){
+        ApiResponse apiResponse;
+        Class cls=classMapper.selectByPrimaryKey(classId);
+        cls.setName(className);
+        cls.setCourse(course);
+        cls.setUniversity(university);
+        cls.setDepartment(department);
+        cls.setDetail(goal);
+        cls.setExam_shedule(exam);
+        cls.setAvatar(avatarPath);
+        Date date=new Date();
+        cls.setModify_date_time(date);
+        int result=classMapper.updateByPrimaryKey(cls);
+        if(result==1){
+            apiResponse = new ApiResponse("0", "修改班课信息成功");
+        }else{
+            apiResponse = new ApiResponse("1", "修改班课信息失败");
+        }
+        String jsonResponse = new Gson().toJson(apiResponse);
+        return jsonResponse;
+    }
 
     //加入班课
     public String joinClass(int classId, int userId) {

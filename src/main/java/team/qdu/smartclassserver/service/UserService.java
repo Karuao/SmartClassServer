@@ -85,6 +85,22 @@ public class UserService {
         return jsonResponse;
     }
 
+    public String getUserInforById(int userId){
+        User user = userMapper.selectByPrimaryKey(userId);
+        ApiResponse<User> apiResponse;
+        if(user!=null){
+            //该用户存在
+            apiResponse = new ApiResponse<>("0","用户存在");
+            apiResponse.obj = user;
+        }else{
+            //该用户不存在
+            apiResponse = new ApiResponse<>("2", "用户不存在");
+        }
+        String jsonResponse = new Gson().toJson(apiResponse);
+
+        return jsonResponse;
+    }
+
     //找回密码时修改密码
     public String updatePassword(String account,String newPass){
         ApiResponse apiResponse;
@@ -125,4 +141,7 @@ public class UserService {
 
         return jsonResponse;
     }
+
+
+
 }
