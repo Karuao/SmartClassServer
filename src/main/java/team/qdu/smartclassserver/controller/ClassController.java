@@ -21,10 +21,10 @@ import team.qdu.smartclassserver.util.IdGenerator;
 @Controller
 public class ClassController {
 
+    private static final String CONTENTTYPE= "text/plain; charset=utf-8";
+
     @Autowired
     ClassService classService;
-
-    private static final String CONTENTTYPE= "text/plain; charset=utf-8";
 
     //获取用户班课列表
     @RequestMapping(value = "/getJoinedClasses")

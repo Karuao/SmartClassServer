@@ -22,11 +22,12 @@
     exam_shedule, population, if_allow_to_join, user_id, create_date_time, modify_date_time
     </sql>
     <select id="selectJoinedClassesByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select class.class_id, class.name, class.avatar, class.course, user.name as teacher
+    select class.class_id, class.name, class.avatar, class.course, user.name as teacher, if_allow_to_join
     from user, class, class_user
     where user.user_id = class.user_id
       and class.class_id = class_user.class_id
       and class_user.user_id = #{user_id, jdbcType=INTEGER}
+      and class.if_allow_to_join != '已删除'
     </select>
     <select id="selectJoinClassByClassId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select class.class_id, class.avatar, class.name, class.course, class.if_allow_to_join, user.name as teacher

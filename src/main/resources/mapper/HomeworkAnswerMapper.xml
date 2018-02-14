@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.qdu.smartclassserver.dao.HomeworkAnswerMapper">
+  <resultMap id="BaseResultMap" type="team.qdu.smartclassserver.domain.HomeworkAnswer">
+    <id column="homework_answer_id" jdbcType="INTEGER" property="homework_answer_id" />
+    <result column="homework_id" jdbcType="INTEGER" property="homework_id" />
+    <result column="user_id" jdbcType="INTEGER" property="user_id" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="if_submit" jdbcType="VARCHAR" property="if_submit" />
+    <result column="remark_url" jdbcType="VARCHAR" property="remark_url" />
+    <result column="class_id" jdbcType="INTEGER" property="class_id" />
+    <result column="create_date_time" jdbcType="TIMESTAMP" property="create_date_time" />
+    <result column="modify_date_time" jdbcType="TIMESTAMP" property="modify_date_time" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="team.qdu.smartclassserver.domain.HomeworkAnswerWithBLOBs">
+    <result column="detail" jdbcType="LONGVARCHAR" property="detail" />
+    <result column="remark" jdbcType="LONGVARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    homework_answer_id, homework_id, user_id, url, if_submit, remark_url, class_id, create_date_time, 
+    modify_date_time
+  </sql>
+  <sql id="Blob_Column_List">
+    detail, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from homework_answer
+    where homework_answer_id = #{homework_answer_id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from homework_answer
+    where homework_answer_id = #{homework_answer_id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="team.qdu.smartclassserver.domain.HomeworkAnswerWithBLOBs">
+    insert into homework_answer (homework_answer_id, homework_id, 
+      user_id, url, if_submit, 
+      remark_url, class_id, create_date_time, 
+      modify_date_time, detail, remark
+      )
+    values (#{homework_answer_id,jdbcType=INTEGER}, #{homework_id,jdbcType=INTEGER}, 
+      #{user_id,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, #{if_submit,jdbcType=VARCHAR}, 
+      #{remark_url,jdbcType=VARCHAR}, #{class_id,jdbcType=INTEGER}, #{create_date_time,jdbcType=TIMESTAMP}, 
+      #{modify_date_time,jdbcType=TIMESTAMP}, #{detail,jdbcType=LONGVARCHAR}, #{remark,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="initialInsert" parameterType="java.util.List">
+    insert into homework_answer (homework_answer_id, homework_id,
+    user_id, url, if_submit,
+    remark_url, class_id, create_date_time,
+    modify_date_time
+    )values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.homework_answer_id,jdbcType=INTEGER}, #{item.homework_id,jdbcType=INTEGER},
+      #{item.user_id,jdbcType=INTEGER}, #{item.url,jdbcType=VARCHAR}, #{item.if_submit,jdbcType=VARCHAR},
+      #{item.remark_url,jdbcType=VARCHAR}, #{item.class_id,jdbcType=INTEGER}, #{item.create_date_time,jdbcType=TIMESTAMP},
+      #{item.modify_date_time,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="team.qdu.smartclassserver.domain.HomeworkAnswerWithBLOBs">
+    insert into homework_answer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="homework_answer_id != null">
+        homework_answer_id,
+      </if>
+      <if test="homework_id != null">
+        homework_id,
+      </if>
+      <if test="user_id != null">
+        user_id,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="if_submit != null">
+        if_submit,
+      </if>
+      <if test="remark_url != null">
+        remark_url,
+      </if>
+      <if test="class_id != null">
+        class_id,
+      </if>
+      <if test="create_date_time != null">
+        create_date_time,
+      </if>
+      <if test="modify_date_time != null">
+        modify_date_time,
+      </if>
+      <if test="detail != null">
+        detail,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="homework_answer_id != null">
+        #{homework_answer_id,jdbcType=INTEGER},
+      </if>
+      <if test="homework_id != null">
+        #{homework_id,jdbcType=INTEGER},
+      </if>
+      <if test="user_id != null">
+        #{user_id,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="if_submit != null">
+        #{if_submit,jdbcType=VARCHAR},
+      </if>
+      <if test="remark_url != null">
+        #{remark_url,jdbcType=VARCHAR},
+      </if>
+      <if test="class_id != null">
+        #{class_id,jdbcType=INTEGER},
+      </if>
+      <if test="create_date_time != null">
+        #{create_date_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modify_date_time != null">
+        #{modify_date_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="detail != null">
+        #{detail,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="team.qdu.smartclassserver.domain.HomeworkAnswerWithBLOBs">
+    update homework_answer
+    <set>
+      <if test="homework_id != null">
+        homework_id = #{homework_id,jdbcType=INTEGER},
+      </if>
+      <if test="user_id != null">
+        user_id = #{user_id,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="if_submit != null">
+        if_submit = #{if_submit,jdbcType=VARCHAR},
+      </if>
+      <if test="remark_url != null">
+        remark_url = #{remark_url,jdbcType=VARCHAR},
+      </if>
+      <if test="class_id != null">
+        class_id = #{class_id,jdbcType=INTEGER},
+      </if>
+      <if test="create_date_time != null">
+        create_date_time = #{create_date_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modify_date_time != null">
+        modify_date_time = #{modify_date_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="detail != null">
+        detail = #{detail,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where homework_answer_id = #{homework_answer_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="team.qdu.smartclassserver.domain.HomeworkAnswerWithBLOBs">
+    update homework_answer
+    set homework_id = #{homework_id,jdbcType=INTEGER},
+      user_id = #{user_id,jdbcType=INTEGER},
+      url = #{url,jdbcType=VARCHAR},
+      if_submit = #{if_submit,jdbcType=VARCHAR},
+      remark_url = #{remark_url,jdbcType=VARCHAR},
+      class_id = #{class_id,jdbcType=INTEGER},
+      create_date_time = #{create_date_time,jdbcType=TIMESTAMP},
+      modify_date_time = #{modify_date_time,jdbcType=TIMESTAMP},
+      detail = #{detail,jdbcType=LONGVARCHAR},
+      remark = #{remark,jdbcType=LONGVARCHAR}
+    where homework_answer_id = #{homework_answer_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="team.qdu.smartclassserver.domain.HomeworkAnswer">
+    update homework_answer
+    set homework_id = #{homework_id,jdbcType=INTEGER},
+      user_id = #{user_id,jdbcType=INTEGER},
+      url = #{url,jdbcType=VARCHAR},
+      if_submit = #{if_submit,jdbcType=VARCHAR},
+      remark_url = #{remark_url,jdbcType=VARCHAR},
+      class_id = #{class_id,jdbcType=INTEGER},
+      create_date_time = #{create_date_time,jdbcType=TIMESTAMP},
+      modify_date_time = #{modify_date_time,jdbcType=TIMESTAMP}
+    where homework_answer_id = #{homework_answer_id,jdbcType=INTEGER}
+  </update>
+</mapper>

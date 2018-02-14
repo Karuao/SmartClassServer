@@ -151,7 +151,7 @@ public class ClassService  {
         classUser.setModify_date_time(date);
         classUserMapper.insert(classUser);
 
-        apiResponse = new ApiResponse<>("0", "success");
+        apiResponse = new ApiResponse<>("0", "创建班课成功");
         apiResponse.obj = createdclass.getClass_id().toString();
         String jsonResponse = new Gson().toJson(apiResponse);
         return jsonResponse;
