@@ -28,20 +28,22 @@ public class HomeworkService {
     @Autowired
     ClassUserMapper classUserMapper;
 
-    public String publishHomework(String title, Date deadline, String url, int classId) {
+    public String publishHomework(String title, String detail, Date deadline, String url, int classId) {
         ApiResponse<Void> apiResponse;
         Date date = new Date();
         //插入发布的作业
-        Homework homework = new Homework();
-        homework.setName(title);
-        homework.setDeadline(deadline);
-        homework.setUrl(url);
-        homework.setHomework_status("进行中");
-        homework.setClass_id(classId);
-        homework.setExp((byte) 0);
-        homework.setCreate_date_time(date);
-        homework.setModify_date_time(date);
-        if (homeworkMapper.insert(homework) == 1) {
+        HomeworkWithBLOBs homeworkWithBLOBs = new HomeworkWithBLOBs();
+        homeworkWithBLOBs.setName(title);
+        homeworkWithBLOBs.setDetail(detail);
+        homeworkWithBLOBs.setUrl(url);
+        homeworkWithBLOBs.setSubmit_num(0);
+        homeworkWithBLOBs.setHomework_status("进行中");
+        homeworkWithBLOBs.setDeadline(deadline);
+        homeworkWithBLOBs.setClass_id(classId);
+        homeworkWithBLOBs.setExp((byte) 0);
+        homeworkWithBLOBs.setCreate_date_time(date);
+        homeworkWithBLOBs.setModify_date_time(date);
+        if (homeworkMapper.insert(homeworkWithBLOBs) == 1) {
             apiResponse = new ApiResponse<>("0", "发布作业成功");
         } else {
             apiResponse = new ApiResponse<>("1", "发布作业失败");
@@ -52,7 +54,7 @@ public class HomeworkService {
         List<HomeworkAnswer> homeworkAnswerList = new ArrayList<>();
         for (ClassUser classUser : classUserList) {
             HomeworkAnswer homeworkAnswer = new HomeworkAnswer();
-            homeworkAnswer.setHomework_id(homework.getHomework_id());
+            homeworkAnswer.setHomework_id(homeworkWithBLOBs.getHomework_id());
             homeworkAnswer.setUser_id(classUser.getUser_id());
             homeworkAnswer.setIf_submit("否");
             homeworkAnswer.setClass_id(classId);
@@ -64,7 +66,7 @@ public class HomeworkService {
 
         //将定时信息存入定时表
         Cron cron = new Cron();
-        cron.setHomework_id(homework.getHomework_id());
+        cron.setHomework_id(homeworkWithBLOBs.getHomework_id());
         cron.setTime(date);
         cronMapper.insert(cron);
 

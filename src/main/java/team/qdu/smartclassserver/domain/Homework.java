@@ -12,6 +12,8 @@ public class Homework implements Serializable {
 
     private String url;
 
+    private Integer submit_num;
+
     private String if_repository;
 
     private String homework_status;
@@ -25,8 +27,6 @@ public class Homework implements Serializable {
     private Date create_date_time;
 
     private Date modify_date_time;
-
-    private String detail;
 
     private static final long serialVersionUID = 1L;
 
@@ -60,6 +60,14 @@ public class Homework implements Serializable {
 
     public void setUrl(String url) {
         this.url = url == null ? null : url.trim();
+    }
+
+    public Integer getSubmit_num() {
+        return submit_num;
+    }
+
+    public void setSubmit_num(Integer submit_num) {
+        this.submit_num = submit_num;
     }
 
     public String getIf_repository() {
@@ -116,13 +124,5 @@ public class Homework implements Serializable {
 
     public void setModify_date_time(Date modify_date_time) {
         this.modify_date_time = modify_date_time;
-    }
-
-    public String getDetail() {
-        return detail;
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail == null ? null : detail.trim();
     }
 }

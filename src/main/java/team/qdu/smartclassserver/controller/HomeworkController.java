@@ -59,14 +59,14 @@ public class HomeworkController {
                         new File(classpath.getPath() + "resources/homework/url/" + filename)));
                 stream.write(bytes);
                 stream.close();
-                responseJson = homeworkService.publishHomework(title, deadline, "homework/url/" + filename, classId);
+                responseJson = homeworkService.publishHomework(title, detail, deadline, "homework/url/" + filename, classId);
             } catch (Exception e) {
                 e.printStackTrace();
                 stream = null;
                 responseJson = new Gson().toJson(new ApiResponse<String>("1", "上传作业信息失败"));
             }
         } else {
-            responseJson = homeworkService.publishHomework(title, deadline, null, classId);
+            responseJson = homeworkService.publishHomework(title, detail, deadline, null, classId);
         }
         out.print(responseJson);
         out.close();
