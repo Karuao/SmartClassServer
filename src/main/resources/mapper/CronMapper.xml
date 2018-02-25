@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.qdu.smartclassserver.dao.CronMapper">
+  <resultMap id="BaseResultMap" type="team.qdu.smartclassserver.domain.Cron">
+    <id column="cron_id" jdbcType="INTEGER" property="cron_id" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="homework_id" jdbcType="INTEGER" property="homework_id" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    cron_id, time, homework_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cron
+    where cron_id = #{cron_id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByTime" parameterType="java.util.Date" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cron
+    where time &lt;= #{date,jdbcType=TIMESTAMP}
+  </select>
+  <delete id="deleteFinishedCrons" parameterType="java.util.List">
+    delete from cron
+    where cron_id in
+    <foreach collection="list" item="item" separator="," open="(" close=")">
+      #{item.cron_id,jdbcType=INTEGER}
+    </foreach>
+  </delete>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cron
+    where cron_id = #{cron_id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="team.qdu.smartclassserver.domain.Cron">
+    insert into cron (cron_id, time, homework_id
+      )
+    values (#{cron_id,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP}, #{homework_id,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="team.qdu.smartclassserver.domain.Cron">
+    insert into cron
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cron_id != null">
+        cron_id,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+      <if test="homework_id != null">
+        homework_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cron_id != null">
+        #{cron_id,jdbcType=INTEGER},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="homework_id != null">
+        #{homework_id,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="team.qdu.smartclassserver.domain.Cron">
+    update cron
+    <set>
+      <if test="time != null">
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="homework_id != null">
+        homework_id = #{homework_id,jdbcType=INTEGER},
+      </if>
+    </set>
+    where cron_id = #{cron_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="team.qdu.smartclassserver.domain.Cron">
+    update cron
+    set time = #{time,jdbcType=TIMESTAMP},
+      homework_id = #{homework_id,jdbcType=INTEGER}
+    where cron_id = #{cron_id,jdbcType=INTEGER}
+  </update>
+</mapper>

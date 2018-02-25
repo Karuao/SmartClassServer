@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.qdu.smartclassserver.dao.HomeworkMapper">
+  <resultMap id="BaseResultMap" type="team.qdu.smartclassserver.domain.Homework">
+    <id column="homework_id" jdbcType="INTEGER" property="homework_id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="group" jdbcType="VARCHAR" property="group" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="submit_num" jdbcType="INTEGER" property="submit_num" />
+    <result column="if_repository" jdbcType="VARCHAR" property="if_repository" />
+    <result column="homework_status" jdbcType="VARCHAR" property="homework_status" />
+    <result column="deadline" jdbcType="TIMESTAMP" property="deadline" />
+    <result column="exp" jdbcType="TINYINT" property="exp" />
+    <result column="class_id" jdbcType="INTEGER" property="class_id" />
+    <result column="create_date_time" jdbcType="TIMESTAMP" property="create_date_time" />
+    <result column="modify_date_time" jdbcType="TIMESTAMP" property="modify_date_time" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="team.qdu.smartclassserver.domain.HomeworkWithBLOBs">
+    <result column="detail" jdbcType="LONGVARCHAR" property="detail" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    homework_id, name, `group`, url, submit_num, if_repository, homework_status, deadline, exp, class_id,
+    create_date_time, modify_date_time
+  </sql>
+  <sql id="Blob_Column_List">
+    detail
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from homework
+    where homework_id = #{homework_id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from homework
+    where homework_id = #{homework_id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="team.qdu.smartclassserver.domain.Homework" useGeneratedKeys="true"
+            keyProperty="homework_id">
+    insert into homework (homework_id, name, `group`,
+      url, submit_num, if_repository, homework_status,
+      deadline, exp, class_id, 
+      create_date_time, modify_date_time, 
+      detail)
+    values (#{homework_id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{group,jdbcType=VARCHAR},
+      #{url,jdbcType=VARCHAR}, #{submit_num,jdbcType=INTEGER}, #{if_repository,jdbcType=VARCHAR}, #{homework_status,jdbcType=VARCHAR},
+      #{deadline,jdbcType=TIMESTAMP}, #{exp,jdbcType=TINYINT}, #{class_id,jdbcType=INTEGER}, 
+      #{create_date_time,jdbcType=TIMESTAMP}, #{modify_date_time,jdbcType=TIMESTAMP}, 
+      #{detail,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="team.qdu.smartclassserver.domain.Homework">
+    insert into homework
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="homework_id != null">
+        homework_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="group != null">
+        `group`,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="submit_num != null">
+        submit_num,
+      </if>
+      <if test="if_repository != null">
+        if_repository,
+      </if>
+      <if test="homework_status != null">
+        homework_status,
+      </if>
+      <if test="deadline != null">
+        deadline,
+      </if>
+      <if test="exp != null">
+        exp,
+      </if>
+      <if test="class_id != null">
+        class_id,
+      </if>
+      <if test="create_date_time != null">
+        create_date_time,
+      </if>
+      <if test="modify_date_time != null">
+        modify_date_time,
+      </if>
+      <if test="detail != null">
+        detail,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="homework_id != null">
+        #{homework_id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="group != null">
+        #{group,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="submit_num != null">
+        #{submit_num,jdbcType=VARCHAR},
+      </if>
+      <if test="if_repository != null">
+        #{if_repository,jdbcType=VARCHAR},
+      </if>
+      <if test="homework_status != null">
+        #{homework_status,jdbcType=VARCHAR},
+      </if>
+      <if test="deadline != null">
+        #{deadline,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exp != null">
+        #{exp,jdbcType=TINYINT},
+      </if>
+      <if test="class_id != null">
+        #{class_id,jdbcType=INTEGER},
+      </if>
+      <if test="create_date_time != null">
+        #{create_date_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modify_date_time != null">
+        #{modify_date_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="detail != null">
+        #{detail,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateHomeworkStatus" parameterType="java.util.List">
+    update homework
+    set homework_status = '评价中'
+    where homework_id in
+    <foreach collection="list" item="item" separator="," open="(" close=")">
+      #{item.homework_id, jdbcType=INTEGER}
+    </foreach>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="team.qdu.smartclassserver.domain.Homework">
+    update homework
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="group != null">
+        `group` = #{group,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="submit_num != null">
+        url = #{submit_num,jdbcType=VARCHAR},
+      </if>
+      <if test="if_repository != null">
+        if_repository = #{if_repository,jdbcType=VARCHAR},
+      </if>
+      <if test="homework_status != null">
+        homework_status = #{homework_status,jdbcType=VARCHAR},
+      </if>
+      <if test="deadline != null">
+        deadline = #{deadline,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exp != null">
+        exp = #{exp,jdbcType=TINYINT},
+      </if>
+      <if test="class_id != null">
+        class_id = #{class_id,jdbcType=INTEGER},
+      </if>
+      <if test="create_date_time != null">
+        create_date_time = #{create_date_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modify_date_time != null">
+        modify_date_time = #{modify_date_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="detail != null">
+        detail = #{detail,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where homework_id = #{homework_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="team.qdu.smartclassserver.domain.Homework">
+    update homework
+    set name = #{name,jdbcType=VARCHAR},
+      `group` = #{group,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      submit_num = #{submit_num,jdbcType=VARCHAR},
+      if_repository = #{if_repository,jdbcType=VARCHAR},
+      homework_status = #{homework_status,jdbcType=VARCHAR},
+      deadline = #{deadline,jdbcType=TIMESTAMP},
+      exp = #{exp,jdbcType=TINYINT},
+      class_id = #{class_id,jdbcType=INTEGER},
+      create_date_time = #{create_date_time,jdbcType=TIMESTAMP},
+      modify_date_time = #{modify_date_time,jdbcType=TIMESTAMP},
+      detail = #{detail,jdbcType=LONGVARCHAR}
+    where homework_id = #{homework_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="team.qdu.smartclassserver.domain.Homework">
+    update homework
+    set name = #{name,jdbcType=VARCHAR},
+      `group` = #{group,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      submit_num = #{submit_num,jdbcType=VARCHAR},
+      if_repository = #{if_repository,jdbcType=VARCHAR},
+      homework_status = #{homework_status,jdbcType=VARCHAR},
+      deadline = #{deadline,jdbcType=TIMESTAMP},
+      exp = #{exp,jdbcType=TINYINT},
+      class_id = #{class_id,jdbcType=INTEGER},
+      create_date_time = #{create_date_time,jdbcType=TIMESTAMP},
+      modify_date_time = #{modify_date_time,jdbcType=TIMESTAMP}
+    where homework_id = #{homework_id,jdbcType=INTEGER}
+  </update>
+</mapper>

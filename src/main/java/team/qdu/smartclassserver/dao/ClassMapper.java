@@ -20,4 +20,6 @@ public interface ClassMapper {
     List<Class> selectJoinedClassesByUserId(Integer user_id);
     List<Integer> selectUserIdByClassId(Integer classId);
     int updateByClassId(Integer classId);
+
+    Class selectJoinClassByClassId(Integer class_id);
 }

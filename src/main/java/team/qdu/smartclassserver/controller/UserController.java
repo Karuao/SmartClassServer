@@ -51,6 +51,16 @@ public class UserController {
         out.close();
     }
 
+    @RequestMapping(value = "/searchById")
+    public void getUserInforById(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/plain; charset=utf-8");
+        int userId=Integer.parseInt(request.getParameter("userId"));
+        PrintWriter out = response.getWriter();
+        String responseJson = userService.getUserInforById(userId);
+        out.print(responseJson);
+        out.close();
+    }
+
     @RequestMapping(value = "/updatePass")
     public void updatePassword(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/plain; charset=utf-8");
@@ -76,4 +86,5 @@ public class UserController {
         out.print(responseJson);
         out.close();
     }
+
 }
