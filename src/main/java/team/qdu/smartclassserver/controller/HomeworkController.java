@@ -2,6 +2,7 @@ package team.qdu.smartclassserver.controller;
 
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,7 +29,7 @@ public class HomeworkController {
     @Autowired
     HomeworkService homeworkService;
 
-    //发布班课
+    //发布作业
     @RequestMapping("/publishHomework")
     public void publishHomework(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType(CONTENTTYPE);
@@ -68,6 +69,20 @@ public class HomeworkController {
         } else {
             responseJson = homeworkService.publishHomework(title, detail, deadline, null, classId);
         }
+        out.print(responseJson);
+        out.close();
+    }
+
+    //获取作业列表
+    @RequestMapping("/getHomeworkList")
+    public void getHomeworkList(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType(CONTENTTYPE);
+        int classId = Integer.parseInt(request.getParameter("classId"));
+        int userId = Integer.parseInt(request.getParameter("userId"));
+        String userTitle = request.getParameter("userTitle");
+        String requestStatus = request.getParameter("requestStatus");
+        PrintWriter out = response.getWriter();
+        String responseJson = homeworkService.getHomeworkList(classId, userId, userTitle, requestStatus);
         out.print(responseJson);
         out.close();
     }

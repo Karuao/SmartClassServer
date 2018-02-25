@@ -26,12 +26,40 @@
     detail
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
+  select
+  <include refid="Base_Column_List" />
+  ,
+  <include refid="Blob_Column_List" />
+  from homework
+  where homework_id = #{homework_id,jdbcType=INTEGER}
+  </select>
+  <select id="selectTeacherHomeworkListByClassIdUnderway" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select homework_id, name, submit_num, exp, homework_status
     from homework
-    where homework_id = #{homework_id,jdbcType=INTEGER}
+    where class_id = #{classId,jdbcType=INTEGER}
+      and homework_status in('进行中', '评价中')
+  </select>
+  <select id="selectTeacherHomeworkListByClassIdFinish" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select homework_id, name, submit_num, exp, homework_status
+    from homework
+    where class_id = #{classId,jdbcType=INTEGER}
+      and homework_status = '已结束'
+  </select>
+  <select id="selectStudentHomeworkListByMapUnderway" parameterType="java.util.Map" resultMap="ResultMapWithBLOBs">
+    select homework_id, name, submit_num, exp, homework_status
+    from homework, homework_answer
+    where homework.homework_id = homework_answer.homework_id
+      and user_id = #{userId,jdbcType=INTEGER}
+      and homework_answer.class_id = #{classId,jdbcType=INTEGER}
+      and homework_status in('进行中', '评价中')
+  </select>
+  <select id="selectStudentHomeworkListByMapFinish" parameterType="java.util.Map" resultMap="ResultMapWithBLOBs">
+    select homework_id, name, submit_num, exp, homework_status
+    from homework, homework_answer
+    where homework.homework_id = homework_answer.homework_id
+      and user_id = #{userId,jdbcType=INTEGER}
+      and homework_answer.class_id = #{classId,jdbcType=INTEGER}
+      and homework_status = '已结束'
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from homework

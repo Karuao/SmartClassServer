@@ -9,9 +9,8 @@ import team.qdu.smartclassserver.dao.HomeworkAnswerMapper;
 import team.qdu.smartclassserver.dao.HomeworkMapper;
 import team.qdu.smartclassserver.domain.*;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.io.Serializable;
+import java.util.*;
 
 @Service
 public class HomeworkService {
@@ -40,7 +39,7 @@ public class HomeworkService {
         homeworkWithBLOBs.setHomework_status("进行中");
         homeworkWithBLOBs.setDeadline(deadline);
         homeworkWithBLOBs.setClass_id(classId);
-        homeworkWithBLOBs.setExp((byte) 0);
+        homeworkWithBLOBs.setExp((byte) 3);
         homeworkWithBLOBs.setCreate_date_time(date);
         homeworkWithBLOBs.setModify_date_time(date);
         if (homeworkMapper.insert(homeworkWithBLOBs) == 1) {
@@ -69,6 +68,30 @@ public class HomeworkService {
         cron.setHomework_id(homeworkWithBLOBs.getHomework_id());
         cron.setTime(date);
         cronMapper.insert(cron);
+
+        String jsonResponse = new Gson().toJson(apiResponse);
+        return jsonResponse;
+    }
+
+    public String getHomeworkList(int classId, int userId, String userTitle, String requestStatus) {
+        ApiResponse<List<Homework>> apiResponse = new ApiResponse<>("0", "获取作业列表成功");
+        if ("teacher".equals(userTitle)) {
+            if ("进行中".equals(requestStatus)) {
+                apiResponse.setObjList(homeworkMapper.selectTeacherHomeworkListByClassIdUnderway(classId));
+            } else {
+                apiResponse.setObjList(homeworkMapper.selectTeacherHomeworkListByClassIdFinish(classId));
+            }
+        } else {
+            Map<String, Serializable> paramMap = new HashMap<>();
+            paramMap.put("classId", classId);
+            paramMap.put("userId", userId);
+            paramMap.put("userTitle", userTitle);
+            if ("进行中".equals(requestStatus)) {
+                apiResponse.setObjList(homeworkMapper.selectStudentHomeworkListByMapUnderway(paramMap));
+            } else {
+                apiResponse.setObjList(homeworkMapper.selectStudentHomeworkListByMapFinish(paramMap));
+            }
+        }
 
         String jsonResponse = new Gson().toJson(apiResponse);
         return jsonResponse;
