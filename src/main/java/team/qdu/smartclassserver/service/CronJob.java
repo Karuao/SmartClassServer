@@ -54,21 +54,20 @@ public class CronJob {
 //        System.out.println(new Date() + " >>fixedRate执行...");
 //    }
 
-//    @Scheduled(cron = "0 * * * * ?")
-//    public void cronJob() {
+    @Scheduled(cron = "0 * * * * ?")
+    public void cronJob() {
 //        PushUtil.testSendPushWithCustomConfig();
-//        currentDate = new Date();
-//        System.out.println(currentDate + "执行");
-//        cronList = cronMapper.selectByTime(currentDate);
-//        if (!cronList.isEmpty()) {
-//            //将cronList中homework_id对应的记录状态更新为评价中
-//            homeworkMapper.updateHomeworkStatus(cronList);
-//            cronMapper.deleteFinishedCrons(cronList);
-//            for (Cron cron:
-//                    cronList) {
-//                System.out.print(cron.getHomework_id() + " ");
-//            }
-//            System.out.println("进入评价状态");
-//        }
-//    }
+        currentDate = new Date();
+        System.out.println(currentDate + "执行");
+        cronList = cronMapper.selectByTime(currentDate);
+        if (!cronList.isEmpty()) {
+            //将cronList中homework_id对应的记录状态更新为评价中
+            homeworkMapper.updateHomeworkStatus(cronList);
+            cronMapper.deleteFinishedCrons(cronList);
+            for (Cron cron: cronList) {
+                System.out.print(cron.getHomework_id() + " ");
+            }
+            System.out.println("进入评价状态");
+        }
+    }
 }
