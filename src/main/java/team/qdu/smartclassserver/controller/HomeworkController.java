@@ -86,4 +86,16 @@ public class HomeworkController {
         out.print(responseJson);
         out.close();
     }
+
+    //更改作业状态
+    @RequestMapping("/changeHomeworkStatus")
+    public void changeHomeworkStatus(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType(CONTENTTYPE);
+        int homeworkId = Integer.parseInt(request.getParameter("homeworkId"));
+        String homeworkStatus = request.getParameter("homeworkStatus");
+        PrintWriter out = response.getWriter();
+        String responseJson = homeworkService.changeHomeworkStatus(homeworkId, homeworkStatus);
+        out.print(responseJson);
+        out.close();
+    }
 }

@@ -10,6 +10,8 @@ public interface CronMapper {
 
     int deleteFinishedCrons(List recordList);
 
+    int deleteByHomeworkId(Integer homework_id);
+
     int insert(Cron record);
 
     int insertSelective(Cron record);
