@@ -50,18 +50,20 @@ public class HomeworkService {
 
         //向homework_answer用户提交作业表插入每个学生的作业记录
         List<ClassUser> classUserList = classUserMapper.selectStudentsByClassId(classId);
-        List<HomeworkAnswer> homeworkAnswerList = new ArrayList<>();
-        for (ClassUser classUser : classUserList) {
-            HomeworkAnswer homeworkAnswer = new HomeworkAnswer();
-            homeworkAnswer.setHomework_id(homeworkWithBLOBs.getHomework_id());
-            homeworkAnswer.setUser_id(classUser.getUser_id());
-            homeworkAnswer.setIf_submit("否");
-            homeworkAnswer.setClass_id(classId);
-            homeworkAnswer.setCreate_date_time(date);
-            homeworkAnswer.setModify_date_time(date);
-            homeworkAnswerList.add(homeworkAnswer);
+        if (classUserList.size() > 0) {
+            List<HomeworkAnswer> homeworkAnswerList = new ArrayList<>();
+            for (ClassUser classUser : classUserList) {
+                HomeworkAnswer homeworkAnswer = new HomeworkAnswer();
+                homeworkAnswer.setHomework_id(homeworkWithBLOBs.getHomework_id());
+                homeworkAnswer.setUser_id(classUser.getUser_id());
+                homeworkAnswer.setIf_submit("否");
+                homeworkAnswer.setClass_id(classId);
+                homeworkAnswer.setCreate_date_time(date);
+                homeworkAnswer.setModify_date_time(date);
+                homeworkAnswerList.add(homeworkAnswer);
+            }
+            homeworkAnswerMapper.initialInsert(homeworkAnswerList);
         }
-        homeworkAnswerMapper.initialInsert(homeworkAnswerList);
 
         //将定时信息存入定时表
         Cron cron = new Cron();
@@ -91,6 +93,26 @@ public class HomeworkService {
             } else {
                 apiResponse.setObjList(homeworkMapper.selectStudentHomeworkListByMapFinish(paramMap));
             }
+        }
+
+        String jsonResponse = new Gson().toJson(apiResponse);
+        return jsonResponse;
+    }
+
+    public String changeHomeworkStatus(int homeworkId, String homeworkStatus) {
+        ApiResponse<Void> apiResponse;
+        HomeworkWithBLOBs homework = new HomeworkWithBLOBs();
+        homework.setHomework_id(homeworkId);
+        homework.setModify_date_time(new Date());
+        if ("进行中".equals(homeworkStatus)) {
+            cronMapper.deleteByHomeworkId(homeworkId);
+            homework.setHomework_status("评价中");
+            homeworkMapper.updateByPrimaryKeySelective(homework);
+            apiResponse = new ApiResponse<>("0", "作业已开始评价");
+        } else {
+            homework.setHomework_status("已结束");
+            homeworkMapper.updateByPrimaryKeySelective(homework);
+            apiResponse = new ApiResponse<>("0", "作业已结束");
         }
 
         String jsonResponse = new Gson().toJson(apiResponse);

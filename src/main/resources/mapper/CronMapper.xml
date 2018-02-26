@@ -28,6 +28,10 @@
       #{item.cron_id,jdbcType=INTEGER}
     </foreach>
   </delete>
+  <delete id="deleteByHomeworkId" parameterType="java.lang.Integer">
+    delete from cron
+    where homework_id = #{homework_id,jdbcType=INTEGER}
+  </delete>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from cron
     where cron_id = #{cron_id,jdbcType=INTEGER}
