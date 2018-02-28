@@ -20,6 +20,10 @@ public interface Inform_UserMapper {
 
     List<Inform_User> selectInformByInformId(Integer inform_id);
 
+    List<Integer> selectReadByInformId(Integer inform_id);
+
+    List<Integer> selectUnReadByInformId(Integer inform_id);
+
     int clickUpdate1(Inform_User record);
 
     int clickUpdate2(Inform_User record);

@@ -25,6 +25,37 @@ public class InformController {
         out.print(responseJson);
         out.close();
     }
+    @RequestMapping(value = "/getReadPeople")
+    public void getReadPeople(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/plain; charset=utf-8");
+        int informId = Integer.parseInt(request.getParameter("informId"));
+        PrintWriter out = response.getWriter();
+        String responseJson = informService.getReadPeople(informId);
+        out.print(responseJson);
+        out.close();
+    }
+    @RequestMapping(value = "/getUnReadPeople")
+    public void getUnReadPeople(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/plain; charset=utf-8");
+        int informId = Integer.parseInt(request.getParameter("informId"));
+        PrintWriter out = response.getWriter();
+        String responseJson = informService.getUnReadPeople(informId);
+        out.print(responseJson);
+        out.close();
+    }
+
+    @RequestMapping(value = "/getUnReadNum")
+    public void getUnReadNum(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/plain; charset=utf-8");
+        int informId = Integer.parseInt(request.getParameter("informId"));
+        PrintWriter out = response.getWriter();
+        String responseJson = informService.getUnReadNum(informId);
+        out.print(responseJson);
+        out.close();
+    }
+
+
+
     @RequestMapping(value = "/getUserInform")
     public void getUserInform(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/plain; charset=utf-8");
@@ -65,4 +96,5 @@ public class InformController {
         out.print(responseJson);
         out.close();
     }
+
 }

@@ -6,9 +6,11 @@ import org.springframework.stereotype.Service;
 import team.qdu.smartclassserver.dao.ClassMapper;
 import team.qdu.smartclassserver.dao.InformMapper;
 import team.qdu.smartclassserver.dao.Inform_UserMapper;
+import team.qdu.smartclassserver.dao.UserMapper;
 import team.qdu.smartclassserver.domain.ApiResponse;
 import team.qdu.smartclassserver.domain.Inform;
 import team.qdu.smartclassserver.domain.Inform_User;
+import team.qdu.smartclassserver.domain.User;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,9 +24,41 @@ public class InformService {
     ClassMapper classMapper;
     @Autowired
     Inform_UserMapper inform_userMapper;
+    @Autowired
+    UserMapper userMapper;
     public String getInform(Integer classid) {
         ApiResponse<List<Inform>> apiResponse = new ApiResponse<>("0", "success");
         apiResponse.objList = informMapper.selectInformByClassId(classid);
+        String jsonResponse = new Gson().toJson(apiResponse);
+        return jsonResponse;
+    }
+    public String  getReadPeople(Integer informId){
+        ApiResponse<List<User>> apiResponse = new ApiResponse<>("0", "success");
+        List<Integer> userIdList=inform_userMapper.selectReadByInformId(informId);
+        List<User> userList=new ArrayList<>();
+        for(int i=0;i<userIdList.size();i++){
+            int id=userIdList.get(i);
+            userList.add(userMapper.selectByPrimaryKey(id));
+        }
+        apiResponse.objList=userList;
+        String jsonResponse = new Gson().toJson(apiResponse);
+        return jsonResponse;
+    }
+    public String  getUnReadPeople(Integer informId){
+        ApiResponse<List<User>> apiResponse = new ApiResponse<>("0", "success");
+        List<Integer> userIdList=inform_userMapper.selectUnReadByInformId(informId);
+        List<User> userList=new ArrayList<>();
+        for(int i=0;i<userIdList.size();i++){
+            int id=userIdList.get(i);
+            userList.add(userMapper.selectByPrimaryKey(id));
+        }
+        apiResponse.objList=userList;
+        String jsonResponse = new Gson().toJson(apiResponse);
+        return jsonResponse;
+    }
+    public String  getUnReadNum(Integer informId){
+        String unreadNum=String.valueOf(informMapper.selectUnReadPeople(informId));
+        ApiResponse<Void> apiResponse = new ApiResponse<>("0", unreadNum);
         String jsonResponse = new Gson().toJson(apiResponse);
         return jsonResponse;
     }

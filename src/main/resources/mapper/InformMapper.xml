@@ -18,6 +18,11 @@
     from inform
     where inform_id = #{inform_id,jdbcType=INTEGER}
   </select>
+  <select id="selectUnReadPeople" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    SELECT count(*)
+    FROM inform_user
+    where if_read='否' AND inform_id=#{inform_id,jdbcType=INTEGER}
+  </select>
   <select id="selectInformByClassId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     SELECT  *
     FROM

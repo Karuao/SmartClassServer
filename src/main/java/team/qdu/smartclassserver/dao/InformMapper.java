@@ -10,6 +10,7 @@ public interface InformMapper {
 
     int insert(Inform record);
 
+    int selectUnReadPeople(Integer informid);
 
     int insertSelective(Inform record);
 
@@ -24,4 +25,5 @@ public interface InformMapper {
     Inform_User judgeByInformIdUserId(Inform_User record);
 
     int insertBatch(Inform_User record);
+
 }

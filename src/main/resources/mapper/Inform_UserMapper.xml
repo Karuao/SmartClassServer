@@ -33,6 +33,18 @@
     inform_user
     WHERE inform_id=#{inform_id,jdbcType=INTEGER}
   </select>
+  <select id="selectReadByInformId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    SELECT user_id
+    FROM
+    inform_user
+    WHERE inform_id=#{inform_id,jdbcType=INTEGER} AND if_read='是'
+  </select>
+  <select id="selectUnReadByInformId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    SELECT user_id
+    FROM
+    inform_user
+    WHERE inform_id=#{inform_id,jdbcType=INTEGER} AND if_read='否'
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from inform_user
     where inform_user_id = #{inform_user_id,jdbcType=INTEGER}
