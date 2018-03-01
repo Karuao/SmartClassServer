@@ -1,9 +1,12 @@
 package team.qdu.smartclassserver.dao;
 
+import team.qdu.smartclassserver.domain.Homework;
 import team.qdu.smartclassserver.domain.HomeworkAnswer;
 import team.qdu.smartclassserver.domain.HomeworkAnswerWithBLOBs;
 
+import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 public interface HomeworkAnswerMapper {
     int deleteByPrimaryKey(Integer homework_answer_id);
@@ -14,7 +17,13 @@ public interface HomeworkAnswerMapper {
 
     int initialInsert(List<HomeworkAnswer> recordList);
 
+    List<HomeworkAnswerWithBLOBs> selectStudentHomeworkListByMapUnderway(Map<String, Serializable> map);
+
+    List<HomeworkAnswerWithBLOBs> selectStudentHomeworkListByMapFinish(Map<String, Serializable> map);
+
     HomeworkAnswerWithBLOBs selectByPrimaryKey(Integer homework_answer_id);
+
+    HomeworkAnswerWithBLOBs selectDetailByPrimaryKey(Integer homework_answer_id);
 
     int updateByPrimaryKeySelective(HomeworkAnswerWithBLOBs record);
 

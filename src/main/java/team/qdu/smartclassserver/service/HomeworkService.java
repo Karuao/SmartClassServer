@@ -68,7 +68,7 @@ public class HomeworkService {
         //将定时信息存入定时表
         Cron cron = new Cron();
         cron.setHomework_id(homeworkWithBLOBs.getHomework_id());
-        cron.setTime(date);
+        cron.setTime(deadline);
         cronMapper.insert(cron);
 
         String jsonResponse = new Gson().toJson(apiResponse);
@@ -76,22 +76,23 @@ public class HomeworkService {
     }
 
     public String getHomeworkList(int classId, int userId, String userTitle, String requestStatus) {
-        ApiResponse<List<Homework>> apiResponse = new ApiResponse<>("0", "获取作业列表成功");
+        ApiResponse apiResponse;
         if ("teacher".equals(userTitle)) {
+             apiResponse= new ApiResponse<Homework>("0", "获取作业列表成功");
             if ("进行中".equals(requestStatus)) {
                 apiResponse.setObjList(homeworkMapper.selectTeacherHomeworkListByClassIdUnderway(classId));
             } else {
                 apiResponse.setObjList(homeworkMapper.selectTeacherHomeworkListByClassIdFinish(classId));
             }
         } else {
+            apiResponse= new ApiResponse<HomeworkAnswerWithBLOBs>("0", "获取作业列表成功");
             Map<String, Serializable> paramMap = new HashMap<>();
             paramMap.put("classId", classId);
             paramMap.put("userId", userId);
-            paramMap.put("userTitle", userTitle);
             if ("进行中".equals(requestStatus)) {
-                apiResponse.setObjList(homeworkMapper.selectStudentHomeworkListByMapUnderway(paramMap));
+                apiResponse.setObjList(homeworkAnswerMapper.selectStudentHomeworkListByMapUnderway(paramMap));
             } else {
-                apiResponse.setObjList(homeworkMapper.selectStudentHomeworkListByMapFinish(paramMap));
+                apiResponse.setObjList(homeworkAnswerMapper.selectStudentHomeworkListByMapFinish(paramMap));
             }
         }
 
@@ -113,6 +114,30 @@ public class HomeworkService {
             homework.setHomework_status("已结束");
             homeworkMapper.updateByPrimaryKeySelective(homework);
             apiResponse = new ApiResponse<>("0", "作业已结束");
+        }
+
+        String jsonResponse = new Gson().toJson(apiResponse);
+        return jsonResponse;
+    }
+
+    public String getStuHomeworkDetail(int homeworkAnswerId) {
+        ApiResponse<HomeworkAnswerWithBLOBs> apiResponse = new ApiResponse<>("0", "");
+        apiResponse.setObj(homeworkAnswerMapper.selectDetailByPrimaryKey(homeworkAnswerId));
+
+        String jsonResponse = new Gson().toJson(apiResponse);
+        return jsonResponse;
+    }
+
+    public String submitHomework(int homeworkAnswerId, String detail, String url) {
+        ApiResponse<Void> apiResponse;
+        HomeworkAnswerWithBLOBs homeworkAnswer = new HomeworkAnswerWithBLOBs();
+        homeworkAnswer.setHomework_answer_id(homeworkAnswerId);
+        homeworkAnswer.setDetail(detail);
+        homeworkAnswer.setUrl(url);
+        if (homeworkAnswerMapper.updateByPrimaryKeySelective(homeworkAnswer) > 0) {
+            apiResponse = new ApiResponse("0", "作业提交成功");
+        } else {
+            apiResponse = new ApiResponse("1", "作业提交失败，请稍后再试");
         }
 
         String jsonResponse = new Gson().toJson(apiResponse);
