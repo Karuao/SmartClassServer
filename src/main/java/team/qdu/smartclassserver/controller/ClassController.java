@@ -165,6 +165,7 @@ public class ClassController {
         out.close();
     }
 
+    //获取班课信息
     @RequestMapping(value = "/getClassInfor")
     public void getClassInfor(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/plain; charset=utf-8");
@@ -191,6 +192,17 @@ public class ClassController {
         int classId=Integer.parseInt(request.getParameter("classId"));
         PrintWriter out = response.getWriter();
         String responseJson=classService.deleteClass(classId);
+        out.print(responseJson);
+        out.close();
+    }
+
+    @RequestMapping(value = "/quitClass")
+    public void quitClass(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/plain; charset=utf-8");
+        int classId = Integer.parseInt(request.getParameter("classId"));
+        int userId = Integer.parseInt(request.getParameter("userId"));
+        PrintWriter out = response.getWriter();
+        String responseJson = classService.quitClass(classId, userId);
         out.print(responseJson);
         out.close();
     }

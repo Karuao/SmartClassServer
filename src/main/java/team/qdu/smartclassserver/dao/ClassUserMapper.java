@@ -20,4 +20,6 @@ public interface ClassUserMapper {
     ClassUser selectByClassIdUserId(ClassUser record);
 
     List<ClassUser> selectStudentsByClassId(int classId);
+
+    ClassUser selectByClassIdAndUserId(Integer class_id,Integer user_id);
 }

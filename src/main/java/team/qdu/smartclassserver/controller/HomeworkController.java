@@ -2,7 +2,6 @@ package team.qdu.smartclassserver.controller;
 
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
@@ -63,7 +62,6 @@ public class HomeworkController {
                 responseJson = homeworkService.publishHomework(title, detail, deadline, "homework/url/" + filename, classId);
             } catch (Exception e) {
                 e.printStackTrace();
-                stream = null;
                 responseJson = new Gson().toJson(new ApiResponse<String>("1", "上传作业信息失败"));
             }
         } else {
@@ -95,6 +93,54 @@ public class HomeworkController {
         String homeworkStatus = request.getParameter("homeworkStatus");
         PrintWriter out = response.getWriter();
         String responseJson = homeworkService.changeHomeworkStatus(homeworkId, homeworkStatus);
+        out.print(responseJson);
+        out.close();
+    }
+
+    //学生获取作业详情
+    @RequestMapping("/getStuHomeworkDetail")
+    public void getStuHomeworkDetail(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType(CONTENTTYPE);
+        int homeworkAnswerId = Integer.parseInt(request.getParameter("homeworkAnswerId"));
+        PrintWriter out = response.getWriter();
+        String responseJson = homeworkService.getStuHomeworkDetail(homeworkAnswerId);
+        out.print(responseJson);
+        out.close();
+    }
+
+    //学生提交作业
+    @RequestMapping("/submitHomework")
+    public void submitHomework(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType(CONTENTTYPE);
+        MultipartHttpServletRequest params = ((MultipartHttpServletRequest) request);
+        List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("uploadfile");
+        int homeworkAnswerId = Integer.parseInt(params.getParameter("homeworkAnswerId"));
+        String detail = params.getParameter("detail");
+        PrintWriter out = response.getWriter();
+        String responseJson = null;
+        //文件处理
+        if (!files.isEmpty()) {
+            MultipartFile file = null;
+            String filename = null;
+            BufferedOutputStream stream = null;
+            file = files.get(0);
+            try {
+                byte[] bytes = file.getBytes();
+                filename = IdGenerator.generateGUID() + "." + FilenameUtil.getExtensionName(file.getOriginalFilename());
+                URL classpath = this.getClass().getResource("/");
+                stream = new BufferedOutputStream(new FileOutputStream(
+                        new File(classpath.getPath() + "resources/homework_answer/url/" + filename)));
+                stream.write(bytes);
+                stream.close();
+                responseJson = homeworkService.submitHomework(homeworkAnswerId, detail, "homework_answer/url/" + filename);
+            } catch (Exception e) {
+                e.printStackTrace();
+                responseJson = new Gson().toJson(new ApiResponse<String>("1", "上传作业信息失败"));
+            }
+        } else {
+            responseJson = homeworkService.submitHomework(homeworkAnswerId, detail, null);
+        }
+
         out.print(responseJson);
         out.close();
     }

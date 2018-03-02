@@ -16,6 +16,24 @@
     <result column="detail" jdbcType="LONGVARCHAR" property="detail" />
     <result column="remark" jdbcType="LONGVARCHAR" property="remark" />
   </resultMap>
+  <resultMap extends="ResultMapWithBLOBs" id="DetailResultMap" type="team.qdu.smartclassserver.domain.HomeworkAnswerWithBLOBs">
+    <!--<association property="homework" javaType="team.qdu.smartclassserver.domain.HomeworkWithBLOBs" resultMap="team.qdu.smartclassserver.mapper.HomeworkMapper.ResultMapWithBLOBs"/>-->
+    <association property="homework" javaType="team.qdu.smartclassserver.domain.HomeworkWithBLOBs">
+      <id column="homework_id" jdbcType="INTEGER" property="homework_id" />
+      <result column="homework_detail" jdbcType="LONGVARCHAR" property="detail" />
+      <result column="homework_name" jdbcType="VARCHAR" property="name" />
+      <result column="homework_group" jdbcType="VARCHAR" property="group" />
+      <result column="homework_url" jdbcType="VARCHAR" property="url" />
+      <result column="homework_submit_num" jdbcType="INTEGER" property="submit_num" />
+      <result column="homework_if_repository" jdbcType="VARCHAR" property="if_repository" />
+      <result column="homework_status" jdbcType="VARCHAR" property="homework_status" />
+      <result column="homework_deadline" jdbcType="TIMESTAMP" property="deadline" />
+      <result column="homework_exp" jdbcType="TINYINT" property="exp" />
+      <result column="homework_class_id" jdbcType="INTEGER" property="class_id" />
+      <result column="homework_create_date_time" jdbcType="TIMESTAMP" property="create_date_time" />
+      <result column="homework_modify_date_time" jdbcType="TIMESTAMP" property="modify_date_time" />
+    </association>
+  </resultMap>
   <sql id="Base_Column_List">
     homework_answer_id, homework_id, user_id, url, if_submit, remark_url, class_id, create_date_time, 
     modify_date_time
@@ -23,6 +41,32 @@
   <sql id="Blob_Column_List">
     detail, remark
   </sql>
+  <select id="selectStudentHomeworkListByMapUnderway" parameterType="java.util.Map" resultMap="DetailResultMap">
+    select homework_answer.homework_answer_id,
+      homework.name as homework_name, homework.submit_num homework_submit_num, homework.exp homework_exp, homework.homework_status
+    from homework, homework_answer
+    where homework.homework_id = homework_answer.homework_id
+    and homework_answer.user_id = #{userId,jdbcType=INTEGER}
+    and homework_answer.class_id = #{classId,jdbcType=INTEGER}
+    and homework_status in('进行中', '评价中')
+  </select>
+  <select id="selectStudentHomeworkListByMapFinish" parameterType="java.util.Map" resultMap="DetailResultMap">
+    select homework_answer.homework_answer_id,
+      homework.name as homework_name, homework.submit_num as homework_submit_num, homework.exp homework_exp, homework.homework_status
+    from homework, homework_answer
+    where homework.homework_id = homework_answer.homework_id
+    and homework_answer.user_id = #{userId,jdbcType=INTEGER}
+    and homework_answer.class_id = #{classId,jdbcType=INTEGER}
+    and homework_status = '已结束'
+  </select>
+  <select id="selectDetailByPrimaryKey" parameterType="java.lang.Integer" resultMap="DetailResultMap">
+    select homework_answer.homework_answer_id, homework_answer.detail, homework_answer.url,
+      homework.name as homework_name, homework.detail as homework_detail, homework.url as homework_url
+    from homework, homework_answer
+    where
+      homework.homework_id = homework_answer.homework_id
+      and homework_answer_id = #{homework_answer_id,jdbcType=INTEGER}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />

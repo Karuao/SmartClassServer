@@ -234,4 +234,20 @@ public class ClassService  {
         String jsonResponse = new Gson().toJson(apiResponse);
         return jsonResponse;
     }
+
+    public String quitClass(int classId,int userId){
+        ApiResponse apiResponse;
+        ClassUser obj=classUserMapper.selectByClassIdAndUserId(classId,userId);
+        obj.setIf_in_class("否");
+        Date date = new Date();
+        obj.setModify_date_time(date);
+        int result=classUserMapper.updateByPrimaryKey(obj);
+        if(result==1){
+            apiResponse = new ApiResponse("0", "成功退出班课");
+        }else{
+            apiResponse = new ApiResponse("1", "退出班课失败");
+        }
+        String jsonResponse = new Gson().toJson(apiResponse);
+        return jsonResponse;
+    }
 }
