@@ -7,6 +7,7 @@
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="avatar" jdbcType="VARCHAR" property="avatar" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sno" jdbcType="VARCHAR" property="sno" />
     <result column="gender" jdbcType="VARCHAR" property="gender" />
     <result column="status_message" jdbcType="VARCHAR" property="status_message" />
     <result column="birthday" jdbcType="DATE" property="birthday" />
@@ -25,7 +26,7 @@
     where account = #{account,jdbcType=VARCHAR}
   </select>
   <sql id="Base_Column_List">
-    user_id, account, password, avatar, name, gender, status_message, birthday, university,
+    user_id, account, password, avatar, name, sno, gender, status_message, birthday, university,
     department, if_show_closed_classes, security_question, security_answer, create_date_time, modify_date_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -40,12 +41,12 @@
   </delete>
   <insert id="insert" parameterType="team.qdu.smartclassserver.domain.User">
     insert into user (user_id, account, password, 
-      avatar, name, gender,
+      avatar, name, sno, gender,
       status_message, birthday, university, 
       department, if_show_closed_classes,security_question,security_answer,create_date_time,
       modify_date_time)
     values (#{user_id,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{avatar,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
+      #{avatar,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{sno,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR},
       #{status_message,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{university,jdbcType=VARCHAR},
       #{department,jdbcType=VARCHAR}, #{if_show_closed_classes,jdbcType=VARCHAR}, #{security_question,jdbcType=VARCHAR},#{security_answer,jdbcType=VARCHAR},#{create_date_time,jdbcType=TIMESTAMP},
       #{modify_date_time,jdbcType=TIMESTAMP})
@@ -67,6 +68,9 @@
       </if>
       <if test="name != null">
         name,
+      </if>
+      <if test="sno != null">
+        sno,
       </if>
       <if test="gender != null">
         gender,
@@ -109,6 +113,9 @@
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
+      <if test="sno != null">
+        #{sno,jdbcType=VARCHAR},
+      </if>
       <if test="gender != null">
         #{gender,jdbcType=VARCHAR},
       </if>
@@ -150,6 +157,9 @@
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="sno != null">
+        sno = #{sno,jdbcType=VARCHAR},
+      </if>
       <if test="gender != null">
         gender = #{gender,jdbcType=VARCHAR},
       </if>
@@ -189,6 +199,9 @@
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="sno != null">
+        sno = #{sno,jdbcType=VARCHAR},
+      </if>
       <if test="gender != null">
         gender = #{gender,jdbcType=VARCHAR},
       </if>
@@ -222,6 +235,7 @@
       password = #{password,jdbcType=VARCHAR},
       avatar = #{avatar,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
+      sno = #{sno,jdbcType=VARCHAR},
       gender = #{gender,jdbcType=VARCHAR},
       status_message = #{status_message,jdbcType=VARCHAR},
       birthday = #{birthday,jdbcType=DATE},
