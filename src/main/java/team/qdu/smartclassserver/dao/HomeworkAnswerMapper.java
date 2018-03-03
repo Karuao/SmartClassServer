@@ -17,6 +17,8 @@ public interface HomeworkAnswerMapper {
 
     int initialInsert(List<HomeworkAnswer> recordList);
 
+    List<HomeworkAnswerWithBLOBs> selectByHomeworkId(Integer homework_id);
+
     List<HomeworkAnswerWithBLOBs> selectStudentHomeworkListByMapUnderway(Map<String, Serializable> map);
 
     List<HomeworkAnswerWithBLOBs> selectStudentHomeworkListByMapFinish(Map<String, Serializable> map);

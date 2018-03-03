@@ -108,9 +108,11 @@ public class HomeworkController {
         out.close();
     }
 
+
+
     //学生提交作业
-    @RequestMapping("/submitHomework")
-    public void submitHomework(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    @RequestMapping("/commitHomework")
+    public void commitHomework(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType(CONTENTTYPE);
         MultipartHttpServletRequest params = ((MultipartHttpServletRequest) request);
         List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("uploadfile");
@@ -132,15 +134,37 @@ public class HomeworkController {
                         new File(classpath.getPath() + "resources/homework_answer/url/" + filename)));
                 stream.write(bytes);
                 stream.close();
-                responseJson = homeworkService.submitHomework(homeworkAnswerId, detail, "homework_answer/url/" + filename);
+                responseJson = homeworkService.commitHomework(homeworkAnswerId, detail, "homework_answer/url/" + filename);
             } catch (Exception e) {
                 e.printStackTrace();
                 responseJson = new Gson().toJson(new ApiResponse<String>("1", "上传作业信息失败"));
             }
         } else {
-            responseJson = homeworkService.submitHomework(homeworkAnswerId, detail, null);
+            responseJson = homeworkService.commitHomework(homeworkAnswerId, detail, null);
         }
 
+        out.print(responseJson);
+        out.close();
+    }
+
+    //获取作业内容和照片
+    @RequestMapping("/getHomeworkDetail")
+    public void getHomeworkDetail (HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType(CONTENTTYPE);
+        Integer homeworkId = Integer.parseInt(request.getParameter("homeworkId"));
+        PrintWriter out = response.getWriter();
+        String responseJson = homeworkService.getHomeworkDetail(homeworkId);
+        out.print(responseJson);
+        out.close();
+    }
+
+    //获取某作业学生提交情况List
+    @RequestMapping("/getHomeworkAnswerList")
+    public void getHomeworkAnswerList(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType(CONTENTTYPE);
+        Integer homeworkId = Integer.parseInt(request.getParameter("homeworkId"));
+        PrintWriter out = response.getWriter();
+        String responseJson = homeworkService.getHomeworkAnswerList(homeworkId);
         out.print(responseJson);
         out.close();
     }

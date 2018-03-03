@@ -1,6 +1,7 @@
 package team.qdu.smartclassserver.dao;
 
 import team.qdu.smartclassserver.domain.Homework;
+import team.qdu.smartclassserver.domain.HomeworkWithBLOBs;
 
 import java.io.Serializable;
 import java.util.List;
@@ -13,7 +14,7 @@ public interface HomeworkMapper {
 
     int insertSelective(Homework record);
 
-    Homework selectByPrimaryKey(Integer homework_id);
+    HomeworkWithBLOBs selectByPrimaryKey(Integer homework_id);
 
     List<Homework> selectStudentHomeworkListByMapUnderway(Map<String, Serializable> map);
 

@@ -33,6 +33,24 @@
       <result column="homework_create_date_time" jdbcType="TIMESTAMP" property="create_date_time" />
       <result column="homework_modify_date_time" jdbcType="TIMESTAMP" property="modify_date_time" />
     </association>
+    <association property="user" javaType="team.qdu.smartclassserver.domain.User">
+      <id column="user_id" jdbcType="INTEGER" property="user_id" />
+      <result column="user_account" jdbcType="VARCHAR" property="account" />
+      <result column="user_password" jdbcType="VARCHAR" property="password" />
+      <result column="user_avatar" jdbcType="VARCHAR" property="avatar" />
+      <result column="user_name" jdbcType="VARCHAR" property="name" />
+      <result column="user_sno" jdbcType="VARCHAR" property="sno" />
+      <result column="user_gender" jdbcType="VARCHAR" property="gender" />
+      <result column="user_status_message" jdbcType="VARCHAR" property="status_message" />
+      <result column="user_birthday" jdbcType="DATE" property="birthday" />
+      <result column="user_university" jdbcType="VARCHAR" property="university" />
+      <result column="user_department" jdbcType="VARCHAR" property="department" />
+      <result column="user_if_show_closed_classes" jdbcType="VARCHAR" property="if_show_closed_classes" />
+      <result column="user_security_question" jdbcType="VARCHAR" property="security_question" />
+      <result column="user_security_answer" jdbcType="VARCHAR" property="security_answer" />
+      <result column="user_create_date_time" jdbcType="TIMESTAMP" property="create_date_time" />
+      <result column="user_modify_date_time" jdbcType="TIMESTAMP" property="modify_date_time" />
+    </association>
   </resultMap>
   <sql id="Base_Column_List">
     homework_answer_id, homework_id, user_id, url, if_submit, remark_url, class_id, create_date_time, 
@@ -41,6 +59,12 @@
   <sql id="Blob_Column_List">
     detail, remark
   </sql>
+  <select id="selectByHomeworkId" parameterType="java.lang.Integer" resultMap="DetailResultMap">
+    select homework_answer_id, if_submit, user.avatar as user_avatar, user.name as user_name, user.sno as user_sno
+    from homework_answer, user
+    where homework_answer.user_id = user.user_id
+      and homework_id = #{homework_id,jdbcType=INTEGER}
+  </select>
   <select id="selectStudentHomeworkListByMapUnderway" parameterType="java.util.Map" resultMap="DetailResultMap">
     select homework_answer.homework_answer_id,
       homework.name as homework_name, homework.submit_num homework_submit_num, homework.exp homework_exp, homework.homework_status
