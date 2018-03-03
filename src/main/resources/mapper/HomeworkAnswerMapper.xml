@@ -8,6 +8,7 @@
     <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="if_submit" jdbcType="VARCHAR" property="if_submit" />
     <result column="remark_url" jdbcType="VARCHAR" property="remark_url" />
+    <result column="exp" jdbcType="INTEGER" property="exp" />
     <result column="class_id" jdbcType="INTEGER" property="class_id" />
     <result column="create_date_time" jdbcType="TIMESTAMP" property="create_date_time" />
     <result column="modify_date_time" jdbcType="TIMESTAMP" property="modify_date_time" />
@@ -53,7 +54,7 @@
     </association>
   </resultMap>
   <sql id="Base_Column_List">
-    homework_answer_id, homework_id, user_id, url, if_submit, remark_url, class_id, create_date_time, 
+    homework_answer_id, homework_id, user_id, url, if_submit, remark_url, exp, class_id, create_date_time,
     modify_date_time
   </sql>
   <sql id="Blob_Column_List">
@@ -106,25 +107,25 @@
   <insert id="insert" parameterType="team.qdu.smartclassserver.domain.HomeworkAnswerWithBLOBs">
     insert into homework_answer (homework_answer_id, homework_id, 
       user_id, url, if_submit, 
-      remark_url, class_id, create_date_time, 
+      remark_url, exp, class_id, create_date_time,
       modify_date_time, detail, remark
       )
     values (#{homework_answer_id,jdbcType=INTEGER}, #{homework_id,jdbcType=INTEGER}, 
       #{user_id,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, #{if_submit,jdbcType=VARCHAR}, 
-      #{remark_url,jdbcType=VARCHAR}, #{class_id,jdbcType=INTEGER}, #{create_date_time,jdbcType=TIMESTAMP}, 
+      #{remark_url,jdbcType=VARCHAR}, #{exo,jdbcType=INTEGER}, #{class_id,jdbcType=INTEGER}, #{create_date_time,jdbcType=TIMESTAMP},
       #{modify_date_time,jdbcType=TIMESTAMP}, #{detail,jdbcType=LONGVARCHAR}, #{remark,jdbcType=LONGVARCHAR}
       )
   </insert>
   <insert id="initialInsert" parameterType="java.util.List">
     insert into homework_answer (homework_answer_id, homework_id,
     user_id, url, if_submit,
-    remark_url, class_id, create_date_time,
+    remark_url, exp, class_id, create_date_time,
     modify_date_time
     )values
     <foreach collection="list" item="item" separator=",">
       (#{item.homework_answer_id,jdbcType=INTEGER}, #{item.homework_id,jdbcType=INTEGER},
       #{item.user_id,jdbcType=INTEGER}, #{item.url,jdbcType=VARCHAR}, #{item.if_submit,jdbcType=VARCHAR},
-      #{item.remark_url,jdbcType=VARCHAR}, #{item.class_id,jdbcType=INTEGER}, #{item.create_date_time,jdbcType=TIMESTAMP},
+      #{item.remark_url,jdbcType=VARCHAR}, #{item.exp,jdbcType=INTEGER}, #{item.class_id,jdbcType=INTEGER}, #{item.create_date_time,jdbcType=TIMESTAMP},
       #{item.modify_date_time,jdbcType=TIMESTAMP})
     </foreach>
   </insert>
@@ -148,6 +149,9 @@
       </if>
       <if test="remark_url != null">
         remark_url,
+      </if>
+      <if test="exp != null">
+        exp,
       </if>
       <if test="class_id != null">
         class_id,
@@ -184,6 +188,9 @@
       <if test="remark_url != null">
         #{remark_url,jdbcType=VARCHAR},
       </if>
+      <if test="exp != null">
+        #{exp,jdbcType=VARCHAR},
+      </if>
       <if test="class_id != null">
         #{class_id,jdbcType=INTEGER},
       </if>
@@ -219,6 +226,9 @@
       <if test="remark_url != null">
         remark_url = #{remark_url,jdbcType=VARCHAR},
       </if>
+      <if test="exp != null">
+        exp = #{exp,jdbcType=VARCHAR},
+      </if>
       <if test="class_id != null">
         class_id = #{class_id,jdbcType=INTEGER},
       </if>
@@ -244,6 +254,7 @@
       url = #{url,jdbcType=VARCHAR},
       if_submit = #{if_submit,jdbcType=VARCHAR},
       remark_url = #{remark_url,jdbcType=VARCHAR},
+      exp = #{exp,jdbcType=VARCHAR},
       class_id = #{class_id,jdbcType=INTEGER},
       create_date_time = #{create_date_time,jdbcType=TIMESTAMP},
       modify_date_time = #{modify_date_time,jdbcType=TIMESTAMP},
@@ -258,6 +269,7 @@
       url = #{url,jdbcType=VARCHAR},
       if_submit = #{if_submit,jdbcType=VARCHAR},
       remark_url = #{remark_url,jdbcType=VARCHAR},
+      exp = #{exp,jdbcType=VARCHAR},
       class_id = #{class_id,jdbcType=INTEGER},
       create_date_time = #{create_date_time,jdbcType=TIMESTAMP},
       modify_date_time = #{modify_date_time,jdbcType=TIMESTAMP}
