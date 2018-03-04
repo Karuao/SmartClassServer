@@ -151,7 +151,7 @@ public class HomeworkController {
     @RequestMapping("/getHomeworkDetail")
     public void getHomeworkDetail (HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType(CONTENTTYPE);
-        Integer homeworkId = Integer.parseInt(request.getParameter("homeworkId"));
+        int homeworkId = Integer.parseInt(request.getParameter("homeworkId"));
         PrintWriter out = response.getWriter();
         String responseJson = homeworkService.getHomeworkDetail(homeworkId);
         out.print(responseJson);
@@ -162,9 +162,58 @@ public class HomeworkController {
     @RequestMapping("/getHomeworkAnswerList")
     public void getHomeworkAnswerList(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType(CONTENTTYPE);
-        Integer homeworkId = Integer.parseInt(request.getParameter("homeworkId"));
+        int homeworkId = Integer.parseInt(request.getParameter("homeworkId"));
         PrintWriter out = response.getWriter();
         String responseJson = homeworkService.getHomeworkAnswerList(homeworkId);
+        out.print(responseJson);
+        out.close();
+    }
+
+    //提交作业评价
+    @RequestMapping("/commitHomeworkEvaluation")
+    public void commitHomeworkEvaluation(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType(CONTENTTYPE);
+        MultipartHttpServletRequest params = ((MultipartHttpServletRequest) request);
+        List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("uploadfile");
+        int homeworkAnswerId = Integer.parseInt(params.getParameter("homeworkAnswerId"));
+        int exp = Integer.parseInt(params.getParameter("exp"));
+        String remark = params.getParameter("remark");
+        PrintWriter out = response.getWriter();
+        String responseJson = null;
+        //文件处理
+        if (!files.isEmpty()) {
+            MultipartFile file = null;
+            String filename = null;
+            BufferedOutputStream stream = null;
+            file = files.get(0);
+            try {
+                byte[] bytes = file.getBytes();
+                filename = IdGenerator.generateGUID() + "." + FilenameUtil.getExtensionName(file.getOriginalFilename());
+                URL classpath = this.getClass().getResource("/");
+                stream = new BufferedOutputStream(new FileOutputStream(
+                        new File(classpath.getPath() + "resources/homework_answer/remark_url/" + filename)));
+                stream.write(bytes);
+                stream.close();
+                responseJson = homeworkService.commitHomeworkEvaluation(homeworkAnswerId, exp, remark, "homework_answer/remark_url/" + filename);
+            } catch (Exception e) {
+                e.printStackTrace();
+                responseJson = new Gson().toJson(new ApiResponse<String>("1", "上传作业信息失败"));
+            }
+        } else {
+            responseJson = homeworkService.commitHomeworkEvaluation(homeworkAnswerId, exp, remark, null);
+        }
+
+        out.print(responseJson);
+        out.close();
+    }
+
+    //获取某作业学生提交情况List
+    @RequestMapping("/getNotEvaluateStuNum")
+    public void getNotEvaluateStuNum(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType(CONTENTTYPE);
+        int homeworkId = Integer.parseInt(request.getParameter("homeworkId"));
+        PrintWriter out = response.getWriter();
+        String responseJson = homeworkService.getNotEvaluateStuNum(homeworkId);
         out.print(responseJson);
         out.close();
     }

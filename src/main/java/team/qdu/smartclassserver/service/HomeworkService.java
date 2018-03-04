@@ -161,4 +161,30 @@ public class HomeworkService {
         String jsonResponse = new Gson().toJson(apiResponse);
         return jsonResponse;
     }
+
+    public String commitHomeworkEvaluation(int homeworkAnswerId, int exp, String remark, String remarkUrl) {
+        ApiResponse<Void> apiResponse;
+        HomeworkAnswerWithBLOBs homeworkAnswer = new HomeworkAnswerWithBLOBs();
+        homeworkAnswer.setHomework_answer_id(homeworkAnswerId);
+        homeworkAnswer.setExp(exp);
+        homeworkAnswer.setRemark(remark);
+        homeworkAnswer.setRemark_url(remarkUrl);
+        homeworkAnswer.setModify_date_time(new Date());
+        if (homeworkAnswerMapper.updateByPrimaryKeySelective(homeworkAnswer) > 0) {
+            apiResponse = new ApiResponse("0", "作业评价成功");
+        } else {
+            apiResponse = new ApiResponse("1", "作业评价失败，请稍后再试");
+        }
+
+        String jsonResponse = new Gson().toJson(apiResponse);
+        return jsonResponse;
+    }
+
+    public String getNotEvaluateStuNum(int homeworkId) {
+        ApiResponse<Integer> apiResponse = new ApiResponse<>("0", null);
+        apiResponse.setObj(homeworkAnswerMapper.selectNotEvaluateStuNumByHomeworkId(homeworkId));
+
+        String jsonResponse = new Gson().toJson(apiResponse);
+        return jsonResponse;
+    }
 }

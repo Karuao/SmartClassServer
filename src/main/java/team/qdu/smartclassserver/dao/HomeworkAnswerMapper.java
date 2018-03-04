@@ -32,4 +32,6 @@ public interface HomeworkAnswerMapper {
     int updateByPrimaryKeyWithBLOBs(HomeworkAnswerWithBLOBs record);
 
     int updateByPrimaryKey(HomeworkAnswer record);
+
+    Integer selectNotEvaluateStuNumByHomeworkId(Integer homework_id);
 }

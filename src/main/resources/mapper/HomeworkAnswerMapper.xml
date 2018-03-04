@@ -60,8 +60,15 @@
   <sql id="Blob_Column_List">
     detail, remark
   </sql>
+  <select id="selectNotEvaluateStuNumByHomeworkId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select count(homework_answer_id)
+    from homework_answer
+    where homework_id = #{homework_id,jdbcType=INTEGER}
+      and if_submit = '是'
+      and exp is null
+  </select>
   <select id="selectByHomeworkId" parameterType="java.lang.Integer" resultMap="DetailResultMap">
-    select homework_answer_id, if_submit, user.avatar as user_avatar, user.name as user_name, user.sno as user_sno
+    select homework_answer_id, if_submit, exp, user.avatar as user_avatar, user.name as user_name, user.sno as user_sno
     from homework_answer, user
     where homework_answer.user_id = user.user_id
       and homework_id = #{homework_id,jdbcType=INTEGER}
@@ -85,7 +92,8 @@
     and homework_status = '已结束'
   </select>
   <select id="selectDetailByPrimaryKey" parameterType="java.lang.Integer" resultMap="DetailResultMap">
-    select homework_answer.homework_answer_id, homework_answer.detail, homework_answer.url,
+    select homework_answer.homework_answer_id, homework_answer.detail, homework_answer.url, homework_answer.exp,
+      homework_answer.remark, homework_answer.remark_url,
       homework.name as homework_name, homework.detail as homework_detail, homework.url as homework_url
     from homework, homework_answer
     where
