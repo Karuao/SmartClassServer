@@ -14,6 +14,10 @@ public class ClassUser implements Serializable {
 
     private String if_in_class;
 
+    private String if_new_material;
+
+    private String if_new_homework;
+
     private Integer unread_information_num;
 
     private Integer exp;
@@ -62,6 +66,22 @@ public class ClassUser implements Serializable {
 
     public void setIf_in_class(String if_in_class) {
         this.if_in_class = if_in_class == null ? null : if_in_class.trim();
+    }
+
+    public String getIf_new_material() {
+        return if_new_material;
+    }
+
+    public void setIf_new_material(String if_new_material) {
+        this.if_new_material = if_new_material;
+    }
+
+    public String getIf_new_homework() {
+        return if_new_homework;
+    }
+
+    public void setIf_new_homework(String if_new_homework) {
+        this.if_new_homework = if_new_homework;
     }
 
     public Integer getUnread_information_num() {
