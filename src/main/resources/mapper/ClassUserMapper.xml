@@ -119,6 +119,20 @@
       </if>
     </trim>
   </insert>
+  <update id="addExpByClassIdUserId" parameterType="java.util.Map">
+    update class_user
+    set exp = exp + #{exp,jdbcType=INTEGER}
+    where class_id = #{classId,jdbcType=INTEGER}
+      and user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="addExpsByClassIdUserId" parameterType="java.util.List">
+    <foreach collection="list" item="item">
+      update class_user
+      set exp = exp + #{item.exp,jdbcType=INTEGER}
+      where class_id = #{item.class_id,jdbcType=INTEGER}
+      and user_id = #{item.user_id,jdbcType=INTEGER}
+    </foreach>
+  </update>
   <update id="updateByPrimaryKeySelective" parameterType="team.qdu.smartclassserver.domain.ClassUser">
     update class_user
     <set>

@@ -163,6 +163,11 @@
       </if>
     </trim>
   </insert>
+  <update id="addSubmitNumByPrimaryKey" parameterType="java.lang.Integer">
+    update homework
+    set submit_num = submit_num + 1
+    where homework_id = #{homework_id,jdbcType=INTEGER}
+  </update>
   <update id="updateHomeworkStatus" parameterType="java.util.List">
     update homework
     set homework_status = '评价中'

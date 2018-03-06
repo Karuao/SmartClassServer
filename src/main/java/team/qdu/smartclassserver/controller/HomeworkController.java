@@ -117,6 +117,10 @@ public class HomeworkController {
         MultipartHttpServletRequest params = ((MultipartHttpServletRequest) request);
         List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("uploadfile");
         int homeworkAnswerId = Integer.parseInt(params.getParameter("homeworkAnswerId"));
+        int homeworkId = Integer.parseInt(params.getParameter("homeworkId"));
+        int classId = Integer.parseInt(params.getParameter("classId"));
+        int userId = Integer.parseInt(params.getParameter("userId"));
+        String ifSubmit = params.getParameter("ifSubmit");
         String detail = params.getParameter("detail");
         PrintWriter out = response.getWriter();
         String responseJson = null;
@@ -134,13 +138,14 @@ public class HomeworkController {
                         new File(classpath.getPath() + "resources/homework_answer/url/" + filename)));
                 stream.write(bytes);
                 stream.close();
-                responseJson = homeworkService.commitHomework(homeworkAnswerId, detail, "homework_answer/url/" + filename);
+                responseJson = homeworkService.commitHomework(homeworkAnswerId, homeworkId, classId, userId, ifSubmit,
+                        detail, "homework_answer/url/" + filename);
             } catch (Exception e) {
                 e.printStackTrace();
                 responseJson = new Gson().toJson(new ApiResponse<String>("1", "上传作业信息失败"));
             }
         } else {
-            responseJson = homeworkService.commitHomework(homeworkAnswerId, detail, null);
+            responseJson = homeworkService.commitHomework(homeworkAnswerId, homeworkId, classId, userId, ifSubmit, detail, null);
         }
 
         out.print(responseJson);

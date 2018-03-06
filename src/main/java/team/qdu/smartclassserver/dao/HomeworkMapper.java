@@ -24,6 +24,8 @@ public interface HomeworkMapper {
 
     List<Homework> selectTeacherHomeworkListByClassIdFinish(int classId);
 
+    int addSubmitNumByPrimaryKey(int homework_id);
+
     int updateByPrimaryKeySelective(Homework record);
 
     int updateByPrimaryKeyWithBLOBs(Homework record);

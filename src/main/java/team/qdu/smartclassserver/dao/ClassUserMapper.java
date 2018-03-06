@@ -3,6 +3,7 @@ package team.qdu.smartclassserver.dao;
 import team.qdu.smartclassserver.domain.ClassUser;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ClassUserMapper {
     int deleteByPrimaryKey(Integer class_user_id);
@@ -13,13 +14,17 @@ public interface ClassUserMapper {
 
     ClassUser selectByPrimaryKey(Integer class_user_id);
 
-    int updateByPrimaryKeySelective(ClassUser record);
-
-    int updateByPrimaryKey(ClassUser record);
-
     ClassUser selectByClassIdUserId(ClassUser record);
 
     List<ClassUser> selectStudentsByClassId(int classId);
 
     ClassUser selectByClassIdAndUserId(Integer class_id,Integer user_id);
+
+    int updateByPrimaryKeySelective(ClassUser record);
+
+    int updateByPrimaryKey(ClassUser record);
+
+    int addExpByClassIdUserId(Map<String, Integer> map);
+
+    int addExpsByClassIdUserId(List recordList);
 }

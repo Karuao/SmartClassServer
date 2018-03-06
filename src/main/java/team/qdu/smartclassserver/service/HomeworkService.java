@@ -112,6 +112,8 @@ public class HomeworkService {
             apiResponse = new ApiResponse<>("0", "作业已开始评价");
         } else {
             homework.setHomework_status("已结束");
+            List<HomeworkAnswerWithBLOBs> homeworkAnswerList = homeworkAnswerMapper.selectExpsByHomeworkId(homeworkId);
+            classUserMapper.addExpsByClassIdUserId(homeworkAnswerList);
             homeworkMapper.updateByPrimaryKeySelective(homework);
             apiResponse = new ApiResponse<>("0", "作业已结束");
         }
@@ -128,7 +130,8 @@ public class HomeworkService {
         return jsonResponse;
     }
 
-    public String commitHomework(int homeworkAnswerId, String detail, String url) {
+    public String commitHomework(int homeworkAnswerId, int homeworkId, int classId, int userId, String ifSubmit,
+                                 String detail, String url) {
         ApiResponse<Void> apiResponse;
         HomeworkAnswerWithBLOBs homeworkAnswer = new HomeworkAnswerWithBLOBs();
         homeworkAnswer.setHomework_answer_id(homeworkAnswerId);
@@ -137,6 +140,14 @@ public class HomeworkService {
         homeworkAnswer.setIf_submit("是");
         homeworkAnswer.setModify_date_time(new Date());
         if (homeworkAnswerMapper.updateByPrimaryKeySelective(homeworkAnswer) > 0) {
+            if ("否".equals(ifSubmit)) {
+                homeworkMapper.addSubmitNumByPrimaryKey(homeworkId);
+                Map<String, Integer> map = new HashMap<>();
+                map.put("classId", classId);
+                map.put("userId", userId);
+                map.put("exp", 3);
+                classUserMapper.addExpByClassIdUserId(map);
+            }
             apiResponse = new ApiResponse("0", "作业提交成功");
         } else {
             apiResponse = new ApiResponse("1", "作业提交失败，请稍后再试");

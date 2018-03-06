@@ -20,7 +20,7 @@
   <resultMap extends="ResultMapWithBLOBs" id="DetailResultMap" type="team.qdu.smartclassserver.domain.HomeworkAnswerWithBLOBs">
     <!--<association property="homework" javaType="team.qdu.smartclassserver.domain.HomeworkWithBLOBs" resultMap="team.qdu.smartclassserver.mapper.HomeworkMapper.ResultMapWithBLOBs"/>-->
     <association property="homework" javaType="team.qdu.smartclassserver.domain.HomeworkWithBLOBs">
-      <id column="homework_id" jdbcType="INTEGER" property="homework_id" />
+      <id column="homework_homework_id" jdbcType="INTEGER" property="homework_id" />
       <result column="homework_detail" jdbcType="LONGVARCHAR" property="detail" />
       <result column="homework_name" jdbcType="VARCHAR" property="name" />
       <result column="homework_group" jdbcType="VARCHAR" property="group" />
@@ -67,6 +67,11 @@
       and if_submit = '是'
       and exp is null
   </select>
+  <select id="selectExpsByHomeworkId" parameterType="java.lang.Integer" resultMap="DetailResultMap">
+    select class_id, user_id, exp
+    from homework_answer
+    where homework_id = #{homework_id,jdbcType=INTEGER}
+  </select>
   <select id="selectByHomeworkId" parameterType="java.lang.Integer" resultMap="DetailResultMap">
     select homework_answer_id, if_submit, exp, user.avatar as user_avatar, user.name as user_name, user.sno as user_sno
     from homework_answer, user
@@ -92,8 +97,8 @@
     and homework_status = '已结束'
   </select>
   <select id="selectDetailByPrimaryKey" parameterType="java.lang.Integer" resultMap="DetailResultMap">
-    select homework_answer.homework_answer_id, homework_answer.detail, homework_answer.url, homework_answer.exp,
-      homework_answer.remark, homework_answer.remark_url,
+    select homework_answer.homework_answer_id, homework_answer.homework_id, homework_answer.detail,
+      homework_answer.url, homework_answer.if_submit, homework_answer.exp, homework_answer.remark, homework_answer.remark_url,
       homework.name as homework_name, homework.detail as homework_detail, homework.url as homework_url
     from homework, homework_answer
     where

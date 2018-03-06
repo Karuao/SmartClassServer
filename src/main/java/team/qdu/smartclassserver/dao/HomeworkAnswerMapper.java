@@ -19,6 +19,8 @@ public interface HomeworkAnswerMapper {
 
     List<HomeworkAnswerWithBLOBs> selectByHomeworkId(Integer homework_id);
 
+    List<HomeworkAnswerWithBLOBs> selectExpsByHomeworkId(Integer homework_id);
+
     List<HomeworkAnswerWithBLOBs> selectStudentHomeworkListByMapUnderway(Map<String, Serializable> map);
 
     List<HomeworkAnswerWithBLOBs> selectStudentHomeworkListByMapFinish(Map<String, Serializable> map);
