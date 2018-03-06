@@ -117,12 +117,14 @@ public class UserService {
     }
 
     //修改个人信息
-    public String updateUserInformation(String account,String name,String gender,String university,
+    public String updateUserInformation(String avatarPath,String account,String name,String gender,String sno,String university,
                                         String department,String motto){
         ApiResponse apiResponse;
         User user = userMapper.selectByAccount(account);
+        user.setAvatar(avatarPath);
         user.setName(name);
         user.setGender(gender);
+        user.setSno(sno);
         user.setUniversity(university);
         user.setDepartment(department);
         user.setStatus_message(motto);
@@ -130,9 +132,9 @@ public class UserService {
         user.setModify_date_time(now);
         int result=userMapper.updateByPrimaryKey(user);
         if(result==1){
-            apiResponse = new ApiResponse("0", "修改成功");
+            apiResponse = new ApiResponse("0", "修改个人信息成功");
         }else{
-            apiResponse = new ApiResponse("1", "修改失败");
+            apiResponse = new ApiResponse("1", "修改个人信息失败");
         }
         String jsonResponse = new Gson().toJson(apiResponse);
 
