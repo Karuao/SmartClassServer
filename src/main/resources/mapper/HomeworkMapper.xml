@@ -38,12 +38,14 @@
     from homework
     where class_id = #{classId,jdbcType=INTEGER}
       and homework_status in('进行中', '评价中')
+    order by homework_id desc
   </select>
   <select id="selectTeacherHomeworkListByClassIdFinish" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select homework_id, name, submit_num, exp, homework_status
     from homework
     where class_id = #{classId,jdbcType=INTEGER}
       and homework_status = '已结束'
+    order by homework_id desc
   </select>
   <select id="selectStudentHomeworkListByMapUnderway" parameterType="java.util.Map" resultMap="ResultMapWithBLOBs">
     select homework.homework_id, name, submit_num, exp, homework_status

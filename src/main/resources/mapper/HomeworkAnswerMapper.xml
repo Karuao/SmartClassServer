@@ -86,6 +86,7 @@
     and homework_answer.user_id = #{userId,jdbcType=INTEGER}
     and homework_answer.class_id = #{classId,jdbcType=INTEGER}
     and homework_status in('进行中', '评价中')
+    order by homework_answer_id desc
   </select>
   <select id="selectStudentHomeworkListByMapFinish" parameterType="java.util.Map" resultMap="DetailResultMap">
     select homework_answer.homework_answer_id,
@@ -95,6 +96,7 @@
     and homework_answer.user_id = #{userId,jdbcType=INTEGER}
     and homework_answer.class_id = #{classId,jdbcType=INTEGER}
     and homework_status = '已结束'
+    order by homework_answer_id desc
   </select>
   <select id="selectDetailByPrimaryKey" parameterType="java.lang.Integer" resultMap="DetailResultMap">
     select homework_answer.homework_answer_id, homework_answer.homework_id, homework_answer.detail,
