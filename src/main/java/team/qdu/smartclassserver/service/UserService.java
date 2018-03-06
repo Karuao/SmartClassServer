@@ -26,7 +26,7 @@ public class UserService {
             if (user.getPassword().equals(password)) {
                 //密码正确
                 apiResponse = new ApiResponse("0", "登陆成功");
-                apiResponse.obj = Integer.toString(user.getUser_id());
+                apiResponse.setObj(Integer.toString(user.getUser_id()));
             } else {
                 //密码错误
                 apiResponse = new ApiResponse("1", "密码错误");
@@ -72,7 +72,7 @@ public class UserService {
             //该用户存在
             user.setPassword("");
             apiResponse = new ApiResponse<>("0","用户存在");
-            apiResponse.obj = user;
+            apiResponse.setObj(user);
         }else{
             //该用户不存在
             apiResponse = new ApiResponse<>("2", "用户不存在");
@@ -88,7 +88,7 @@ public class UserService {
         if(user!=null){
             //该用户存在
             apiResponse = new ApiResponse<>("0","用户存在");
-            apiResponse.obj = user;
+            apiResponse.setObj(user);
         }else{
             //该用户不存在
             apiResponse = new ApiResponse<>("2", "用户不存在");

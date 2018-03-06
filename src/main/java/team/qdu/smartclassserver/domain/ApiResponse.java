@@ -5,13 +5,13 @@ import java.io.Serializable;
 
 public class ApiResponse<T> implements Serializable {
 
-    public String event;
+    private String event;
 
-    public String msg;
+    private String msg;
 
-    public T obj;
+    private T obj;
 
-    public T objList;
+    private T objList;
 
     public ApiResponse(String event, String msg) {
         this.event = event;

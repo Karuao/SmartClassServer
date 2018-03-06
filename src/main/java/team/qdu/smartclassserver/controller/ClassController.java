@@ -44,7 +44,7 @@ public class ClassController {
         int classId = Integer.parseInt(request.getParameter("classId"));
         int userId = Integer.parseInt(request.getParameter("userId"));
         PrintWriter out = response.getWriter();
-        String responseJson = classService.judgeTitle(classId, userId);
+        String responseJson = classService.jumpClass(classId, userId);
         out.print(responseJson);
         out.close();
     }

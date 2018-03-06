@@ -28,7 +28,7 @@ public class InformService {
     UserMapper userMapper;
     public String getInform(Integer classid) {
         ApiResponse<List<Inform>> apiResponse = new ApiResponse<>("0", "success");
-        apiResponse.objList = informMapper.selectInformByClassId(classid);
+        apiResponse.setObjList(informMapper.selectInformByClassId(classid));
         String jsonResponse = new Gson().toJson(apiResponse);
         return jsonResponse;
     }
@@ -40,7 +40,7 @@ public class InformService {
             int id=userIdList.get(i);
             userList.add(userMapper.selectByPrimaryKey(id));
         }
-        apiResponse.objList=userList;
+        apiResponse.setObjList(userList);
         String jsonResponse = new Gson().toJson(apiResponse);
         return jsonResponse;
     }
@@ -52,7 +52,7 @@ public class InformService {
             int id=userIdList.get(i);
             userList.add(userMapper.selectByPrimaryKey(id));
         }
-        apiResponse.objList=userList;
+        apiResponse.setObjList(userList);
         String jsonResponse = new Gson().toJson(apiResponse);
         return jsonResponse;
     }
@@ -67,7 +67,7 @@ public class InformService {
         Inform_User inform_user=new Inform_User();
         inform_user.setClass_id(classid);
         inform_user.setUser_id(userid);
-        apiResponse.objList = inform_userMapper.selectInformByClassIdUserId(inform_user);
+        apiResponse.setObjList(inform_userMapper.selectInformByClassIdUserId(inform_user));
         String jsonResponse = new Gson().toJson(apiResponse);
         return jsonResponse;
     }

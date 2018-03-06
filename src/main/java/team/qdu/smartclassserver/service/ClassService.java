@@ -29,20 +29,21 @@ public class ClassService  {
     //获取用户班课列表
     public String getJoinedClasses(Integer userId) {
         ApiResponse<List<Class>> apiResponse = new ApiResponse<>("0", "success");
-        apiResponse.objList = classMapper.selectJoinedClassesByUserId(userId);
+        apiResponse.setObjList(classMapper.selectJoinedClassesByUserId(userId));
         String jsonResponse = new Gson().toJson(apiResponse);
         return jsonResponse;
     }
 
     //进入班课判断用户是老师还是学生
-    public String judgeTitle(int classId, int userId) {
-        ApiResponse<Void> apiResponse;
+    public String jumpClass(int classId, int userId) {
+        ApiResponse<String> apiResponse;
         Class clickedClass = classMapper.selectByPrimaryKey(classId);
         if (userId == clickedClass.getUser_id()) {
             apiResponse = new ApiResponse<>("0", "teacher");
         } else {
             apiResponse = new ApiResponse<>("0", "student");
         }
+        apiResponse.setObj(clickedClass.getName());
         String jsonResponse = new Gson().toJson(apiResponse);
         return jsonResponse;
     }
@@ -82,7 +83,7 @@ public class ClassService  {
         if(cls!=null){
             //该课程存在
             apiResponse = new ApiResponse<>("0","课程存在");
-            apiResponse.obj = cls;
+            apiResponse.setObj(cls);
         }else{
             //该课程不存在
             apiResponse = new ApiResponse<>("2", "课程不存在");
@@ -152,7 +153,7 @@ public class ClassService  {
         classUserMapper.insert(classUser);
 
         apiResponse = new ApiResponse<>("0", "创建班课成功");
-        apiResponse.obj = createdclass.getClass_id().toString();
+        apiResponse.setObj(createdclass.getClass_id().toString());
         String jsonResponse = new Gson().toJson(apiResponse);
         return jsonResponse;
     }
