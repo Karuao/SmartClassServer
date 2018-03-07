@@ -31,11 +31,39 @@
       <result column="my_class_modify_date_time" jdbcType="TIMESTAMP" property="modify_date_time"/>
       <result column="my_class_teacher" jdbcType="VARCHAR" property="teacher"/>
     </association>
+    <association property="user" javaType="team.qdu.smartclassserver.domain.User">
+      <id column="user_user_id" jdbcType="INTEGER" property="user_id" />
+      <result column="user_account" jdbcType="VARCHAR" property="account" />
+      <result column="user_password" jdbcType="VARCHAR" property="password" />
+      <result column="user_avatar" jdbcType="VARCHAR" property="avatar" />
+      <result column="user_name" jdbcType="VARCHAR" property="name" />
+      <result column="user_sno" jdbcType="VARCHAR" property="sno" />
+      <result column="user_gender" jdbcType="VARCHAR" property="gender" />
+      <result column="user_status_message" jdbcType="VARCHAR" property="status_message" />
+      <result column="user_birthday" jdbcType="DATE" property="birthday" />
+      <result column="user_university" jdbcType="VARCHAR" property="university" />
+      <result column="user_department" jdbcType="VARCHAR" property="department" />
+      <result column="user_if_show_closed_classes" jdbcType="VARCHAR" property="if_show_closed_classes" />
+      <result column="user_security_question" jdbcType="VARCHAR" property="security_question" />
+      <result column="user_security_answer" jdbcType="VARCHAR" property="security_answer" />
+      <result column="user_create_date_time" jdbcType="TIMESTAMP" property="create_date_time" />
+      <result column="user_modify_date_time" jdbcType="TIMESTAMP" property="modify_date_time" />
+    </association>
   </resultMap>
   <sql id="Base_Column_List">
     class_user_id, class_id, user_id, title, if_in_class, if_new_material, if_new_homework, unread_information_num, exp,
     create_date_time, modify_date_time
   </sql>
+  <select id="selectJoinedClassesByUserId" parameterType="java.lang.Integer" resultMap="DetailResultMap">
+    select class_user_id, if_new_material, if_new_homework, unread_information_num, class.class_id as my_class_class_id,
+    class.name as my_class_name, class.avatar as my_class_avatar, class.course as my_class_course, user.name as user_name
+    from user, class, class_user
+    where user.user_id = class.user_id
+      and class.class_id = class_user.class_id
+      and class_user.user_id = #{user_id, jdbcType=INTEGER}
+      and class.if_allow_to_join = '是'
+    order by class_user_id desc
+  </select>
   <select id="selectMyClassByClassIdUserId" resultMap="DetailResultMap">
     select class_user_id, title, if_new_material, if_new_homework, unread_information_num, class.name as my_class_name
     from class_user, class

@@ -28,8 +28,8 @@ public class ClassService {
 
     //获取用户班课列表
     public String getJoinedClasses(Integer userId) {
-        ApiResponse<List<Class>> apiResponse = new ApiResponse<>("0", "success");
-        apiResponse.setObjList(classMapper.selectJoinedClassesByUserId(userId));
+        ApiResponse<List<ClassUser>> apiResponse = new ApiResponse<>("0", "success");
+        apiResponse.setObjList(classUserMapper.selectJoinedClassesByUserId(userId));
         String jsonResponse = new Gson().toJson(apiResponse);
         return jsonResponse;
     }
