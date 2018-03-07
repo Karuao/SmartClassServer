@@ -81,7 +81,7 @@ public class HomeworkService {
 
     public String getHomeworkList(int classId, int userId, String userTitle, String requestStatus) {
         ApiResponse apiResponse;
-        if ("teacher".equals(userTitle)) {
+        if ("老师".equals(userTitle)) {
              apiResponse= new ApiResponse<Homework>("0", "获取作业列表成功");
             if ("进行中".equals(requestStatus)) {
                 apiResponse.setObjList(homeworkMapper.selectTeacherHomeworkListByClassIdUnderway(classId));
