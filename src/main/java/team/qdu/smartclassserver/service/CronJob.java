@@ -54,7 +54,8 @@ public class CronJob {
 //        System.out.println(new Date() + " >>fixedRate执行...");
 //    }
 
-    @Scheduled(cron = "0 * * * * ?")
+    //每隔一小时执行一次
+    @Scheduled(cron = "0 0 * * * ?")
     public void cronJob() {
 //        PushUtil.testSendPushWithCustomConfig();
         currentDate = new Date();

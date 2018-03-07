@@ -1,5 +1,6 @@
 package team.qdu.smartclassserver.dao;
 
+import org.apache.ibatis.annotations.Param;
 import team.qdu.smartclassserver.domain.ClassUser;
 
 import java.util.List;
@@ -18,9 +19,13 @@ public interface ClassUserMapper {
 
     List<ClassUser> selectStudentsByClassId(int classId);
 
-    ClassUser selectByClassIdAndUserId(Integer class_id,Integer user_id);
+    ClassUser selectMyClassByClassIdUserId(@Param("class_id") int class_id, @Param("user_id") int user_id);
+
+    ClassUser selectByClassIdAndUserId(Integer class_id, Integer user_id);
 
     int updateByPrimaryKeySelective(ClassUser record);
+
+    int updateByClassIdSelective(ClassUser record);
 
     int updateByPrimaryKey(ClassUser record);
 

@@ -43,6 +43,10 @@ public class HomeworkService {
         homeworkWithBLOBs.setCreate_date_time(date);
         homeworkWithBLOBs.setModify_date_time(date);
         if (homeworkMapper.insert(homeworkWithBLOBs) == 1) {
+            ClassUser classUser = new ClassUser();
+            classUser.setClass_id(classId);
+            classUser.setIf_new_homework("是");
+            classUserMapper.updateByClassIdSelective(classUser);
             apiResponse = new ApiResponse<>("0", "发布作业成功");
         } else {
             apiResponse = new ApiResponse<>("1", "发布作业失败");

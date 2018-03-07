@@ -206,4 +206,16 @@ public class ClassController {
         out.print(responseJson);
         out.close();
     }
+
+    //查看有新推送的页面后进行操作
+    @RequestMapping(value = "/readNew")
+    public void readNew(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/plain; charset=utf-8");
+        int classUserId = Integer.parseInt(request.getParameter("classUserId"));
+        String whichPage = request.getParameter("whichPage");
+        PrintWriter out = response.getWriter();
+        String responseJson = classService.readNew(classUserId, whichPage);
+        out.print(responseJson);
+        out.close();
+    }
 }

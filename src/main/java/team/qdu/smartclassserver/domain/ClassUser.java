@@ -26,6 +26,8 @@ public class ClassUser implements Serializable {
 
     private Date modify_date_time;
 
+    private Class my_class;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getClass_user_id() {
@@ -114,5 +116,13 @@ public class ClassUser implements Serializable {
 
     public void setModify_date_time(Date modify_date_time) {
         this.modify_date_time = modify_date_time;
+    }
+
+    public Class getMy_class() {
+        return my_class;
+    }
+
+    public void setMy_class(Class my_class) {
+        this.my_class = my_class;
     }
 }

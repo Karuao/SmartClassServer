@@ -14,10 +14,35 @@
     <result column="create_date_time" jdbcType="TIMESTAMP" property="create_date_time" />
     <result column="modify_date_time" jdbcType="TIMESTAMP" property="modify_date_time" />
   </resultMap>
+  <resultMap extends="BaseResultMap" id="DetailResultMap" type="team.qdu.smartclassserver.domain.ClassUser">
+    <association property="my_class" javaType="team.qdu.smartclassserver.domain.Class">
+      <id column="my_class_class_id" jdbcType="INTEGER" property="class_id"/>
+      <result column="my_class_name" jdbcType="VARCHAR" property="name"/>
+      <result column="my_class_avatar" jdbcType="VARCHAR" property="avatar"/>
+      <result column="my_class_course" jdbcType="VARCHAR" property="course"/>
+      <result column="my_class_university" jdbcType="VARCHAR" property="university"/>
+      <result column="my_class_department" jdbcType="VARCHAR" property="department"/>
+      <result column="my_class_detail" jdbcType="VARCHAR" property="detail"/>
+      <result column="my_class_exam_shedule" jdbcType="VARCHAR" property="exam_shedule"/>
+      <result column="my_class_population" jdbcType="SMALLINT" property="population"/>
+      <result column="my_class_if_allow_to_join" jdbcType="VARCHAR" property="if_allow_to_join"/>
+      <result column="my_class_user_id" jdbcType="INTEGER" property="user_id"/>
+      <result column="my_class_create_date_time" jdbcType="TIMESTAMP" property="create_date_time"/>
+      <result column="my_class_modify_date_time" jdbcType="TIMESTAMP" property="modify_date_time"/>
+      <result column="my_class_teacher" jdbcType="VARCHAR" property="teacher"/>
+    </association>
+  </resultMap>
   <sql id="Base_Column_List">
     class_user_id, class_id, user_id, title, if_in_class, if_new_material, if_new_homework, unread_information_num, exp,
     create_date_time, modify_date_time
   </sql>
+  <select id="selectMyClassByClassIdUserId" resultMap="DetailResultMap">
+    select class_user_id, title, if_new_material, if_new_homework, unread_information_num, class.name as my_class_name
+    from class_user, class
+    where class_user.class_id = class.class_id
+      and class_user.class_id = #{class_id,jdbcType=INTEGER}
+      and class_user.user_id = #{user_id,jdbcType=INTEGER}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -182,6 +207,39 @@
       </if>
     </set>
     where class_user_id = #{class_user_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByClassIdSelective" parameterType="team.qdu.smartclassserver.domain.ClassUser">
+    update class_user
+    <set>
+      <if test="user_id != null">
+        user_id = #{user_id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="if_in_class != null">
+        if_in_class = #{if_in_class,jdbcType=VARCHAR},
+      </if>
+      <if test="if_new_material != null">
+        if_new_material = #{if_new_material,jdbcType=VARCHAR},
+      </if>
+      <if test="if_new_homework != null">
+        if_new_homework = #{if_new_homework,jdbcType=VARCHAR},
+      </if>
+      <if test="unread_information_num != null">
+        unread_information_num = #{unread_information_num,jdbcType=INTEGER},
+      </if>
+      <if test="exp != null">
+        exp = #{exp,jdbcType=INTEGER},
+      </if>
+      <if test="create_date_time != null">
+        create_date_time = #{create_date_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modify_date_time != null">
+        modify_date_time = #{modify_date_time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where class_id = #{class_id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="team.qdu.smartclassserver.domain.ClassUser">
     update class_user
