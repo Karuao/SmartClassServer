@@ -46,7 +46,7 @@
         select
         user_id
         from class_user
-        where class_id = #{classId,jdbcType=INTEGER}
+        where class_id = #{classId,jdbcType=INTEGER} AND title='学生'
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from class
@@ -197,7 +197,7 @@
     <update id="updateByClassId" parameterType="java.lang.Integer">
     UPDATE class_user
     SET  unread_information_num=unread_information_num+1
-    WHERE class_id=#{class_id,jdbcType=INTEGER}
+    WHERE class_id=#{class_id,jdbcType=INTEGER} AND title='学生'
 </update>
     <update id="updateByPrimaryKey" parameterType="team.qdu.smartclassserver.domain.Class">
     update class

@@ -27,7 +27,7 @@
     SELECT  *
     FROM
     inform
-    WHERE class_id=#{class_id,jdbcType=INTEGER}
+    WHERE class_id=#{class_id,jdbcType=INTEGER} ORDER  BY inform_id DESC
   </select>
   <select id="selectInformByClassIdUserId" parameterType="team.qdu.smartclassserver.domain.Inform_User">
     SELECT *

@@ -25,7 +25,7 @@
     SELECT *
     FROM
     inform_user
-    WHERE class_id=#{class_id,jdbcType=INTEGER} AND user_id=#{user_id,jdbcType=INTEGER}
+    WHERE class_id=#{class_id,jdbcType=INTEGER} AND user_id=#{user_id,jdbcType=INTEGER} ORDER BY inform_user_id DESC
   </select>
   <select id="selectInformByInformId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     SELECT *
