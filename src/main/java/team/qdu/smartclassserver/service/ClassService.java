@@ -142,6 +142,9 @@ public class ClassService {
         classUser.setUser_id(userId);
         classUser.setTitle("老师");
         classUser.setIf_in_class("是");
+        classUser.setIf_new_material("否");
+        classUser.setIf_new_homework("否");
+        classUser.setIf_new_class_thing("否");
         classUser.setUnread_information_num(0);
         classUser.setExp(0);
         classUser.setCreate_date_time(date);
@@ -219,6 +222,7 @@ public class ClassService {
         classUser.setIf_in_class("是");
         classUser.setIf_new_material("否");
         classUser.setIf_new_homework("否");
+        classUser.setIf_new_class_thing("否");
         classUser.setUnread_information_num(0);
         classUser.setExp(0);
         classUser.setCreate_date_time(date);
@@ -255,8 +259,10 @@ public class ClassService {
         classUser.setClass_user_id(classUserId);
         if ("material".equals(whichPage)) {
             classUser.setIf_new_material("否");
-        } else {
+        } else if ("homework".equals(whichPage)){
             classUser.setIf_new_homework("否");
+        } else {
+            classUser.setIf_new_class_thing("否");
         }
         classUserMapper.updateByPrimaryKeySelective(classUser);
         return null;

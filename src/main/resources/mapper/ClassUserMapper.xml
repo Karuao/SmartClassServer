@@ -9,6 +9,7 @@
     <result column="if_in_class" jdbcType="VARCHAR" property="if_in_class" />
     <result column="if_new_material" jdbcType="VARCHAR" property="if_new_material" />
     <result column="if_new_homework" jdbcType="VARCHAR" property="if_new_homework" />
+    <result column="if_new_class_thing" jdbcType="VARCHAR" property="if_new_class_thing" />
     <result column="unread_information_num" jdbcType="INTEGER" property="unread_information_num" />
     <result column="exp" jdbcType="INTEGER" property="exp" />
     <result column="create_date_time" jdbcType="TIMESTAMP" property="create_date_time" />
@@ -51,11 +52,11 @@
     </association>
   </resultMap>
   <sql id="Base_Column_List">
-    class_user_id, class_id, user_id, title, if_in_class, if_new_material, if_new_homework, unread_information_num, exp,
+    class_user_id, class_id, user_id, title, if_in_class, if_new_material, if_new_homework, if_new_class_thing, unread_information_num, exp,
     create_date_time, modify_date_time
   </sql>
   <select id="selectJoinedClassesByUserId" parameterType="java.lang.Integer" resultMap="DetailResultMap">
-    select class_user_id, if_new_material, if_new_homework, unread_information_num, class.class_id as my_class_class_id,
+    select class_user_id, title, if_new_material, if_new_homework, if_new_class_thing, unread_information_num, class.class_id as my_class_class_id,
     class.name as my_class_name, class.avatar as my_class_avatar, class.course as my_class_course, user.name as user_name
     from user, class, class_user
     where user.user_id = class.user_id
@@ -105,11 +106,12 @@
   </delete>
   <insert id="insert" parameterType="team.qdu.smartclassserver.domain.ClassUser">
     insert into class_user (class_user_id, class_id, user_id, 
-      title, if_in_class, if_new_material, if_new_homework, unread_information_num,
+      title, if_in_class, if_new_material, if_new_homework, if_new_class_thing, unread_information_num,
       exp, create_date_time, modify_date_time
       )
     values (#{class_user_id,jdbcType=INTEGER}, #{class_id,jdbcType=INTEGER}, #{user_id,jdbcType=INTEGER}, 
-      #{title,jdbcType=VARCHAR}, #{if_in_class,jdbcType=VARCHAR}, #{if_new_material,jdbcType=VARCHAR}, #{if_new_homework,jdbcType=VARCHAR}, #{unread_information_num,jdbcType=INTEGER},
+      #{title,jdbcType=VARCHAR}, #{if_in_class,jdbcType=VARCHAR}, #{if_new_material,jdbcType=VARCHAR},
+      #{if_new_homework,jdbcType=VARCHAR}, #{if_new_class_thing,jdbcType=VARCHAR}, #{unread_information_num,jdbcType=INTEGER},
       #{exp,jdbcType=INTEGER}, #{create_date_time,jdbcType=TIMESTAMP}, #{modify_date_time,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -136,6 +138,9 @@
       </if>
       <if test="if_new_homework != null">
         if_new_homework,
+      </if>
+      <if test="if_new_class_thing != null">
+        if_new_class_thing,
       </if>
       <if test="unread_information_num != null">
         unread_information_num,
@@ -171,6 +176,9 @@
       </if>
       <if test="if_new_homework != null">
         #{if_new_homework,jdbcType=VARCHAR},
+      </if>
+      <if test="if_new_class_thing != null">
+        #{if_new_class_thing,jdbcType=VARCHAR},
       </if>
       <if test="unread_information_num != null">
         #{unread_information_num,jdbcType=INTEGER},
@@ -221,6 +229,9 @@
       <if test="if_new_homework != null">
         if_new_homework = #{if_new_homework,jdbcType=VARCHAR},
       </if>
+      <if test="if_new_class_thing != null">
+        if_new_class_thing = #{if_new_class_thing,jdbcType=VARCHAR},
+      </if>
       <if test="unread_information_num != null">
         unread_information_num = #{unread_information_num,jdbcType=INTEGER},
       </if>
@@ -254,6 +265,9 @@
       <if test="if_new_homework != null">
         if_new_homework = #{if_new_homework,jdbcType=VARCHAR},
       </if>
+      <if test="if_new_class_thing != null">
+        if_new_class_thing = #{if_new_class_thing,jdbcType=VARCHAR},
+      </if>
       <if test="unread_information_num != null">
         unread_information_num = #{unread_information_num,jdbcType=INTEGER},
       </if>
@@ -277,6 +291,7 @@
       if_in_class = #{if_in_class,jdbcType=VARCHAR},
       if_new_material = #{if_new_material,jdbcType=VARCHAR},
       if_new_homework = #{if_new_homework,jdbcType=VARCHAR},
+      if_new_class_thing = #{if_new_class_thing,jdbcType=VARCHAR},
       unread_information_num = #{unread_information_num,jdbcType=INTEGER},
       exp = #{exp,jdbcType=INTEGER},
       create_date_time = #{create_date_time,jdbcType=TIMESTAMP},
