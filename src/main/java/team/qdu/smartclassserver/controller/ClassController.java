@@ -37,6 +37,7 @@ public class ClassController {
         out.close();
     }
 
+
     //进入班课判断用户是老师还是学生
     @RequestMapping(value = "/jumpClass")
     public void jumpClass(HttpServletRequest request, HttpServletResponse response) throws IOException {

@@ -20,6 +20,9 @@ public interface ClassUserMapper {
 
     List<ClassUser> selectStudentsByClassId(int classId);
 
+    List<ClassUser> selectClassMembersByClassId(Integer class_id);
+
+
     ClassUser selectMyClassByClassIdUserId(@Param("class_id") int class_id, @Param("user_id") int user_id);
 
     ClassUser selectByClassIdAndUserId(Integer class_id, Integer user_id);

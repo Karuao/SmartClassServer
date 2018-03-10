@@ -1,6 +1,7 @@
 package team.qdu.smartclassserver.dao;
 
 import team.qdu.smartclassserver.domain.Class;
+import team.qdu.smartclassserver.domain.ClassUser;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public interface ClassMapper {
 
 //    List<Class> selectJoinedClassesByUserId(Integer user_id);
 
-    List<Integer> selectUserIdByClassId(Integer classId);
+    List<Integer> selectUserIdByClassId(Integer class_id);
 
     int updateByClassId(Integer classId);
 

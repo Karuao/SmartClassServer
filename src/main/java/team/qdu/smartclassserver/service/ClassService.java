@@ -34,7 +34,8 @@ public class ClassService {
         return jsonResponse;
     }
 
-    //进入班课获取该班课信息
+
+    //进入班课判断用户是老师还是学生
     public String jumpClass(int classId, int userId) {
         ApiResponse<ClassUser> apiResponse;
         ClassUser clickedClass = classUserMapper.selectMyClassByClassIdUserId(classId, userId);

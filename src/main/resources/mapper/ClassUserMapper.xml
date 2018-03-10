@@ -93,12 +93,21 @@
       and title = '学生'
       and if_in_class = '是'
   </select>
+  <select id="selectClassMembersByClassId" parameterType="java.lang.Integer" resultMap="DetailResultMap">
+    select user.name as user_name,user.avatar as user_avatar,user.sno as user_sno,class_user.exp
+    from class_user,user
+    where class_user.class_id = #{class_id, jdbcType=INTEGER}
+    and class_user.user_id = user.user_id
+    and class_user.if_in_class = '是'
+    and class_user.title = '学生'
+    order by class_user.exp desc
+  </select>
   <select id="selectByClassIdAndUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from class_user
-    where class_user.class_id = #{arg1, jdbcType=INTEGER}
-    and class_user.user_id = #{arg0, jdbcType=INTEGER}
+    where class_user.class_id = #{arg0, jdbcType=INTEGER}
+    and class_user.user_id = #{arg1, jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from class_user
