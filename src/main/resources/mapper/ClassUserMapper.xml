@@ -204,6 +204,12 @@
       </if>
     </trim>
   </insert>
+  <update id="updateIfInClassByClassIdUserId">
+    update class_user
+    set if_in_class = '是'
+    where class_id = #{class_id,jdbcType=INTEGER}
+    and user_id = #{user_id,jdbcType=INTEGER}
+  </update>
   <update id="addExpByClassIdUserId" parameterType="java.util.Map">
     update class_user
     set exp = exp + #{exp,jdbcType=INTEGER}

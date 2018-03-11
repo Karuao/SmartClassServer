@@ -214,27 +214,28 @@ public class ClassService {
 
     public String confirmjoinClass(int classId, int userId) {
         ApiResponse apiResponse;
-        //生成要插入到ClassUser表的记录
-        ClassUser classUser = new ClassUser();
-        Date date = new Date();
-        classUser.setClass_id(classId);
-        classUser.setUser_id(userId);
-        classUser.setTitle("学生");
-        classUser.setIf_in_class("是");
-        classUser.setIf_new_material("否");
-        classUser.setIf_new_homework("否");
-        classUser.setIf_new_class_thing("否");
-        classUser.setUnread_information_num(0);
-        classUser.setExp(0);
-        classUser.setCreate_date_time(date);
-        classUser.setModify_date_time(date);
-        int result = classUserMapper.insert(classUser);
 
-        if (result == 1) {
-            apiResponse = new ApiResponse("0", "加入班课成功");
+
+        if (classUserMapper.updateIfInClassByClassIdUserId(classId, userId) == 1) {
+            //处理该学生以前在班课，退出了，重新加入的情况
         } else {
-            apiResponse = new ApiResponse("1", "加入班课失败，请稍后再试");
+            //生成要插入到ClassUser表的记录
+            ClassUser classUser = new ClassUser();
+            Date date = new Date();
+            classUser.setClass_id(classId);
+            classUser.setUser_id(userId);
+            classUser.setTitle("学生");
+            classUser.setIf_in_class("是");
+            classUser.setIf_new_material("否");
+            classUser.setIf_new_homework("否");
+            classUser.setIf_new_class_thing("否");
+            classUser.setUnread_information_num(0);
+            classUser.setExp(0);
+            classUser.setCreate_date_time(date);
+            classUser.setModify_date_time(date);
+            classUserMapper.insert(classUser);
         }
+        apiResponse = new ApiResponse("0", "加入班课成功");
         String jsonResponse = new Gson().toJson(apiResponse);
         return jsonResponse;
     }
