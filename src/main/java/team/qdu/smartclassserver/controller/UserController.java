@@ -94,23 +94,27 @@ public class UserController {
         PrintWriter out = response.getWriter();
         String responseJson = null;
         //文件处理
-        MultipartFile file = null;
-        String filename = null;
-        BufferedOutputStream stream = null;
-        file = files.get(0);
-        try {
-            byte[] bytes = file.getBytes();
-            filename = IdGenerator.generateGUID() + "." + FilenameUtil.getExtensionName(file.getOriginalFilename());
-            URL classpath = this.getClass().getResource("/");
-            stream = new BufferedOutputStream(new FileOutputStream(
-                    new File(classpath.getPath() + "resources/user/avatar/" + filename)));
-            stream.write(bytes);
-            stream.close();
-            responseJson=userService.updateUserInformation("user/avatar/" + filename,account,name,gender,sno,university,department,motto);
-        } catch (Exception e) {
-            e.printStackTrace();
-            stream = null;
-            responseJson = new Gson().toJson(new ApiResponse<String>("1", "上传个人信息失败"));
+        if(!files.isEmpty()) {
+            MultipartFile file = null;
+            String filename = null;
+            BufferedOutputStream stream = null;
+            file = files.get(0);
+            try {
+                byte[] bytes = file.getBytes();
+                filename = IdGenerator.generateGUID() + "." + FilenameUtil.getExtensionName(file.getOriginalFilename());
+                URL classpath = this.getClass().getResource("/");
+                stream = new BufferedOutputStream(new FileOutputStream(
+                        new File(classpath.getPath() + "resources/user/avatar/" + filename)));
+                stream.write(bytes);
+                stream.close();
+                responseJson = userService.updateUserInformation("user/avatar/" + filename, account, name, gender, sno, university, department, motto);
+            } catch (Exception e) {
+                e.printStackTrace();
+                stream = null;
+                responseJson = new Gson().toJson(new ApiResponse<String>("1", "上传个人信息失败"));
+            }
+        }else {
+            responseJson = userService.updateUserInformation(null, account, name, gender, sno, university, department, motto);
         }
         out.print(responseJson);
         out.close();

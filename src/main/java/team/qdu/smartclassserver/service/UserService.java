@@ -130,7 +130,7 @@ public class UserService {
         user.setStatus_message(motto);
         Date now=new Date();
         user.setModify_date_time(now);
-        int result=userMapper.updateByPrimaryKey(user);
+        int result=userMapper.updateByPrimaryKeySelective(user);
         if(result==1){
             apiResponse = new ApiResponse("0", "修改个人信息成功");
         }else{
