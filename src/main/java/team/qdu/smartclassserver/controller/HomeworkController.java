@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import team.qdu.smartclassserver.config.MyWebMvcConfigurer;
 import team.qdu.smartclassserver.domain.ApiResponse;
 import team.qdu.smartclassserver.service.HomeworkService;
 import team.qdu.smartclassserver.util.FilenameUtil;
@@ -23,15 +24,13 @@ import java.util.List;
 @Controller
 public class HomeworkController {
 
-    private static final String CONTENTTYPE= "text/plain; charset=utf-8";
-
     @Autowired
     HomeworkService homeworkService;
 
     //发布作业
     @RequestMapping("/publishHomework")
     public void publishHomework(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType(CONTENTTYPE);
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
         MultipartHttpServletRequest params = ((MultipartHttpServletRequest) request);
         List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("uploadfile");
         String title = params.getParameter("title");
@@ -45,8 +44,9 @@ public class HomeworkController {
         int classId = Integer.parseInt(params.getParameter("classId"));
         PrintWriter out = response.getWriter();
         String responseJson = null;
-        //文件处理
+
         if (!files.isEmpty()) {
+            //文件处理
             MultipartFile file = null;
             String filename = null;
             BufferedOutputStream stream = null;
@@ -54,9 +54,8 @@ public class HomeworkController {
             try {
                 byte[] bytes = file.getBytes();
                 filename = IdGenerator.generateGUID() + "." + FilenameUtil.getExtensionName(file.getOriginalFilename());
-                URL classpath = this.getClass().getResource("/");
                 stream = new BufferedOutputStream(new FileOutputStream(
-                        new File(classpath.getPath() + "resources/homework/url/" + filename)));
+                        new File(MyWebMvcConfigurer.UPLOAD_PATH + "resources/homework/url/" + filename)));
                 stream.write(bytes);
                 stream.close();
                 responseJson = homeworkService.publishHomework(title, detail, deadline, "homework/url/" + filename, classId);
@@ -74,7 +73,7 @@ public class HomeworkController {
     //获取作业列表
     @RequestMapping("/getHomeworkList")
     public void getHomeworkList(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType(CONTENTTYPE);
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
         int classId = Integer.parseInt(request.getParameter("classId"));
         int userId = Integer.parseInt(request.getParameter("userId"));
         String userTitle = request.getParameter("userTitle");
@@ -88,7 +87,7 @@ public class HomeworkController {
     //更改作业状态
     @RequestMapping("/changeHomeworkStatus")
     public void changeHomeworkStatus(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType(CONTENTTYPE);
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
         int homeworkId = Integer.parseInt(request.getParameter("homeworkId"));
         String homeworkStatus = request.getParameter("homeworkStatus");
         PrintWriter out = response.getWriter();
@@ -100,7 +99,7 @@ public class HomeworkController {
     //学生获取作业详情
     @RequestMapping("/getStuHomeworkDetail")
     public void getStuHomeworkDetail(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType(CONTENTTYPE);
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
         int homeworkAnswerId = Integer.parseInt(request.getParameter("homeworkAnswerId"));
         PrintWriter out = response.getWriter();
         String responseJson = homeworkService.getStuHomeworkDetail(homeworkAnswerId);
@@ -109,11 +108,10 @@ public class HomeworkController {
     }
 
 
-
     //学生提交作业
     @RequestMapping("/commitHomework")
     public void commitHomework(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType(CONTENTTYPE);
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
         MultipartHttpServletRequest params = ((MultipartHttpServletRequest) request);
         List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("uploadfile");
         int homeworkAnswerId = Integer.parseInt(params.getParameter("homeworkAnswerId"));
@@ -133,9 +131,8 @@ public class HomeworkController {
             try {
                 byte[] bytes = file.getBytes();
                 filename = IdGenerator.generateGUID() + "." + FilenameUtil.getExtensionName(file.getOriginalFilename());
-                URL classpath = this.getClass().getResource("/");
                 stream = new BufferedOutputStream(new FileOutputStream(
-                        new File(classpath.getPath() + "resources/homework_answer/url/" + filename)));
+                        new File(MyWebMvcConfigurer.UPLOAD_PATH + "resources/homework_answer/url/" + filename)));
                 stream.write(bytes);
                 stream.close();
                 responseJson = homeworkService.commitHomework(homeworkAnswerId, homeworkId, classId, userId, ifSubmit,
@@ -154,8 +151,8 @@ public class HomeworkController {
 
     //获取作业内容和照片
     @RequestMapping("/getHomeworkDetail")
-    public void getHomeworkDetail (HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType(CONTENTTYPE);
+    public void getHomeworkDetail(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
         int homeworkId = Integer.parseInt(request.getParameter("homeworkId"));
         PrintWriter out = response.getWriter();
         String responseJson = homeworkService.getHomeworkDetail(homeworkId);
@@ -166,7 +163,7 @@ public class HomeworkController {
     //获取某作业学生提交情况List
     @RequestMapping("/getHomeworkAnswerList")
     public void getHomeworkAnswerList(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType(CONTENTTYPE);
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
         int homeworkId = Integer.parseInt(request.getParameter("homeworkId"));
         PrintWriter out = response.getWriter();
         String responseJson = homeworkService.getHomeworkAnswerList(homeworkId);
@@ -177,7 +174,7 @@ public class HomeworkController {
     //提交作业评价
     @RequestMapping("/commitHomeworkEvaluation")
     public void commitHomeworkEvaluation(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType(CONTENTTYPE);
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
         MultipartHttpServletRequest params = ((MultipartHttpServletRequest) request);
         List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("uploadfile");
         int homeworkAnswerId = Integer.parseInt(params.getParameter("homeworkAnswerId"));
@@ -194,9 +191,8 @@ public class HomeworkController {
             try {
                 byte[] bytes = file.getBytes();
                 filename = IdGenerator.generateGUID() + "." + FilenameUtil.getExtensionName(file.getOriginalFilename());
-                URL classpath = this.getClass().getResource("/");
                 stream = new BufferedOutputStream(new FileOutputStream(
-                        new File(classpath.getPath() + "resources/homework_answer/remark_url/" + filename)));
+                        new File(MyWebMvcConfigurer.UPLOAD_PATH + "resources/homework_answer/remark_url/" + filename)));
                 stream.write(bytes);
                 stream.close();
                 responseJson = homeworkService.commitHomeworkEvaluation(homeworkAnswerId, exp, remark, "homework_answer/remark_url/" + filename);
@@ -215,11 +211,51 @@ public class HomeworkController {
     //获取某作业学生提交情况List
     @RequestMapping("/getNotEvaluateStuNum")
     public void getNotEvaluateStuNum(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType(CONTENTTYPE);
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
         int homeworkId = Integer.parseInt(request.getParameter("homeworkId"));
         PrintWriter out = response.getWriter();
         String responseJson = homeworkService.getNotEvaluateStuNum(homeworkId);
         out.print(responseJson);
         out.close();
+    }
+
+    @RequestMapping("/read")
+    public void read(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
+        String uploadPath = System.getProperty("user.dir");
+        int firstIndex = uploadPath.lastIndexOf(File.separator) + 1;
+        if ("smartclassserver".equals(uploadPath.substring(firstIndex, uploadPath.length()))) {
+            uploadPath = uploadPath.substring(0, firstIndex - 1);
+        }
+        response.getWriter().println(uploadPath);
+//        String path = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+//        response.getWriter().println(path);
+//        response.getWriter().println(getClass().getResource("/"));
+//        response.getWriter().println(getClass().getResource(""));
+//        response.getWriter().println(getClass().getClassLoader().getResource("/"));
+//        response.getWriter().println(getClass().getClassLoader().getResource(""));
+//        response.getWriter().println(System.getProperty("user.dir"));
+//        String encoding = "UTF-8";
+//        int firstIndex = path.lastIndexOf(System.getProperty("path.separator")) + 1;
+//        int lastIndex = path.lastIndexOf(File.separator) + 1;
+//        path = path.substring(firstIndex, lastIndex);
+//        File file = new File(System.getProperty("user.dir") + "/bug.txt");
+//        Long filelength = file.length();
+//        byte[] filecontent = new byte[filelength.intValue()];
+//        try {
+//            FileInputStream in = new FileInputStream(file);
+//            in.read(filecontent);
+//            in.close();
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            response.getWriter().print(new String(filecontent, encoding));
+//        } catch (UnsupportedEncodingException e) {
+//            System.err.println("The OS does not support " + encoding);
+//            e.printStackTrace();
+//        }
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import team.qdu.smartclassserver.config.MyWebMvcConfigurer;
 import team.qdu.smartclassserver.domain.ApiResponse;
 import team.qdu.smartclassserver.service.UserService;
 import team.qdu.smartclassserver.util.FilenameUtil;
@@ -25,7 +26,7 @@ public class UserController {
 
     @RequestMapping(value = "/login")
     public void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("text/plain; charset=utf-8");
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
         String account = request.getParameter("account");
         String password = request.getParameter("password");
 
@@ -34,22 +35,23 @@ public class UserController {
         out.print(responseJson);
         out.close();
     }
-    @RequestMapping(value="/register")
-    public void register(HttpServletRequest request, HttpServletResponse response) throws IOException{
-        response.setContentType("text/plain; charset=utf-8");
-        String account=request.getParameter("account");
-        String password=request.getParameter("password");
-        String answer=request.getParameter("answer");
-        String question=request.getParameter("question");
+
+    @RequestMapping(value = "/register")
+    public void register(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
+        String account = request.getParameter("account");
+        String password = request.getParameter("password");
+        String answer = request.getParameter("answer");
+        String question = request.getParameter("question");
         PrintWriter out = response.getWriter();
-        String responseJson=userService.register(account,password,question,answer);
+        String responseJson = userService.register(account, password, question, answer);
         out.print(responseJson);
         out.close();
     }
 
     @RequestMapping(value = "/findPassOne")
     public void checkAccount(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("text/plain; charset=utf-8");
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
         String account = request.getParameter("account");
 
         PrintWriter out = response.getWriter();
@@ -60,8 +62,8 @@ public class UserController {
 
     @RequestMapping(value = "/searchById")
     public void getUserInforById(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("text/plain; charset=utf-8");
-        int userId=Integer.parseInt(request.getParameter("userId"));
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
+        int userId = Integer.parseInt(request.getParameter("userId"));
         PrintWriter out = response.getWriter();
         String responseJson = userService.getUserInforById(userId);
         out.print(responseJson);
@@ -70,18 +72,18 @@ public class UserController {
 
     @RequestMapping(value = "/updatePass")
     public void updatePassword(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("text/plain; charset=utf-8");
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
         String account = request.getParameter("account");
         String newPass = request.getParameter("newPass");
         PrintWriter out = response.getWriter();
-        String responseJson=userService.updatePassword(account,newPass);
+        String responseJson = userService.updatePassword(account, newPass);
         out.print(responseJson);
         out.close();
     }
 
     @RequestMapping(value = "/updateUserInformation")
     public void updateUserInformation(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("text/plain; charset=utf-8");
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
         MultipartHttpServletRequest params = ((MultipartHttpServletRequest) request);
         List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("uploadfile");
         String account = params.getParameter("account");
@@ -94,7 +96,7 @@ public class UserController {
         PrintWriter out = response.getWriter();
         String responseJson = null;
         //文件处理
-        if(!files.isEmpty()) {
+        if (!files.isEmpty()) {
             MultipartFile file = null;
             String filename = null;
             BufferedOutputStream stream = null;
@@ -102,9 +104,8 @@ public class UserController {
             try {
                 byte[] bytes = file.getBytes();
                 filename = IdGenerator.generateGUID() + "." + FilenameUtil.getExtensionName(file.getOriginalFilename());
-                URL classpath = this.getClass().getResource("/");
                 stream = new BufferedOutputStream(new FileOutputStream(
-                        new File(classpath.getPath() + "resources/user/avatar/" + filename)));
+                        new File(MyWebMvcConfigurer.UPLOAD_PATH + "resources/user/avatar/" + filename)));
                 stream.write(bytes);
                 stream.close();
                 responseJson = userService.updateUserInformation("user/avatar/" + filename, account, name, gender, sno, university, department, motto);
@@ -113,7 +114,7 @@ public class UserController {
                 stream = null;
                 responseJson = new Gson().toJson(new ApiResponse<String>("1", "上传个人信息失败"));
             }
-        }else {
+        } else {
             responseJson = userService.updateUserInformation(null, account, name, gender, sno, university, department, motto);
         }
         out.print(responseJson);

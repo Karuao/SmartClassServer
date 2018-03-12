@@ -3,6 +3,7 @@ package team.qdu.smartclassserver.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import team.qdu.smartclassserver.config.MyWebMvcConfigurer;
 import team.qdu.smartclassserver.service.InformService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +19,7 @@ public class InformController {
 
     @RequestMapping(value = "/getInform")
     public void getInform(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("text/plain; charset=utf-8");
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
         int classId = Integer.parseInt(request.getParameter("classId"));
         PrintWriter out = response.getWriter();
         String responseJson = informService.getInform(classId);
@@ -27,7 +28,7 @@ public class InformController {
     }
     @RequestMapping(value = "/getReadPeople")
     public void getReadPeople(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("text/plain; charset=utf-8");
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
         int informId = Integer.parseInt(request.getParameter("informId"));
         PrintWriter out = response.getWriter();
         String responseJson = informService.getReadPeople(informId);
@@ -36,7 +37,7 @@ public class InformController {
     }
     @RequestMapping(value = "/getUnReadPeople")
     public void getUnReadPeople(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("text/plain; charset=utf-8");
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
         int informId = Integer.parseInt(request.getParameter("informId"));
         PrintWriter out = response.getWriter();
         String responseJson = informService.getUnReadPeople(informId);
@@ -46,7 +47,7 @@ public class InformController {
 
     @RequestMapping(value = "/getUnReadNum")
     public void getUnReadNum(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("text/plain; charset=utf-8");
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
         int informId = Integer.parseInt(request.getParameter("informId"));
         PrintWriter out = response.getWriter();
         String responseJson = informService.getUnReadNum(informId);
@@ -58,7 +59,7 @@ public class InformController {
 
     @RequestMapping(value = "/getUserInform")
     public void getUserInform(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("text/plain; charset=utf-8");
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
         int classId = Integer.parseInt(request.getParameter("classId"));
         int userId=Integer.parseInt(request.getParameter("userId"));
         PrintWriter out = response.getWriter();
@@ -69,7 +70,7 @@ public class InformController {
     }
     @RequestMapping(value = "/createInform")
     public void createInform(HttpServletRequest request, HttpServletResponse response) throws IOException{
-        response.setContentType("text/plain; charset=utf-8");
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
         int classId = Integer.parseInt(request.getParameter("classId"));
         String detail=request.getParameter("detail");
         PrintWriter out = response.getWriter();
@@ -79,7 +80,7 @@ public class InformController {
     }
     @RequestMapping(value = "/deleteInform")
     public void deleteInform(HttpServletRequest request, HttpServletResponse response) throws IOException{
-        response.setContentType("text/plain; charset=utf-8");
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
         int informId= Integer.parseInt(request.getParameter("informId"));
         PrintWriter out = response.getWriter();
         String responseJson = informService.deleteInform(informId);
@@ -89,7 +90,7 @@ public class InformController {
 
     @RequestMapping(value = "/ClickInform")
     public void clickInform(HttpServletRequest request, HttpServletResponse response) throws IOException{
-        response.setContentType("text/plain; charset=utf-8");
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
         int informuserId = Integer.parseInt(request.getParameter("informuserId"));
         PrintWriter out = response.getWriter();
         String responseJson = informService.ClickInform(informuserId);
