@@ -6,6 +6,7 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="group" jdbcType="VARCHAR" property="group" />
     <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="url_file_num" jdbcType="INTEGER" property="class_id" />
     <result column="submit_num" jdbcType="INTEGER" property="submit_num" />
     <result column="if_repository" jdbcType="VARCHAR" property="if_repository" />
     <result column="homework_status" jdbcType="VARCHAR" property="homework_status" />
@@ -19,7 +20,7 @@
     <result column="detail" jdbcType="LONGVARCHAR" property="detail" />
   </resultMap>
   <sql id="Base_Column_List">
-    homework_id, name, `group`, url, submit_num, if_repository, homework_status, deadline, exp, class_id,
+    homework_id, name, `group`, url, url_file_num, submit_num, if_repository, homework_status, deadline, exp, class_id,
     create_date_time, modify_date_time
   </sql>
   <sql id="Blob_Column_List">
@@ -70,12 +71,12 @@
   <insert id="insert" parameterType="team.qdu.smartclassserver.domain.Homework" useGeneratedKeys="true"
             keyProperty="homework_id">
     insert into homework (homework_id, name, `group`,
-      url, submit_num, if_repository, homework_status,
+      url, url_file_num, submit_num, if_repository, homework_status,
       deadline, exp, class_id, 
       create_date_time, modify_date_time, 
       detail)
     values (#{homework_id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{group,jdbcType=VARCHAR},
-      #{url,jdbcType=VARCHAR}, #{submit_num,jdbcType=INTEGER}, #{if_repository,jdbcType=VARCHAR}, #{homework_status,jdbcType=VARCHAR},
+      #{url,jdbcType=VARCHAR}, #{url_file_num,jdbcType=INTEGER}, #{submit_num,jdbcType=INTEGER}, #{if_repository,jdbcType=VARCHAR}, #{homework_status,jdbcType=VARCHAR},
       #{deadline,jdbcType=TIMESTAMP}, #{exp,jdbcType=TINYINT}, #{class_id,jdbcType=INTEGER}, 
       #{create_date_time,jdbcType=TIMESTAMP}, #{modify_date_time,jdbcType=TIMESTAMP}, 
       #{detail,jdbcType=LONGVARCHAR})
@@ -94,6 +95,9 @@
       </if>
       <if test="url != null">
         url,
+      </if>
+      <if test="url_file_num != null">
+        url_file_num,
       </if>
       <if test="submit_num != null">
         submit_num,
@@ -135,6 +139,9 @@
       </if>
       <if test="url != null">
         #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="url_file_num != null">
+        #{url_file_num,jdbcType=INTEGER},
       </if>
       <if test="submit_num != null">
         #{submit_num,jdbcType=VARCHAR},
@@ -190,8 +197,11 @@
       <if test="url != null">
         url = #{url,jdbcType=VARCHAR},
       </if>
+      <if test="url_file_num != null">
+        url_file_num = #{url_file_num,jdbcType=INTEGER},
+      </if>
       <if test="submit_num != null">
-        url = #{submit_num,jdbcType=VARCHAR},
+        submit_num = #{submit_num,jdbcType=VARCHAR},
       </if>
       <if test="if_repository != null">
         if_repository = #{if_repository,jdbcType=VARCHAR},
@@ -225,6 +235,7 @@
     set name = #{name,jdbcType=VARCHAR},
       `group` = #{group,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
+      url_file_num = #{url_file_num,jdbcType=INTEGER},
       submit_num = #{submit_num,jdbcType=VARCHAR},
       if_repository = #{if_repository,jdbcType=VARCHAR},
       homework_status = #{homework_status,jdbcType=VARCHAR},
@@ -241,6 +252,7 @@
     set name = #{name,jdbcType=VARCHAR},
       `group` = #{group,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
+      url_file_num = #{url_file_num,jdbcType=INTEGER},
       submit_num = #{submit_num,jdbcType=VARCHAR},
       if_repository = #{if_repository,jdbcType=VARCHAR},
       homework_status = #{homework_status,jdbcType=VARCHAR},

@@ -6,8 +6,10 @@
     <result column="homework_id" jdbcType="INTEGER" property="homework_id" />
     <result column="user_id" jdbcType="INTEGER" property="user_id" />
     <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="url_file_num" jdbcType="VARCHAR" property="url_file_num" />
     <result column="if_submit" jdbcType="VARCHAR" property="if_submit" />
     <result column="remark_url" jdbcType="VARCHAR" property="remark_url" />
+    <result column="remark_url_file_num" jdbcType="VARCHAR" property="remark_url_file_num" />
     <result column="exp" jdbcType="INTEGER" property="exp" />
     <result column="class_id" jdbcType="INTEGER" property="class_id" />
     <result column="create_date_time" jdbcType="TIMESTAMP" property="create_date_time" />
@@ -25,6 +27,7 @@
       <result column="homework_name" jdbcType="VARCHAR" property="name" />
       <result column="homework_group" jdbcType="VARCHAR" property="group" />
       <result column="homework_url" jdbcType="VARCHAR" property="url" />
+      <result column="homework_url_file_name" jdbcType="VARCHAR" property="url_file_name" />
       <result column="homework_submit_num" jdbcType="INTEGER" property="submit_num" />
       <result column="homework_if_repository" jdbcType="VARCHAR" property="if_repository" />
       <result column="homework_status" jdbcType="VARCHAR" property="homework_status" />
@@ -54,7 +57,7 @@
     </association>
   </resultMap>
   <sql id="Base_Column_List">
-    homework_answer_id, homework_id, user_id, url, if_submit, remark_url, exp, class_id, create_date_time,
+    homework_answer_id, homework_id, user_id, url, url_file_num, if_submit, remark_url, remark_url_file_num, exp, class_id, create_date_time,
     modify_date_time
   </sql>
   <sql id="Blob_Column_List">
@@ -121,26 +124,26 @@
   </delete>
   <insert id="insert" parameterType="team.qdu.smartclassserver.domain.HomeworkAnswerWithBLOBs">
     insert into homework_answer (homework_answer_id, homework_id, 
-      user_id, url, if_submit, 
-      remark_url, exp, class_id, create_date_time,
+      user_id, url, url_file_num, if_submit,
+      remark_url, remark_url_file_num, exp, class_id, create_date_time,
       modify_date_time, detail, remark
       )
     values (#{homework_answer_id,jdbcType=INTEGER}, #{homework_id,jdbcType=INTEGER}, 
-      #{user_id,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, #{if_submit,jdbcType=VARCHAR}, 
-      #{remark_url,jdbcType=VARCHAR}, #{exo,jdbcType=INTEGER}, #{class_id,jdbcType=INTEGER}, #{create_date_time,jdbcType=TIMESTAMP},
+      #{user_id,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, #{url_file_num,jdbcType=INTEGER}, #{if_submit,jdbcType=VARCHAR},
+      #{remark_url,jdbcType=VARCHAR}, #{remark_url_file_num,jdbcType=INTEGER}, #{exo,jdbcType=INTEGER}, #{class_id,jdbcType=INTEGER}, #{create_date_time,jdbcType=TIMESTAMP},
       #{modify_date_time,jdbcType=TIMESTAMP}, #{detail,jdbcType=LONGVARCHAR}, #{remark,jdbcType=LONGVARCHAR}
       )
   </insert>
   <insert id="initialInsert" parameterType="java.util.List">
-    insert into homework_answer (homework_answer_id, homework_id,
-    user_id, url, if_submit,
-    remark_url, exp, class_id, create_date_time,
+    insert into homework_answer (homework_id,
+    user_id, url_file_num,  if_submit,
+    remark_url_file_num, class_id, create_date_time,
     modify_date_time
     )values
     <foreach collection="list" item="item" separator=",">
-      (#{item.homework_answer_id,jdbcType=INTEGER}, #{item.homework_id,jdbcType=INTEGER},
-      #{item.user_id,jdbcType=INTEGER}, #{item.url,jdbcType=VARCHAR}, #{item.if_submit,jdbcType=VARCHAR},
-      #{item.remark_url,jdbcType=VARCHAR}, #{item.exp,jdbcType=INTEGER}, #{item.class_id,jdbcType=INTEGER}, #{item.create_date_time,jdbcType=TIMESTAMP},
+      ( #{item.homework_id,jdbcType=INTEGER},
+      #{item.user_id,jdbcType=INTEGER}, #{item.url_file_num,jdbcType=INTEGER}, #{item.if_submit,jdbcType=VARCHAR},
+      #{item.remark_url_file_num,jdbcType=INTEGER}, #{item.class_id,jdbcType=INTEGER}, #{item.create_date_time,jdbcType=TIMESTAMP},
       #{item.modify_date_time,jdbcType=TIMESTAMP})
     </foreach>
   </insert>
@@ -159,11 +162,17 @@
       <if test="url != null">
         url,
       </if>
+      <if test="url_file_num != null">
+        url_file_num,
+      </if>
       <if test="if_submit != null">
         if_submit,
       </if>
       <if test="remark_url != null">
         remark_url,
+      </if>
+      <if test="remark_url_file_num != null">
+        remark_url_file_num,
       </if>
       <if test="exp != null">
         exp,
@@ -197,11 +206,17 @@
       <if test="url != null">
         #{url,jdbcType=VARCHAR},
       </if>
+      <if test="url_file_num != null">
+        #{url_file_num,jdbcType=INTEGER},
+      </if>
       <if test="if_submit != null">
         #{if_submit,jdbcType=VARCHAR},
       </if>
       <if test="remark_url != null">
         #{remark_url,jdbcType=VARCHAR},
+      </if>
+      <if test="remark_url_file_num != null">
+        #{remark_url_file_num,jdbcType=INTEGER},
       </if>
       <if test="exp != null">
         #{exp,jdbcType=VARCHAR},
@@ -235,11 +250,17 @@
       <if test="url != null">
         url = #{url,jdbcType=VARCHAR},
       </if>
+      <if test="url_file_num != null">
+        url_file_num = #{url_file_num,jdbcType=INTEGER},
+      </if>
       <if test="if_submit != null">
         if_submit = #{if_submit,jdbcType=VARCHAR},
       </if>
       <if test="remark_url != null">
         remark_url = #{remark_url,jdbcType=VARCHAR},
+      </if>
+      <if test="remark_url_file_num != null">
+        remark_url_file_num = #{remark_url_file_num,jdbcType=INTEGER},
       </if>
       <if test="exp != null">
         exp = #{exp,jdbcType=VARCHAR},
@@ -267,8 +288,10 @@
     set homework_id = #{homework_id,jdbcType=INTEGER},
       user_id = #{user_id,jdbcType=INTEGER},
       url = #{url,jdbcType=VARCHAR},
+      url_file_num = #{url_file_num,jdbcType=INTEGER},
       if_submit = #{if_submit,jdbcType=VARCHAR},
       remark_url = #{remark_url,jdbcType=VARCHAR},
+      remark_url_file_num = #{remark_url_file_num,jdbcType=INTEGER},
       exp = #{exp,jdbcType=VARCHAR},
       class_id = #{class_id,jdbcType=INTEGER},
       create_date_time = #{create_date_time,jdbcType=TIMESTAMP},
@@ -282,8 +305,10 @@
     set homework_id = #{homework_id,jdbcType=INTEGER},
       user_id = #{user_id,jdbcType=INTEGER},
       url = #{url,jdbcType=VARCHAR},
+      url_file_num = #{url_file_num,jdbcType=INTEGER},
       if_submit = #{if_submit,jdbcType=VARCHAR},
       remark_url = #{remark_url,jdbcType=VARCHAR},
+      remark_url_file_num = #{remark_url_file_num,jdbcType=INTEGER},
       exp = #{exp,jdbcType=VARCHAR},
       class_id = #{class_id,jdbcType=INTEGER},
       create_date_time = #{create_date_time,jdbcType=TIMESTAMP},

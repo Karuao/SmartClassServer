@@ -28,6 +28,48 @@ public class HomeworkController {
     HomeworkService homeworkService;
 
     //发布作业
+//    @RequestMapping("/publishHomework")
+//    public void publishHomework(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
+//        MultipartHttpServletRequest params = ((MultipartHttpServletRequest) request);
+//        List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("uploadfile");
+//        String title = params.getParameter("title");
+//        Date deadline = null;
+//        try {
+//            deadline = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(params.getParameter("deadline"));
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        String detail = params.getParameter("detail");
+//        int classId = Integer.parseInt(params.getParameter("classId"));
+//        PrintWriter out = response.getWriter();
+//        String responseJson = null;
+//
+//        if (!files.isEmpty()) {
+//            //文件处理
+//            MultipartFile file = null;
+//            String filename = null;
+//            BufferedOutputStream stream = null;
+//            file = files.get(0);
+//            try {
+//                byte[] bytes = file.getBytes();
+//                filename = IdGenerator.generateGUID() + "." + FilenameUtil.getExtensionName(file.getOriginalFilename());
+//                stream = new BufferedOutputStream(new FileOutputStream(
+//                        new File(MyWebMvcConfigurer.UPLOAD_PATH + "resources/homework/url/" + filename)));
+//                stream.write(bytes);
+//                stream.close();
+//                responseJson = homeworkService.publishHomework(title, detail, deadline, "homework/url/" + filename, classId);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                responseJson = new Gson().toJson(new ApiResponse<String>("1", "上传作业信息失败"));
+//            }
+//        } else {
+//            responseJson = homeworkService.publishHomework(title, detail, deadline, null, classId);
+//        }
+//        out.print(responseJson);
+//        out.close();
+//    }
+
     @RequestMapping("/publishHomework")
     public void publishHomework(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
@@ -46,27 +88,36 @@ public class HomeworkController {
         String responseJson = null;
 
         if (!files.isEmpty()) {
+            //新建文件夹存放上传的文件
+            String dir = IdGenerator.generateGUID();
+            String fullDir = MyWebMvcConfigurer.UPLOAD_PATH + "resources/homework/url/" + dir + "/";
+            new File(fullDir).mkdirs();
             //文件处理
-            MultipartFile file = null;
-            String filename = null;
-            BufferedOutputStream stream = null;
-            file = files.get(0);
-            try {
-                byte[] bytes = file.getBytes();
-                filename = IdGenerator.generateGUID() + "." + FilenameUtil.getExtensionName(file.getOriginalFilename());
-                stream = new BufferedOutputStream(new FileOutputStream(
-                        new File(MyWebMvcConfigurer.UPLOAD_PATH + "resources/homework/url/" + filename)));
-                stream.write(bytes);
-                stream.close();
-                responseJson = homeworkService.publishHomework(title, detail, deadline, "homework/url/" + filename, classId);
-            } catch (Exception e) {
-                e.printStackTrace();
-                responseJson = new Gson().toJson(new ApiResponse<String>("1", "上传作业信息失败"));
+            for (int i = 0; i < files.size(); i++) {
+                MultipartFile file = null;
+                String filename = null;
+                BufferedOutputStream stream = null;
+                file = files.get(i);
+                try {
+                    byte[] bytes = file.getBytes();
+                    filename = String.valueOf(i) + "." + FilenameUtil.getExtensionName(file.getOriginalFilename());
+                    stream = new BufferedOutputStream(new FileOutputStream(
+                            new File(fullDir + filename)));
+                    stream.write(bytes);
+                    stream.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    responseJson = new Gson().toJson(new ApiResponse<String>("1", "上传作业信息失败"));
+                    out.print(responseJson);
+                    out.close();
+                    return;
+                }
             }
+            homeworkService.publishHomework(title, detail, deadline, "homework/url/" + dir, files.size(), classId);
         } else {
-            responseJson = homeworkService.publishHomework(title, detail, deadline, null, classId);
+            homeworkService.publishHomework(title, detail, deadline, null, 0, classId);
         }
-        out.print(responseJson);
+        out.print(new Gson().toJson(new ApiResponse<String>("0", "发布作业成功")));
         out.close();
     }
 

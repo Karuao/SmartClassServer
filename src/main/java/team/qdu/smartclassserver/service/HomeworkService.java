@@ -27,14 +27,14 @@ public class HomeworkService {
     @Autowired
     ClassUserMapper classUserMapper;
 
-    public String publishHomework(String title, String detail, Date deadline, String url, int classId) {
-        ApiResponse<Void> apiResponse;
+    public void publishHomework(String title, String detail, Date deadline, String url, int urlFileNum, int classId) {
         Date date = new Date();
         //插入发布的作业
         HomeworkWithBLOBs homeworkWithBLOBs = new HomeworkWithBLOBs();
         homeworkWithBLOBs.setName(title);
         homeworkWithBLOBs.setDetail(detail);
         homeworkWithBLOBs.setUrl(url);
+        homeworkWithBLOBs.setUrl_file_num(urlFileNum);
         homeworkWithBLOBs.setSubmit_num(0);
         homeworkWithBLOBs.setHomework_status("进行中");
         homeworkWithBLOBs.setDeadline(deadline);
@@ -42,25 +42,27 @@ public class HomeworkService {
         homeworkWithBLOBs.setExp((byte) 3);
         homeworkWithBLOBs.setCreate_date_time(date);
         homeworkWithBLOBs.setModify_date_time(date);
-        if (homeworkMapper.insert(homeworkWithBLOBs) == 1) {
-            ClassUser classUser = new ClassUser();
-            classUser.setClass_id(classId);
-            classUser.setIf_new_homework("是");
-            classUserMapper.updateByClassIdSelective(classUser);
-            apiResponse = new ApiResponse<>("0", "发布作业成功");
-        } else {
-            apiResponse = new ApiResponse<>("1", "发布作业失败");
-        }
+        homeworkMapper.insertSelective(homeworkWithBLOBs);
+
+        //更新ClassUser表,标记有新作业，班课内有新推送
+        ClassUser classUser = new ClassUser();
+        classUser.setClass_id(classId);
+        classUser.setIf_new_homework("是");
+        classUser.setModify_date_time(date);
+        classUserMapper.updateByClassIdSelective(classUser);
+
 
         //向homework_answer用户提交作业表插入每个学生的作业记录
         List<ClassUser> classUserList = classUserMapper.selectStudentsByClassId(classId);
         if (classUserList.size() > 0) {
             List<HomeworkAnswer> homeworkAnswerList = new ArrayList<>();
-            for (ClassUser classUser : classUserList) {
+            for (ClassUser classUser1 : classUserList) {
                 HomeworkAnswer homeworkAnswer = new HomeworkAnswer();
                 homeworkAnswer.setHomework_id(homeworkWithBLOBs.getHomework_id());
-                homeworkAnswer.setUser_id(classUser.getUser_id());
+                homeworkAnswer.setUser_id(classUser1.getUser_id());
+                homeworkAnswer.setUrl_file_num(0);
                 homeworkAnswer.setIf_submit("否");
+                homeworkAnswer.setRemark_url_file_num(0);
                 homeworkAnswer.setClass_id(classId);
                 homeworkAnswer.setCreate_date_time(date);
                 homeworkAnswer.setModify_date_time(date);
@@ -74,22 +76,19 @@ public class HomeworkService {
         cron.setHomework_id(homeworkWithBLOBs.getHomework_id());
         cron.setTime(deadline);
         cronMapper.insert(cron);
-
-        String jsonResponse = new Gson().toJson(apiResponse);
-        return jsonResponse;
     }
 
     public String getHomeworkList(int classId, int userId, String userTitle, String requestStatus) {
         ApiResponse apiResponse;
         if ("老师".equals(userTitle)) {
-             apiResponse= new ApiResponse<Homework>("0", "获取作业列表成功");
+            apiResponse = new ApiResponse<Homework>("0", "获取作业列表成功");
             if ("进行中".equals(requestStatus)) {
                 apiResponse.setObjList(homeworkMapper.selectTeacherHomeworkListByClassIdUnderway(classId));
             } else {
                 apiResponse.setObjList(homeworkMapper.selectTeacherHomeworkListByClassIdFinish(classId));
             }
         } else {
-            apiResponse= new ApiResponse<HomeworkAnswerWithBLOBs>("0", "获取作业列表成功");
+            apiResponse = new ApiResponse<HomeworkAnswerWithBLOBs>("0", "获取作业列表成功");
             Map<String, Serializable> paramMap = new HashMap<>();
             paramMap.put("classId", classId);
             paramMap.put("userId", userId);

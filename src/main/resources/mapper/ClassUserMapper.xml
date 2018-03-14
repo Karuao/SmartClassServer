@@ -298,6 +298,8 @@
       </if>
     </set>
     where class_id = #{class_id,jdbcType=INTEGER}
+      and title = "学生"
+      and if_in_class = "是"
   </update>
   <update id="updateByPrimaryKey" parameterType="team.qdu.smartclassserver.domain.ClassUser">
     update class_user
