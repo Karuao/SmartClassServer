@@ -74,11 +74,18 @@
       and class_user.user_id = #{user_id,jdbcType=INTEGER}
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from class_user
+  select
+  <include refid="Base_Column_List" />
+  from class_user
+  where class_user_id = #{class_user_id,jdbcType=INTEGER}
+  and if_in_class = '是'
+</select>
+  <select id="selectMemberInfoByPrimaryKey" parameterType="java.lang.Integer" resultMap="DetailResultMap">
+    select
+    user.name as user_name,user.sno as user_sno,user.avatar as user_avatar,class_user.exp as exp,class_user.class_user_id
+    from class_user,user
     where class_user_id = #{class_user_id,jdbcType=INTEGER}
-    and if_in_class = '是'
+    and class_user.if_in_class = '是'
   </select>
   <select id="selectByClassIdUserId" parameterType="team.qdu.smartclassserver.domain.ClassUser" resultMap="BaseResultMap">
     select class_user_id
@@ -95,7 +102,7 @@
       and if_in_class = '是'
   </select>
   <select id="selectClassMembersByClassId" parameterType="java.lang.Integer" resultMap="DetailResultMap">
-    select user.name as user_name,user.avatar as user_avatar,user.sno as user_sno,class_user.exp
+    select user.name as user_name,user.avatar as user_avatar,user.sno as user_sno,class_user.exp,class_user.class_user_id
     from class_user,user
     where class_user.class_id = #{class_id, jdbcType=INTEGER}
     and class_user.user_id = user.user_id
