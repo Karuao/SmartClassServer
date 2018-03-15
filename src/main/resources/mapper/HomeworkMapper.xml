@@ -6,7 +6,7 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="group" jdbcType="VARCHAR" property="group" />
     <result column="url" jdbcType="VARCHAR" property="url" />
-    <result column="url_file_num" jdbcType="INTEGER" property="class_id" />
+    <result column="url_file_num" jdbcType="INTEGER" property="url_file_num" />
     <result column="submit_num" jdbcType="INTEGER" property="submit_num" />
     <result column="if_repository" jdbcType="VARCHAR" property="if_repository" />
     <result column="homework_status" jdbcType="VARCHAR" property="homework_status" />

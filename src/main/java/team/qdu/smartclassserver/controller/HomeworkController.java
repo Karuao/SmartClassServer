@@ -100,7 +100,7 @@ public class HomeworkController {
                 file = files.get(i);
                 try {
                     byte[] bytes = file.getBytes();
-                    filename = String.valueOf(i) + "." + FilenameUtil.getExtensionName(file.getOriginalFilename());
+                    filename = String.valueOf(i) + ".jpg";
                     stream = new BufferedOutputStream(new FileOutputStream(
                             new File(fullDir + filename)));
                     stream.write(bytes);
