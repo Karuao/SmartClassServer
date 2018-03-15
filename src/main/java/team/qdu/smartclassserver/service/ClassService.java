@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class ClassService {
+public class ClassService  {
 
     @Autowired
     ClassMapper classMapper;
@@ -34,6 +34,10 @@ public class ClassService {
         return jsonResponse;
     }
 
+    public List<Class> getClasses(Integer userId) {
+        List<Class> classlist=classMapper.getClass(userId);
+        return classlist;
+    }
 
     //进入班课判断用户是老师还是学生
     public String jumpClass(int classId, int userId) {

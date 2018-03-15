@@ -18,4 +18,6 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
 
     int updateByAccount(String account);
+
+    int getUserIdByaccount(String account);
 }

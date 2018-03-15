@@ -35,6 +35,11 @@
     from user
     where user_id = #{user_id,jdbcType=INTEGER}
   </select>
+  <select id="getUserIdByaccount" parameterType="java.lang.String"   resultType="Integer">
+    select IFNULL(user_id,0) AS user_id
+    from user
+    where account = #{account,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user
     where user_id = #{user_id,jdbcType=INTEGER}

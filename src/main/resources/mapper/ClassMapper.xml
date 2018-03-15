@@ -17,19 +17,29 @@
         <result column="modify_date_time" jdbcType="TIMESTAMP" property="modify_date_time"/>
         <result column="teacher" jdbcType="VARCHAR" property="teacher"/>
     </resultMap>
+    <resultMap id="simpleResultMap" type="team.qdu.smartclassserver.domain.Class">
+        <id column="class_id" jdbcType="INTEGER" property="class_id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="course" jdbcType="VARCHAR" property="course"/>
+    </resultMap>
     <sql id="Base_Column_List">
     class_id, name, avatar, course, university, department, detail,
     exam_shedule, population, if_allow_to_join, user_id, create_date_time, modify_date_time
     </sql>
-    <!--<select id="selectJoinedClassesByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">-->
-    <!--select class.class_id, class.name, class.avatar, class.course, user.name as teacher, if_allow_to_join-->
-    <!--from user, class, class_user-->
-    <!--where user.user_id = class.user_id-->
-      <!--and class.class_id = class_user.class_id-->
-      <!--and class_user.user_id = #{user_id, jdbcType=INTEGER}-->
-      <!--and class.if_allow_to_join != '已删除'-->
-    <!--order by class_id desc-->
-    <!--</select>-->
+    <select id="selectJoinedClassesByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select class.class_id, class.name, class.avatar, class.course, user.name as teacher, if_allow_to_join
+    from user, class, class_user
+    where user.user_id = class.user_id
+      and class.class_id = class_user.class_id
+      and class_user.user_id = #{user_id, jdbcType=INTEGER}
+      and class.if_allow_to_join != '已删除'
+    order by class_id desc
+    </select>
+    <select id="getClass" parameterType="java.lang.Integer"  resultMap="BaseResultMap">
+        SELECT *
+        from class
+        where user_id=#{user_id,jdbcType=INTEGER}
+    </select>
     <select id="selectJoinClassByClassId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select class.class_id, class.avatar, class.name, class.course, class.if_allow_to_join, user.name as teacher
     from user, class

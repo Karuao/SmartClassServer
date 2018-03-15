@@ -97,6 +97,10 @@ public class UserService {
 
         return jsonResponse;
     }
+    public int getUserIdByaccount(String account){
+        int userid=userMapper.getUserIdByaccount(account);
+        return userid;
+    }
 
     //找回密码时修改密码
     public String updatePassword(String account,String newPass){

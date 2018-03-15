@@ -18,7 +18,9 @@ public interface ClassMapper {
 
     int updateByPrimaryKey(Class record);
 
-//    List<Class> selectJoinedClassesByUserId(Integer user_id);
+    List<Class> selectJoinedClassesByUserId(Integer user_id);
+
+    List<Class> getClass(Integer user_id);
 
     List<Integer> selectUserIdByClassId(Integer class_id);
 
