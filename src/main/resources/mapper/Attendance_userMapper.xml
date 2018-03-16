@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.qdu.smartclassserver.dao.Attendance_userMapper">
+  <resultMap id="BaseResultMap" type="team.qdu.smartclassserver.domain.Attendance_user">
+    <id column="attendance_user_id" jdbcType="INTEGER" property="attendance_user_id" />
+    <result column="attendance_status" jdbcType="VARCHAR" property="attendance_status" />
+    <result column="user_id" jdbcType="INTEGER" property="user_id" />
+    <result column="attendance_id" jdbcType="INTEGER" property="attendance_id" />
+    <result column="create_date_time" jdbcType="TIMESTAMP" property="create_date_time" />
+    <result column="modify_date_time" jdbcType="TIMESTAMP" property="modify_date_time" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    attendance_user_id, attendance_status, user_id, attendance_id, create_date_time, 
+    modify_date_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from attendance_user
+    where attendance_user_id = #{attendance_user_id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from attendance_user
+    where attendance_user_id = #{attendance_user_id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="team.qdu.smartclassserver.domain.Attendance_user">
+    insert into attendance_user (attendance_user_id, attendance_status, 
+      user_id, attendance_id, create_date_time, 
+      modify_date_time)
+    values (#{attendance_user_id,jdbcType=INTEGER}, #{attendance_status,jdbcType=VARCHAR}, 
+      #{user_id,jdbcType=INTEGER}, #{attendance_id,jdbcType=INTEGER}, #{create_date_time,jdbcType=TIMESTAMP}, 
+      #{modify_date_time,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="team.qdu.smartclassserver.domain.Attendance_user">
+    insert into attendance_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="attendance_user_id != null">
+        attendance_user_id,
+      </if>
+      <if test="attendance_status != null">
+        attendance_status,
+      </if>
+      <if test="user_id != null">
+        user_id,
+      </if>
+      <if test="attendance_id != null">
+        attendance_id,
+      </if>
+      <if test="create_date_time != null">
+        create_date_time,
+      </if>
+      <if test="modify_date_time != null">
+        modify_date_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="attendance_user_id != null">
+        #{attendance_user_id,jdbcType=INTEGER},
+      </if>
+      <if test="attendance_status != null">
+        #{attendance_status,jdbcType=VARCHAR},
+      </if>
+      <if test="user_id != null">
+        #{user_id,jdbcType=INTEGER},
+      </if>
+      <if test="attendance_id != null">
+        #{attendance_id,jdbcType=INTEGER},
+      </if>
+      <if test="create_date_time != null">
+        #{create_date_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modify_date_time != null">
+        #{modify_date_time,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="team.qdu.smartclassserver.domain.Attendance_user">
+    update attendance_user
+    <set>
+      <if test="attendance_status != null">
+        attendance_status = #{attendance_status,jdbcType=VARCHAR},
+      </if>
+      <if test="user_id != null">
+        user_id = #{user_id,jdbcType=INTEGER},
+      </if>
+      <if test="attendance_id != null">
+        attendance_id = #{attendance_id,jdbcType=INTEGER},
+      </if>
+      <if test="create_date_time != null">
+        create_date_time = #{create_date_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modify_date_time != null">
+        modify_date_time = #{modify_date_time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where attendance_user_id = #{attendance_user_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="team.qdu.smartclassserver.domain.Attendance_user">
+    update attendance_user
+    set attendance_status = #{attendance_status,jdbcType=VARCHAR},
+      user_id = #{user_id,jdbcType=INTEGER},
+      attendance_id = #{attendance_id,jdbcType=INTEGER},
+      create_date_time = #{create_date_time,jdbcType=TIMESTAMP},
+      modify_date_time = #{modify_date_time,jdbcType=TIMESTAMP}
+    where attendance_user_id = #{attendance_user_id,jdbcType=INTEGER}
+  </update>
+</mapper>

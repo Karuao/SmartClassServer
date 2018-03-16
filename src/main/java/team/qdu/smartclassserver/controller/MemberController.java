@@ -27,4 +27,26 @@ public class MemberController {
         out.print(responseJson);
         out.close();
     }
+
+    //获取成员信息
+    @RequestMapping(value = "/searchByClassUserId")
+    public void getMemberInfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
+        int classUserId = Integer.parseInt(request.getParameter("classUserId"));
+        PrintWriter out = response.getWriter();
+        String responseJson = memberService.getMemberInfo(classUserId);
+        out.print(responseJson);
+        out.close();
+    }
+
+    //移出班课
+    @RequestMapping(value = "/shiftClass")
+    public void shiftClass(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
+        int classUserId = Integer.parseInt(request.getParameter("classUserId"));
+        PrintWriter out = response.getWriter();
+        String responseJson = memberService.shiftClass(classUserId);
+        out.print(responseJson);
+        out.close();
+    }
 }

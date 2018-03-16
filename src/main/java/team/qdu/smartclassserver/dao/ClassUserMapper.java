@@ -16,6 +16,8 @@ public interface ClassUserMapper {
 
     ClassUser selectByPrimaryKey(Integer class_user_id);
 
+    ClassUser selectMemberInfoByPrimaryKey(Integer class_user_id);
+
     ClassUser selectByClassIdUserId(ClassUser record);
 
     List<ClassUser> selectStudentsByClassId(int classId);
