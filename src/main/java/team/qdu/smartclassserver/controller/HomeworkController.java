@@ -1,6 +1,7 @@
 package team.qdu.smartclassserver.controller;
 
 import com.google.gson.Gson;
+import com.sun.imageio.plugins.common.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -90,7 +91,7 @@ public class HomeworkController {
         if (!files.isEmpty()) {
             //新建文件夹存放上传的文件
             String dir = IdGenerator.generateGUID();
-            String fullDir = MyWebMvcConfigurer.UPLOAD_PATH + "resources/homework/url/" + dir + "/";
+            String fullDir = MyWebMvcConfigurer.UPLOAD_PATH + "resources/SmartClass/homework/url/" + dir + "/";
             new File(fullDir).mkdirs();
             //文件处理
             for (int i = 0; i < files.size(); i++) {
@@ -100,7 +101,7 @@ public class HomeworkController {
                 file = files.get(i);
                 try {
                     byte[] bytes = file.getBytes();
-                    filename = String.valueOf(i) + ".jpg";
+                    filename = String.valueOf(i) + "." + FilenameUtil.getExtensionName(file.getOriginalFilename());
                     stream = new BufferedOutputStream(new FileOutputStream(
                             new File(fullDir + filename)));
                     stream.write(bytes);
@@ -113,7 +114,7 @@ public class HomeworkController {
                     return;
                 }
             }
-            homeworkService.publishHomework(title, detail, deadline, "homework/url/" + dir, files.size(), classId);
+            homeworkService.publishHomework(title, detail, deadline, "SmartClass/homework/url/" + dir, files.size(), classId);
         } else {
             homeworkService.publishHomework(title, detail, deadline, null, 0, classId);
         }

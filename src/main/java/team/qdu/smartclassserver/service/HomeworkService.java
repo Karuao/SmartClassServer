@@ -42,12 +42,13 @@ public class HomeworkService {
         homeworkWithBLOBs.setExp((byte) 3);
         homeworkWithBLOBs.setCreate_date_time(date);
         homeworkWithBLOBs.setModify_date_time(date);
-        homeworkMapper.insertSelective(homeworkWithBLOBs);
+        homeworkMapper.insert(homeworkWithBLOBs);
 
         //更新ClassUser表,标记有新作业，班课内有新推送
         ClassUser classUser = new ClassUser();
         classUser.setClass_id(classId);
         classUser.setIf_new_homework("是");
+        classUser.setIf_new_class_thing("是");
         classUser.setModify_date_time(date);
         classUserMapper.updateByClassIdSelective(classUser);
 
