@@ -1,7 +1,6 @@
 package team.qdu.smartclassserver.controller;
 
 import com.google.gson.Gson;
-import com.sun.imageio.plugins.common.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,13 +9,12 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import team.qdu.smartclassserver.config.MyWebMvcConfigurer;
 import team.qdu.smartclassserver.domain.ApiResponse;
 import team.qdu.smartclassserver.service.HomeworkService;
-import team.qdu.smartclassserver.util.FilenameUtil;
+import team.qdu.smartclassserver.util.FileUtil;
 import team.qdu.smartclassserver.util.IdGenerator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -54,7 +52,7 @@ public class HomeworkController {
 //            file = files.get(0);
 //            try {
 //                byte[] bytes = file.getBytes();
-//                filename = IdGenerator.generateGUID() + "." + FilenameUtil.getExtensionName(file.getOriginalFilename());
+//                filename = IdGenerator.generateGUID() + "." + FileUtil.getExtensionName(file.getOriginalFilename());
 //                stream = new BufferedOutputStream(new FileOutputStream(
 //                        new File(MyWebMvcConfigurer.UPLOAD_PATH + "resources/homework/url/" + filename)));
 //                stream.write(bytes);
@@ -86,33 +84,13 @@ public class HomeworkController {
         String detail = params.getParameter("detail");
         int classId = Integer.parseInt(params.getParameter("classId"));
         PrintWriter out = response.getWriter();
-        String responseJson = null;
 
         if (!files.isEmpty()) {
             //新建文件夹存放上传的文件
             String dir = IdGenerator.generateGUID();
             String fullDir = MyWebMvcConfigurer.UPLOAD_PATH + "resources/SmartClass/homework/url/" + dir + "/";
-            new File(fullDir).mkdirs();
-            //文件处理
-            for (int i = 0; i < files.size(); i++) {
-                MultipartFile file = null;
-                String filename = null;
-                BufferedOutputStream stream = null;
-                file = files.get(i);
-                try {
-                    byte[] bytes = file.getBytes();
-                    filename = String.valueOf(i) + "." + FilenameUtil.getExtensionName(file.getOriginalFilename());
-                    stream = new BufferedOutputStream(new FileOutputStream(
-                            new File(fullDir + filename)));
-                    stream.write(bytes);
-                    stream.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    responseJson = new Gson().toJson(new ApiResponse<String>("1", "上传作业信息失败"));
-                    out.print(responseJson);
-                    out.close();
-                    return;
-                }
+            if (!FileUtil.genaratorFiles(files, out, fullDir , "上传作业失败，请稍后再试")) {
+                return;
             }
             homeworkService.publishHomework(title, detail, deadline, "SmartClass/homework/url/" + dir, files.size(), classId);
         } else {
@@ -173,32 +151,27 @@ public class HomeworkController {
         String ifSubmit = params.getParameter("ifSubmit");
         String detail = params.getParameter("detail");
         PrintWriter out = response.getWriter();
-        String responseJson = null;
         //文件处理
         if (!files.isEmpty()) {
-            MultipartFile file = null;
-            String filename = null;
-            BufferedOutputStream stream = null;
-            file = files.get(0);
-            try {
-                byte[] bytes = file.getBytes();
-                filename = IdGenerator.generateGUID() + "." + FilenameUtil.getExtensionName(file.getOriginalFilename());
-                stream = new BufferedOutputStream(new FileOutputStream(
-                        new File(MyWebMvcConfigurer.UPLOAD_PATH + "resources/homework_answer/url/" + filename)));
-                stream.write(bytes);
-                stream.close();
-                responseJson = homeworkService.commitHomework(homeworkAnswerId, homeworkId, classId, userId, ifSubmit,
-                        detail, "homework_answer/url/" + filename);
-            } catch (Exception e) {
-                e.printStackTrace();
-                responseJson = new Gson().toJson(new ApiResponse<String>("1", "上传作业信息失败"));
+            //新建文件夹存放上传的文件
+            String dir = IdGenerator.generateGUID();
+            String fullDir = MyWebMvcConfigurer.UPLOAD_PATH + "resources/SmartClass/homework_answer/url/" + dir + "/";
+            if (!FileUtil.genaratorFiles(files, out, fullDir, "提交作业失败，请稍后再试")) {
+                return;
             }
+            homeworkService.commitHomework(homeworkAnswerId, homeworkId, classId, userId, ifSubmit,
+                    detail, "SmartClass/homework_answer/url/" + dir, files.size());
         } else {
-            responseJson = homeworkService.commitHomework(homeworkAnswerId, homeworkId, classId, userId, ifSubmit, detail, null);
+            homeworkService.commitHomework(homeworkAnswerId, homeworkId, classId, userId, ifSubmit, detail, null, files.size());
         }
 
-        out.print(responseJson);
+        out.print(new Gson().toJson(new ApiResponse<String>("0", "上传作业成功")));
         out.close();
+        //删除之前的文件
+        String delPhotoesUrl = params.getParameter("delPhotoesUrl");
+        if (delPhotoesUrl != null) {
+            FileUtil.deleteDir(new File(MyWebMvcConfigurer.UPLOAD_PATH + "resources/" + delPhotoesUrl));
+        }
     }
 
     //获取作业内容和照片
@@ -233,31 +206,26 @@ public class HomeworkController {
         int exp = Integer.parseInt(params.getParameter("exp"));
         String remark = params.getParameter("remark");
         PrintWriter out = response.getWriter();
-        String responseJson = null;
         //文件处理
         if (!files.isEmpty()) {
-            MultipartFile file = null;
-            String filename = null;
-            BufferedOutputStream stream = null;
-            file = files.get(0);
-            try {
-                byte[] bytes = file.getBytes();
-                filename = IdGenerator.generateGUID() + "." + FilenameUtil.getExtensionName(file.getOriginalFilename());
-                stream = new BufferedOutputStream(new FileOutputStream(
-                        new File(MyWebMvcConfigurer.UPLOAD_PATH + "resources/homework_answer/remark_url/" + filename)));
-                stream.write(bytes);
-                stream.close();
-                responseJson = homeworkService.commitHomeworkEvaluation(homeworkAnswerId, exp, remark, "homework_answer/remark_url/" + filename);
-            } catch (Exception e) {
-                e.printStackTrace();
-                responseJson = new Gson().toJson(new ApiResponse<String>("1", "上传作业信息失败"));
+            //新建文件夹存放上传的文件
+            String dir = IdGenerator.generateGUID();
+            String fullDir = MyWebMvcConfigurer.UPLOAD_PATH + "resources/SmartClass/homework_answer/remark_url/" + dir + "/";
+            if (!FileUtil.genaratorFiles(files, out, fullDir, "评价失败，请稍后再试")) {
+                return;
             }
+            homeworkService.commitHomeworkEvaluation(homeworkAnswerId, exp, remark, "SmartClass/homework_answer/remark_url/" + dir, files.size());
         } else {
-            responseJson = homeworkService.commitHomeworkEvaluation(homeworkAnswerId, exp, remark, null);
+            homeworkService.commitHomeworkEvaluation(homeworkAnswerId, exp, remark, null, files.size());
         }
 
-        out.print(responseJson);
+        out.print(new Gson().toJson(new ApiResponse<String>("0", "评价成功")));
         out.close();
+        //删除之前的文件
+        String delPhotoesUrl = params.getParameter("delPhotoesUrl");
+        if (delPhotoesUrl != null) {
+            FileUtil.deleteDir(new File(MyWebMvcConfigurer.UPLOAD_PATH + "resources/" + delPhotoesUrl));
+        }
     }
 
     //获取某作业学生提交情况List
@@ -269,45 +237,5 @@ public class HomeworkController {
         String responseJson = homeworkService.getNotEvaluateStuNum(homeworkId);
         out.print(responseJson);
         out.close();
-    }
-
-    @RequestMapping("/read")
-    public void read(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
-        String uploadPath = System.getProperty("user.dir");
-        int firstIndex = uploadPath.lastIndexOf(File.separator) + 1;
-        if ("smartclassserver".equals(uploadPath.substring(firstIndex, uploadPath.length()))) {
-            uploadPath = uploadPath.substring(0, firstIndex - 1);
-        }
-        response.getWriter().println(uploadPath);
-//        String path = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
-//        response.getWriter().println(path);
-//        response.getWriter().println(getClass().getResource("/"));
-//        response.getWriter().println(getClass().getResource(""));
-//        response.getWriter().println(getClass().getClassLoader().getResource("/"));
-//        response.getWriter().println(getClass().getClassLoader().getResource(""));
-//        response.getWriter().println(System.getProperty("user.dir"));
-//        String encoding = "UTF-8";
-//        int firstIndex = path.lastIndexOf(System.getProperty("path.separator")) + 1;
-//        int lastIndex = path.lastIndexOf(File.separator) + 1;
-//        path = path.substring(firstIndex, lastIndex);
-//        File file = new File(System.getProperty("user.dir") + "/bug.txt");
-//        Long filelength = file.length();
-//        byte[] filecontent = new byte[filelength.intValue()];
-//        try {
-//            FileInputStream in = new FileInputStream(file);
-//            in.read(filecontent);
-//            in.close();
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        try {
-//            response.getWriter().print(new String(filecontent, encoding));
-//        } catch (UnsupportedEncodingException e) {
-//            System.err.println("The OS does not support " + encoding);
-//            e.printStackTrace();
-//        }
     }
 }

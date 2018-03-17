@@ -13,10 +13,9 @@ import team.qdu.smartclassserver.service.ClassService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.net.URL;
 import java.util.List;
 
-import team.qdu.smartclassserver.util.FilenameUtil;
+import team.qdu.smartclassserver.util.FileUtil;
 import team.qdu.smartclassserver.util.IdGenerator;
 
 @Controller
@@ -69,7 +68,7 @@ public class ClassController {
             file = files.get(0);
             try {
                 byte[] bytes = file.getBytes();
-                filename = IdGenerator.generateGUID() + "." + FilenameUtil.getExtensionName(file.getOriginalFilename());
+                filename = IdGenerator.generateGUID() + "." + FileUtil.getExtensionName(file.getOriginalFilename());
                 stream = new BufferedOutputStream(new FileOutputStream(
                         new File(MyWebMvcConfigurer.UPLOAD_PATH + "/resources/class/avatar/" + filename)));
                 stream.write(bytes);
@@ -109,7 +108,7 @@ public class ClassController {
         file = files.get(0);
         try {
             byte[] bytes = file.getBytes();
-            filename = IdGenerator.generateGUID() + "." + FilenameUtil.getExtensionName(file.getOriginalFilename());
+            filename = IdGenerator.generateGUID() + "." + FileUtil.getExtensionName(file.getOriginalFilename());
             stream = new BufferedOutputStream(new FileOutputStream(
                     new File(MyWebMvcConfigurer.UPLOAD_PATH + "resources/class/avatar/" + filename)));
             stream.write(bytes);

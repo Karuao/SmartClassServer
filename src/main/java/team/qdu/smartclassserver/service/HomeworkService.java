@@ -135,12 +135,13 @@ public class HomeworkService {
     }
 
     public String commitHomework(int homeworkAnswerId, int homeworkId, int classId, int userId, String ifSubmit,
-                                 String detail, String url) {
+                                 String detail, String url, int url_file_size) {
         ApiResponse<Void> apiResponse;
         HomeworkAnswerWithBLOBs homeworkAnswer = new HomeworkAnswerWithBLOBs();
         homeworkAnswer.setHomework_answer_id(homeworkAnswerId);
         homeworkAnswer.setDetail(detail);
         homeworkAnswer.setUrl(url);
+        homeworkAnswer.setUrl_file_num(url_file_size);
         homeworkAnswer.setIf_submit("是");
         homeworkAnswer.setModify_date_time(new Date());
         if (homeworkAnswerMapper.updateByPrimaryKeySelective(homeworkAnswer) > 0) {
@@ -177,22 +178,15 @@ public class HomeworkService {
         return jsonResponse;
     }
 
-    public String commitHomeworkEvaluation(int homeworkAnswerId, int exp, String remark, String remarkUrl) {
-        ApiResponse<Void> apiResponse;
+    public void commitHomeworkEvaluation(int homeworkAnswerId, int exp, String remark, String remarkUrl, int remarkUrlFileNum) {
         HomeworkAnswerWithBLOBs homeworkAnswer = new HomeworkAnswerWithBLOBs();
         homeworkAnswer.setHomework_answer_id(homeworkAnswerId);
         homeworkAnswer.setExp(exp);
         homeworkAnswer.setRemark(remark);
         homeworkAnswer.setRemark_url(remarkUrl);
+        homeworkAnswer.setRemark_url_file_num(remarkUrlFileNum);
         homeworkAnswer.setModify_date_time(new Date());
-        if (homeworkAnswerMapper.updateByPrimaryKeySelective(homeworkAnswer) > 0) {
-            apiResponse = new ApiResponse("0", "作业评价成功");
-        } else {
-            apiResponse = new ApiResponse("1", "作业评价失败，请稍后再试");
-        }
-
-        String jsonResponse = new Gson().toJson(apiResponse);
-        return jsonResponse;
+        homeworkAnswerMapper.updateByPrimaryKeySelective(homeworkAnswer);
     }
 
     public String getNotEvaluateStuNum(int homeworkId) {
