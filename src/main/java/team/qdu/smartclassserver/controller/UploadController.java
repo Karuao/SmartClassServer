@@ -26,7 +26,7 @@ import team.qdu.smartclassserver.service.ClassService;
 import team.qdu.smartclassserver.service.MaterialService;
 import team.qdu.smartclassserver.service.UserService;
 import team.qdu.smartclassserver.domain.Class;
-import team.qdu.smartclassserver.util.FilenameUtil;
+import team.qdu.smartclassserver.util.FileUtil;
 import team.qdu.smartclassserver.util.IdGenerator;
 
 import javax.servlet.http.HttpServletRequest;
@@ -65,7 +65,7 @@ public class UploadController {
             BufferedOutputStream stream = null;
             try {
                 byte[] bytes = file.getBytes();
-                filename = "." + FilenameUtil.getExtensionName(file.getOriginalFilename());
+                filename = "." + FileUtil.getExtensionName(file.getOriginalFilename());
                 stream = new BufferedOutputStream(new FileOutputStream(
                         new File(fullDir + filename)));
                 stream.write(bytes);

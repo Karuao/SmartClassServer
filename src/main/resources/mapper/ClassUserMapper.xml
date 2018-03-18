@@ -67,7 +67,7 @@
     order by class_user_id desc
   </select>
   <select id="selectMyClassByClassIdUserId" resultMap="DetailResultMap">
-    select class_user_id, title, if_new_material, if_new_homework, unread_information_num, class.name as my_class_name
+    select class_user_id, title, if_new_material, if_new_homework, unread_information_num, class.course as my_class_course
     from class_user, class
     where class_user.class_id = class.class_id
       and class_user.class_id = #{class_id,jdbcType=INTEGER}
