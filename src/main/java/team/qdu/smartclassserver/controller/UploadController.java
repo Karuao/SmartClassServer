@@ -7,8 +7,6 @@ import java.io.*;
 import java.util.List;
 import java.util.Map;
 
-
-import com.google.gson.Gson;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -59,7 +57,7 @@ public class UploadController {
         if (!file.isEmpty()) {
             response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
             String dir = IdGenerator.generateGUID();
-            String fullDir = MyWebMvcConfigurer.UPLOAD_PATH + "resources/material/url/" + dir + "/";
+            String fullDir = MyWebMvcConfigurer.UPLOAD_PATH + "resources/SmartClass/material/url/" + dir + "/";
             new File(fullDir).mkdirs();
             String filename = null;
             BufferedOutputStream stream = null;
@@ -72,7 +70,7 @@ public class UploadController {
                 stream.close();
                 HttpSession session = request.getSession();
                 int classid=(int)session.getAttribute("classid");
-                materialService.uploadFile(name,"material/url/" + dir,classid);
+                materialService.uploadFile(name,"SmartClass/material/url/" + dir,classid);
             } catch (Exception e) {
                 e.printStackTrace();
                return"上传资源失败";

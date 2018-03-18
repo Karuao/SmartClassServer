@@ -80,7 +80,7 @@ public class UploadServlet extends HttpServlet {
         String responseJson=null;
         // 构造临时路径来存储上传的文件
         // 这个路径相对当前应用的目录
-        String uploadPath = MyWebMvcConfigurer.UPLOAD_PATH +"resources"+ File.separator + UPLOAD_DIRECTORY;
+        String uploadPath = MyWebMvcConfigurer.UPLOAD_PATH +"resources/SmartClass"+ File.separator + UPLOAD_DIRECTORY;
 
 
         // 如果目录不存在则创建
@@ -109,7 +109,7 @@ public class UploadServlet extends HttpServlet {
                         Date date=new Date();
                         Material material=new Material();
                         material.setName(fileName);
-                        material.setUrl("material/url/"+fileName);
+                        material.setUrl("SmartClass/material/url/"+fileName);
                         material.setClass_id(classid);
                         material.setCreate_date_time(date);
                         material.setModify_date_time(date);
