@@ -27,7 +27,7 @@
       <result column="homework_name" jdbcType="VARCHAR" property="name" />
       <result column="homework_group" jdbcType="VARCHAR" property="group" />
       <result column="homework_url" jdbcType="VARCHAR" property="url" />
-      <result column="homework_url_file_name" jdbcType="VARCHAR" property="url_file_name" />
+      <result column="homework_url_file_num" jdbcType="VARCHAR" property="url_file_num" />
       <result column="homework_submit_num" jdbcType="INTEGER" property="submit_num" />
       <result column="homework_if_repository" jdbcType="VARCHAR" property="if_repository" />
       <result column="homework_status" jdbcType="VARCHAR" property="homework_status" />
@@ -102,8 +102,8 @@
     order by homework_answer_id desc
   </select>
   <select id="selectDetailByPrimaryKey" parameterType="java.lang.Integer" resultMap="DetailResultMap">
-    select homework_answer.homework_answer_id, homework_answer.homework_id, homework_answer.detail,
-      homework_answer.url, homework_answer.url_file_num, homework_answer.if_submit, homework_answer.exp, homework_answer.remark, homework_answer.remark_url,
+    select homework_answer.homework_answer_id, homework_answer.homework_id, homework_answer.detail, homework_answer.url,
+      homework_answer.url_file_num, homework_answer.if_submit, homework_answer.exp, homework_answer.remark, homework_answer.remark_url, homework_answer.remark_url_file_num,
       homework.name as homework_name, homework.detail as homework_detail, homework.url as homework_url, homework.url_file_num as homework_url_file_num
     from homework, homework_answer
     where

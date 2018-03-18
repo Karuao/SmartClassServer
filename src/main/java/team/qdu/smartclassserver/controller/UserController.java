@@ -9,13 +9,12 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import team.qdu.smartclassserver.config.MyWebMvcConfigurer;
 import team.qdu.smartclassserver.domain.ApiResponse;
 import team.qdu.smartclassserver.service.UserService;
-import team.qdu.smartclassserver.util.FilenameUtil;
+import team.qdu.smartclassserver.util.FileUtil;
 import team.qdu.smartclassserver.util.IdGenerator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.net.URL;
 import java.util.List;
 
 @Controller
@@ -103,7 +102,7 @@ public class UserController {
             file = files.get(0);
             try {
                 byte[] bytes = file.getBytes();
-                filename = IdGenerator.generateGUID() + "." + FilenameUtil.getExtensionName(file.getOriginalFilename());
+                filename = IdGenerator.generateGUID() + "." + FileUtil.getExtensionName(file.getOriginalFilename());
                 stream = new BufferedOutputStream(new FileOutputStream(
                         new File(MyWebMvcConfigurer.UPLOAD_PATH + "resources/user/avatar/" + filename)));
                 stream.write(bytes);
