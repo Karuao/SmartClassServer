@@ -206,7 +206,8 @@
     </update>
     <update id="updateByClassId" parameterType="java.lang.Integer">
     UPDATE class_user
-    SET  unread_information_num=unread_information_num+1
+    SET  unread_information_num=unread_information_num+1,
+    if_new_class_thing='是'
     WHERE class_id=#{class_id,jdbcType=INTEGER} AND title='学生'
 </update>
     <update id="updateByPrimaryKey" parameterType="team.qdu.smartclassserver.domain.Class">

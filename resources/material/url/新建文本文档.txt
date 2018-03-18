@@ -1,0 +1,7 @@
+<script>
+	
+	window.onload=function() 
+	{
+		alert("helloworld");
+	});
+</script>
