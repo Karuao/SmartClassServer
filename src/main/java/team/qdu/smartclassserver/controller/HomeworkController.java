@@ -86,8 +86,7 @@ public class HomeworkController {
         PrintWriter out = response.getWriter();
 
         if (!files.isEmpty()) {
-            //新建文件夹存放上传的文件
-            String dir = IdGenerator.generateGUID();
+            String dir = IdGenerator.generateGUID();    //新建文件夹名
             String fullDir = MyWebMvcConfigurer.UPLOAD_PATH + "resources/SmartClass/homework/url/" + dir + "/";
             if (!FileUtil.genaratorFiles(files, out, fullDir , "上传作业失败，请稍后再试")) {
                 return;
