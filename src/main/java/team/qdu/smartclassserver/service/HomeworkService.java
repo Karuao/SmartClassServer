@@ -179,6 +179,7 @@ public class HomeworkService {
     }
 
     public void commitHomeworkEvaluation(int homeworkAnswerId, int exp, String remark, String remarkUrl, int remarkUrlFileNum) {
+        ApiResponse<Void> apiResponse;
         HomeworkAnswerWithBLOBs homeworkAnswer = new HomeworkAnswerWithBLOBs();
         homeworkAnswer.setHomework_answer_id(homeworkAnswerId);
         homeworkAnswer.setExp(exp);

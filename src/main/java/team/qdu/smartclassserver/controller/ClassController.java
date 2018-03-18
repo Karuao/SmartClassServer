@@ -70,10 +70,10 @@ public class ClassController {
                 byte[] bytes = file.getBytes();
                 filename = IdGenerator.generateGUID() + "." + FileUtil.getExtensionName(file.getOriginalFilename());
                 stream = new BufferedOutputStream(new FileOutputStream(
-                        new File(MyWebMvcConfigurer.UPLOAD_PATH + "/resources/class/avatar/" + filename)));
+                        new File(MyWebMvcConfigurer.UPLOAD_PATH + "/resources/SmartClass/class/avatar/" + filename)));
                 stream.write(bytes);
                 stream.close();
-                responseJson = classService.createClass(name, course, userId, "class/avatar/" + filename);
+                responseJson = classService.createClass(name, course, userId, "SmartClass/class/avatar/" + filename);
             } catch (Exception e) {
                 e.printStackTrace();
                 stream = null;
@@ -110,10 +110,10 @@ public class ClassController {
             byte[] bytes = file.getBytes();
             filename = IdGenerator.generateGUID() + "." + FileUtil.getExtensionName(file.getOriginalFilename());
             stream = new BufferedOutputStream(new FileOutputStream(
-                    new File(MyWebMvcConfigurer.UPLOAD_PATH + "resources/class/avatar/" + filename)));
+                    new File(MyWebMvcConfigurer.UPLOAD_PATH + "resources/SmartClass/class/avatar/" + filename)));
             stream.write(bytes);
             stream.close();
-            responseJson = classService.modifyClass(classId, "class/avatar/" + filename, className, course, university, department, goal, exam);
+            responseJson = classService.modifyClass(classId, "SmartClass/class/avatar/" + filename, className, course, university, department, goal, exam);
         } catch (Exception e) {
             e.printStackTrace();
             responseJson = new Gson().toJson(new ApiResponse<String>("1", "上传班课信息失败"));
