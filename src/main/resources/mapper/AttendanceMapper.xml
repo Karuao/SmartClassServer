@@ -20,11 +20,18 @@
     from attendance
     where attendance_id = #{attendance_id,jdbcType=INTEGER}
   </select>
+  <select id="selectAttendanceByClassId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from attendance
+    where class_id = #{class_id,jdbcType=INTEGER}
+    order by create_date_time DESC
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from attendance
     where attendance_id = #{attendance_id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="team.qdu.smartclassserver.domain.Attendance">
+  <insert id="insert" parameterType="team.qdu.smartclassserver.domain.Attendance" useGeneratedKeys="true" keyProperty="attendance_id">
     insert into attendance (attendance_id, if_open, attendance_stu_count, 
       stu_num, class_id, create_date_time, 
       modify_date_time)

@@ -3,10 +3,12 @@ package team.qdu.smartclassserver.service;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import team.qdu.smartclassserver.dao.AttendanceMapper;
 import team.qdu.smartclassserver.dao.ClassMapper;
 import team.qdu.smartclassserver.dao.ClassUserMapper;
 import team.qdu.smartclassserver.dao.UserMapper;
 import team.qdu.smartclassserver.domain.ApiResponse;
+import team.qdu.smartclassserver.domain.Attendance;
 import team.qdu.smartclassserver.domain.ClassUser;
 
 import java.util.Date;
