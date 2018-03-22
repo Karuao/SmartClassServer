@@ -6,14 +6,17 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>班课文件上传</title>
+    <%String contextPath = request.getContextPath();%>
+    <link rel="stylesheet" href="<%=contextPath%>/css/bootstrap.min.css">
 </head>
 <body>
 <h1>班课文件上传</h1>
-<form method="post" action="UploadServlet" enctype="multipart/form-data">
-    选择一个文件:
-    <input type="file" name="uploadFile" />
+<form method="post" action="UploadServlet" enctype="multipart/form-data" class="form-inline" role="form">
+    <label class="sr-only" for="inputfile">选择文件</label>
+    <input type="file"id="inputfile" name="uploadFile" />
     <br/><br/>
-    <input type="submit" value="上传" />
+    <input type="submit" class="btn btn-default" value="上传" />
+    <script src="<%=contextPath%>/js/bootstrap.min.js" type="text/javascript"></script>
 </form>
 </body>
 </html>

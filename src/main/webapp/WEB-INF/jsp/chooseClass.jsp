@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>chooseClass</title>
+    <link rel="stylesheet" href="<%=contextPath%>/css/bootstrap.min.css">
     <script type="text/javascript">
         $(document).ready(function() {
             var classid;
@@ -27,10 +28,6 @@
                     })
                     var headArray = [];
                     appendTable(jsonData);
-
-
-
-
                     function parseHead(oneRow) {
                         for (var i in oneRow) {
                             headArray[headArray.length] = i;
@@ -40,7 +37,8 @@
                     function appendTable() {
                         parseHead(jsonData[0]);
                         var div = document.getElementById("div1");
-                        var table = document.createElement("table");
+                        var table = document.getElementById("table1");
+
                         var thead = document.createElement("tr");
                         for (var count = 0; count < headArray.length; count++) {
                             var td = document.createElement("th");
@@ -102,6 +100,7 @@
 
 <body>
 <div id="div1"></div>
-
+<table id="table1"class="table table-bordered"></table>
+<script src="<%=contextPath%>/js/bootstrap.min.js" type="text/javascript"></script>
 </body>
 </html>
