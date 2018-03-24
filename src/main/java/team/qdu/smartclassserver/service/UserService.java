@@ -56,6 +56,7 @@ public class UserService {
             user1.setSecurity_answer(answer);
             Date date=new Date();
             user1.setCreate_date_time(date);
+            user1.setModify_date_time(date);
             int msg=userMapper.insert(user1);
             apiResponse = new ApiResponse("0", "注册成功");
         }
