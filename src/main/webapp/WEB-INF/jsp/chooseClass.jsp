@@ -5,7 +5,10 @@
   Time: 19:39
   To change this template use File | Settings | File Templates.
 --%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+             pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/include.jsp"%>
+
 <html>
 <head>
     <title>chooseClass</title>
@@ -15,7 +18,7 @@
             var classid;
             $.ajax({
                 async: false,
-                url: "http://localhost" + "/chooseClass",
+                url: "http://localhost" + "/chooseClassRequest",
                 type: "post",
                 dataType: 'json',
                 success: function (data) {
@@ -24,9 +27,14 @@
                     var jsonData1 = JSON.parse(jsonStr);
                     var jsonData = [];
                     jsonData1.forEach(function(item){
-                        jsonData.push({class_id: item.class_id, name: item.name,course:item.course})
+                        jsonData.push({邀请码: item.class_id, 班级名: item.name,班课名:item.course})
                     })
                     var headArray = [];
+/*                    if(jsonData.length==0){
+                        var txt=document.createElement("h1");
+                        txt.innerHTML="你还没有创建过班课哦，请创建班课后再来上传资源！";
+                        $("h1").append(txt);
+                    }*/
                     appendTable(jsonData);
                     function parseHead(oneRow) {
                         for (var i in oneRow) {
@@ -40,7 +48,7 @@
                         var table = document.getElementById("table1");
 
                         var thead = document.createElement("tr");
-                        for (var count = 0; count < headArray.length; count++) {
+                        for (var count = 0; count < headArray3; count++) {
                             var td = document.createElement("th");
                             td.innerHTML = headArray[count];
                             thead.appendChild(td);
@@ -54,11 +62,12 @@
                                 classid=jsonData[tableRowNo][headArray[0]];
                                 tr.appendChild(cell);
                             }
-                           tr.innerHTML +="<input name=\"按钮\" id="+classid+"  class=\"btn\" type=\"button\" value=\"upload\"><\/input>";
+                           tr.innerHTML +="<input name=\"按钮\" id="+classid+"  class=\"btn\" type=\"button\" value=\"上传\"><\/input>";
                             table.appendChild(tr);
                         }
                         div.appendChild(table);
                     }
+
                 }
             })
             $(".btn").click(function(){
@@ -69,12 +78,6 @@
         })
 
 
-            /*  for (var i = 0; i < jsonData.length; i++) {
-                  var class_id=jsonData[i].class_id;
-                  var name=jsonData[i].course;
-                  var course=jsonData[i].name;
-                  //alert(class_id+"\n"+name);
-              }*/
 
 
     </script>
@@ -99,8 +102,15 @@
 
 
 <body>
+<div class="page-header">
+<center><h1>请选择已创建的班课（如果没有班课请创建后再来本页面）</h1></center>
+</div>
 <div id="div1"></div>
-<table id="table1"class="table table-bordered"></table>
+<table id="table1"class="table table-bordered">
+    <tr>
+        <th>邀请码</th><th>班级名</th><th>班课名</th>
+    </tr>
+</table>
 <script src="<%=contextPath%>/js/bootstrap.min.js" type="text/javascript"></script>
 </body>
 </html>

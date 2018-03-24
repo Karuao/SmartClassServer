@@ -30,7 +30,7 @@
                         </div>
                     </div>
                     <div class="form-bottom">
-                        <form role="form" action="weblogin" method="post" class="login-form">
+                        <%--<form role="form" &lt;%&ndash;action="weblogin"&ndash;%&gt; class="login-form">--%>
                             <div class="form-group">
                                 <label class="sr-only" for="form-username">用户名:</label>
                                 <input type="text" name="account" placeholder="Username..." class="form-username form-control" id="form-username">
@@ -40,7 +40,7 @@
                                 <input type="password" name="password" placeholder="Password..." class="form-password form-control" id="form-password">
                             </div>
                             <button type="submit" class="btn">登录</button>
-                        </form>
+                        <%--</form>--%>
                     </div>
                 </div>
             </div>
@@ -58,10 +58,39 @@
             <tr><td><input type="submit" value="登录"/>
         </table>
     </form>--%>
+
     <script src="<%=contextPath%>/js/jquery-1.11.1.min.js" type="text/javascript"></script>
     <script src="<%=contextPath%>/js/jquery.backstretch.js" type="text/javascript"></script>
     <script src="<%=contextPath%>/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="<%=contextPath%>/js/scripts.js"></script>
+    <script type="text/javascript">
+        $(".btn").click(function(){
+            var account=document.getElementById("form-username").value;
+            var password=document.getElementById("form-password").value;
+            $.ajax({
+                async: false,
+                url: "http://localhost" + "/weblogin",
+                data:{
+                    account:account,
+                    password:password
+                },
+                type: "post",
+                success: function (data) {
+                    if(data=="0"){
+                        alert("登录成功"),
+                        window.location.href = "/chooseClass"
+                    }
+                     else if(data=="1"){
+                        alert("密码错误")
+                    }
+                    else if(data=="2"){
+                        alert("用户不存在")
+                    }
+
+                }
+                })
+    });
+    </script>
 
 </body>
 </center>

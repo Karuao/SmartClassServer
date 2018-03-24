@@ -42,9 +42,9 @@ public class MaterialService {
         ApiResponse apiResponse;
         int result=materialMapper.deleteByPrimaryKey(materialId);
         if(result==1){
-            apiResponse = new ApiResponse("0", "删除通知成功");
+            apiResponse = new ApiResponse("0", "删除资源成功");
         }else{
-            apiResponse = new ApiResponse("1", "删除通知失败");
+            apiResponse = new ApiResponse("1", "删除资源失败");
         }
         String jsonResponse = new Gson().toJson(apiResponse);
         return jsonResponse;

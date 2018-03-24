@@ -87,27 +87,29 @@ public class UploadController {
         return "login";
     }
 
+    @ResponseBody
     @RequestMapping(value = "/weblogin")
-    public String check(HttpServletRequest request, HttpServletResponse response, User user) throws IOException {
-        String account = user.getAccount();
-        String password = user.getPassword();
+    public String check(HttpServletRequest request, HttpServletResponse response,String account,String password) throws IOException {
         HttpSession session = request.getSession();
         String responseJson = userService.login(account, password);
-        int userid = userService.getUserIdByaccount(account);
-        session.setAttribute("userid", userid);
         JSONObject jsonObj = JSONObject.fromObject(responseJson);
         String event = jsonObj.getString("event");
-        if (event.equals("0")) {
-            return "chooseClass";
+        if(event.equals("0")) {
+            int userid = userService.getUserIdByaccount(account);
+            session.setAttribute("userid", userid);
         }
-        if (event.equals("1")) {
-            return "passError";
-        } else
-            return "notExist";
+
+
+        return event;
+    }
+    @RequestMapping(value = "/chooseClass")
+    public String showClass() {
+        return "chooseClass";
     }
 
+
     @ResponseBody
-    @RequestMapping(value = "/chooseClass")
+    @RequestMapping(value = "/chooseClassRequest")
     public List<Class> getclass(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         int userid = (int) session.getAttribute("userid");
