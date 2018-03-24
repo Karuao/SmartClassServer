@@ -30,11 +30,6 @@
                         jsonData.push({邀请码: item.class_id, 班级名: item.name,班课名:item.course})
                     })
                     var headArray = [];
-/*                    if(jsonData.length==0){
-                        var txt=document.createElement("h1");
-                        txt.innerHTML="你还没有创建过班课哦，请创建班课后再来上传资源！";
-                        $("h1").append(txt);
-                    }*/
                     appendTable(jsonData);
                     function parseHead(oneRow) {
                         for (var i in oneRow) {
@@ -47,13 +42,13 @@
                         var div = document.getElementById("div1");
                         var table = document.getElementById("table1");
 
-                        var thead = document.createElement("tr");
-                        for (var count = 0; count < headArray3; count++) {
+                        //var thead = document.createElement("tr");
+/*                        for (var count = 0; count < headArray3; count++) {
                             var td = document.createElement("th");
                             td.innerHTML = headArray[count];
                             thead.appendChild(td);
-                        }
-                        table.appendChild(thead);
+                        }*/
+                        //table.appendChild(thead);
                         for (var tableRowNo = 0; tableRowNo < jsonData.length; tableRowNo++) {
                             var tr = document.createElement("tr");
                             for (var headCount = 0; headCount < headArray.length; headCount++) {
