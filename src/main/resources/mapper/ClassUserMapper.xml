@@ -102,7 +102,7 @@
       and if_in_class = '是'
   </select>
   <select id="selectClassMembersByClassId" parameterType="java.lang.Integer" resultMap="DetailResultMap">
-    select user.name as user_name,user.avatar as user_avatar,user.sno as user_sno,class_user.exp,class_user.class_user_id
+    select user.name as user_name,class_user.user_id,user.avatar as user_avatar,user.sno as user_sno,class_user.exp,class_user.class_user_id
     from class_user,user
     where class_user.class_id = #{class_id, jdbcType=INTEGER}
     and class_user.user_id = user.user_id

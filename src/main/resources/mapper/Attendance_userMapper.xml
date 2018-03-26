@@ -9,19 +9,77 @@
     <result column="create_date_time" jdbcType="TIMESTAMP" property="create_date_time" />
     <result column="modify_date_time" jdbcType="TIMESTAMP" property="modify_date_time" />
   </resultMap>
+  <resultMap extends="BaseResultMap" id="DetailResultMap" type="team.qdu.smartclassserver.domain.Attendance_user">
+    <association property="attendance" javaType="team.qdu.smartclassserver.domain.Attendance">
+      <id column="attendance_attendance_id" jdbcType="INTEGER" property="attendance_id" />
+      <result column="attendance_if_open" jdbcType="VARCHAR" property="if_open" />
+      <result column="attendance_attendance_stu_count" jdbcType="INTEGER" property="attendance_stu_count" />
+      <result column="attendance_stu_num" jdbcType="INTEGER" property="stu_num" />
+      <result column="attendance_class_id" jdbcType="INTEGER" property="class_id" />
+      <result column="attendance_create_date_time" jdbcType="TIMESTAMP" property="create_date_time" />
+      <result column="attendance_modify_date_time" jdbcType="TIMESTAMP" property="modify_date_time" />
+    </association>
+    <association property="user" javaType="team.qdu.smartclassserver.domain.User">
+      <id column="attendance_user_id" jdbcType="INTEGER" property="user_id" />
+      <result column="attendance_account" jdbcType="VARCHAR" property="account" />
+      <result column="attendance_password" jdbcType="VARCHAR" property="password" />
+      <result column="attendance_avatar" jdbcType="VARCHAR" property="avatar" />
+      <result column="attendance_name" jdbcType="VARCHAR" property="name" />
+      <result column="attendance_sno" jdbcType="VARCHAR" property="sno" />
+      <result column="attendance_gender" jdbcType="VARCHAR" property="gender" />
+      <result column="attendance_status_message" jdbcType="VARCHAR" property="status_message" />
+      <result column="attendance_birthday" jdbcType="DATE" property="birthday" />
+      <result column="attendance_university" jdbcType="VARCHAR" property="university" />
+      <result column="attendance_department" jdbcType="VARCHAR" property="department" />
+      <result column="attendance_if_show_closed_classes" jdbcType="VARCHAR" property="if_show_closed_classes" />
+      <result column="attendance_security_question" jdbcType="VARCHAR" property="security_question" />
+      <result column="attendance_security_answer" jdbcType="VARCHAR" property="security_answer" />
+      <result column="attendance_create_date_time" jdbcType="TIMESTAMP" property="create_date_time" />
+      <result column="attendance_modify_date_time" jdbcType="TIMESTAMP" property="modify_date_time" />
+    </association>
+  </resultMap>
   <sql id="Base_Column_List">
     attendance_user_id, attendance_status, user_id, attendance_id, create_date_time, 
     modify_date_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+  select
+  <include refid="Base_Column_List" />
+  from attendance_user
+  where attendance_user_id = #{attendance_user_id,jdbcType=INTEGER}
+</select>
+  <select id="selectByAttendanceId" parameterType="java.lang.Integer" resultMap="DetailResultMap" >
+    select
+    attendance_user_id, attendance_status, attendance_user.user_id, attendance_id, attendance_user.create_date_time,
+    attendance_user.modify_date_time,user.user_id as attendance_user_id,user.name as attendance_name,user.sno as attendance_sno
+    from attendance_user,user
+    where attendance_user.user_id = user.user_id and
+    attendance_id = #{attendance_id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByUserIdAndAttendanceId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
     <include refid="Base_Column_List" />
     from attendance_user
-    where attendance_user_id = #{attendance_user_id,jdbcType=INTEGER}
+    where user_id = #{arg0,jdbcType=INTEGER}
+    and attendance_id = #{arg1,jdbcType=INTEGER}
+  </select>
+  <select id="selectAttendanceUserByUserIdAndClassId" parameterType="java.lang.Integer" resultMap="DetailResultMap">
+    select
+   attendance_user_id, attendance_status, user_id, attendance_user.attendance_id as attendance_attendance_id,
+    attendance_user.create_date_time,attendance_user.modify_date_time
+    from attendance_user,attendance
+    where attendance_user.attendance_id = attendance.attendance_id
+    and attendance_user.user_id = #{arg0,jdbcType=INTEGER}
+    and attendance.class_id = #{arg1,jdbcType=INTEGER}
+    order by attendance_user.create_date_time DESC
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from attendance_user
     where attendance_user_id = #{attendance_user_id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByAttendanceId" parameterType="java.lang.Integer">
+    delete from attendance_user
+    where attendance_id = #{attendance_id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="team.qdu.smartclassserver.domain.Attendance_user">
     insert into attendance_user (attendance_user_id, attendance_status, 

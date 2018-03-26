@@ -39,6 +39,18 @@ public class MemberController {
         out.close();
     }
 
+    //学生获取签到历史记录
+    @RequestMapping(value = "/getStudentSignInHistory")
+    public void getStudentSignInHistory(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
+        int userId = Integer.parseInt(request.getParameter("userId"));
+        int classId = Integer.parseInt(request.getParameter("classId"));
+        PrintWriter out = response.getWriter();
+        String responseJson = memberService.getStudentSignInHistory(userId,classId);
+        out.print(responseJson);
+        out.close();
+    }
+
     //获取成员信息
     @RequestMapping(value = "/searchByClassUserId")
     public void getMemberInfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -50,6 +62,28 @@ public class MemberController {
         out.close();
     }
 
+    //获取签到信息
+    @RequestMapping(value = "/getAttendanceInfo")
+    public void getAttendanceInfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
+        int classId = Integer.parseInt(request.getParameter("classId"));
+        PrintWriter out = response.getWriter();
+        String responseJson = memberService.getAttendanceInfo(classId);
+        out.print(responseJson);
+        out.close();
+    }
+
+    //获取学生签到信息
+    @RequestMapping(value = "/getAttendanceUserInfo")
+    public void getAttendanceUserInfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
+        int attendanceId = Integer.parseInt(request.getParameter("attendanceId"));
+        PrintWriter out = response.getWriter();
+        String responseJson = memberService.getAttendanceUserInfo(attendanceId);
+        out.print(responseJson);
+        out.close();
+    }
+
     //移出班课
     @RequestMapping(value = "/shiftClass")
     public void shiftClass(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -57,6 +91,41 @@ public class MemberController {
         int classUserId = Integer.parseInt(request.getParameter("classUserId"));
         PrintWriter out = response.getWriter();
         String responseJson = memberService.shiftClass(classUserId);
+        out.print(responseJson);
+        out.close();
+    }
+
+    //教师端设置学生为已签到
+    @RequestMapping(value = "/setStudentSignIn")
+    public void setStudentSignIn(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
+        int attendanceUserId = Integer.parseInt(request.getParameter("attendanceUserId"));
+        PrintWriter out = response.getWriter();
+        String responseJson = memberService.setStudentSignIn(attendanceUserId);
+        out.print(responseJson);
+        out.close();
+    }
+
+    //教师端设置学生为未签到
+    @RequestMapping(value = "/setStudentNotSignIn")
+    public void setStudentNotSignIn(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
+        int attendanceUserId = Integer.parseInt(request.getParameter("attendanceUserId"));
+        PrintWriter out = response.getWriter();
+        String responseJson = memberService.setStudentNotSignIn(attendanceUserId);
+        out.print(responseJson);
+        out.close();
+    }
+
+    //学生开始签到
+    @RequestMapping(value = "/beginSignInForStudent")
+    public void beginSignInForStudent(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
+        int userId = Integer.parseInt(request.getParameter("userId"));
+        int attendanceId = Integer.parseInt(request.getParameter("attendanceId"));
+        int classUserId = Integer.parseInt(request.getParameter("classUserId"));
+        PrintWriter out = response.getWriter();
+        String responseJson = memberService.beginSignInForStudent(userId,attendanceId,classUserId);
         out.print(responseJson);
         out.close();
     }

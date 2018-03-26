@@ -13,9 +13,13 @@ public interface AttendanceMapper {
 
     Attendance selectByPrimaryKey(Integer attendance_id);
 
+    List<Attendance> selectByClassId(Integer class_id);
+
     List<Attendance> selectAttendanceByClassId(Integer class_id);
 
     int updateByPrimaryKeySelective(Attendance record);
 
     int updateByPrimaryKey(Attendance record);
+
+    int updateSignInNumberByPrimaryKey(Integer attendance_id);
 }
