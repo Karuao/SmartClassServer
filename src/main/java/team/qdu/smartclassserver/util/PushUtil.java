@@ -51,7 +51,7 @@ public class PushUtil {
         }
     }
 
-    public static void getSignInInfoForTeacher(String teaId) {
+    public static void getSignInInfoForTeacher(String teaId,String attendanceId) {
         ClientConfig config = ClientConfig.getInstance();
         // Setup the custom hostname
         config.setPushHostName("https://api.jpush.cn");
@@ -59,7 +59,7 @@ public class PushUtil {
         JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY, null, config);
 
         // For push, all you need do is to build PushPayload object.
-        PushPayload payload = buildPushObject_all_alias_alert(teaId);
+        PushPayload payload = buildPushObject_all_alias_alert(teaId,attendanceId);
 
         try {
             PushResult result = jpushClient.sendPush(payload);
@@ -81,12 +81,12 @@ public class PushUtil {
         return PushPayload.alertAll(ALERT);
     }
 
-    public static PushPayload buildPushObject_all_alias_alert(String teaId) {
+    public static PushPayload buildPushObject_all_alias_alert(String teaId,String attendanceId) {
         return PushPayload.newBuilder()
                 .setPlatform(Platform.all())
                 .setAudience(Audience.alias(teaId))
                 .setMessage(Message.newBuilder()
-                        .setMsgContent("教师端收到消息")
+                        .setMsgContent(attendanceId)
                         .build()).build();
     }
 }
