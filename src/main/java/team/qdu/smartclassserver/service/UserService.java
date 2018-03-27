@@ -39,6 +39,26 @@ public class UserService {
 
         return jsonResponse;
     }
+    public String weblogin(String account, String password) {
+        User user = userMapper.selectByAccount(account);
+        String event=null;
+
+        if (user != null) {
+            //该用户存在
+            if (user.getPassword().equals(password)) {
+                //密码正确
+                event="0";
+            } else {
+                //密码错误
+                event = "1";
+            }
+        } else {
+            // 用户不存在
+           event="2";
+        }
+
+        return event;
+    }
 
     public String register(String account,String password,String question,String answer) {
         User user = userMapper.selectByAccount(account);
