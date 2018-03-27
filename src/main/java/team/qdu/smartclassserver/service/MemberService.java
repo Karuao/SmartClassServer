@@ -121,8 +121,6 @@ public class MemberService {
         ApiResponse apiResponse;
         Attendance_user attendance_user = attendance_userMapper.selectByUserIdAndAttendanceId(userId,attendanceId);
         ClassUser classUser = classUserMapper.selectByPrimaryKey(classUserId);
-        Attendance attendance = attendanceMapper.selectByPrimaryKey(attendanceId);
-        String stuSignInNum = attendance.getAttendance_stu_count().toString();
         int classId = classUser.getClass_id();
         Class aClass= classMapper.selectByPrimaryKey(classId);
         int teaId = aClass.getUser_id();
@@ -135,11 +133,12 @@ public class MemberService {
             Date date = new Date();
             classUser.setModify_date_time(date);
             attendance_user.setModify_date_time(date);
-            PushUtil.getSignInInfoForTeacher(String.valueOf(teaId),stuSignInNum);
             attendance_userMapper.updateByPrimaryKeySelective(attendance_user);
             classUserMapper.updateByPrimaryKeySelective(classUser);
             int result = attendanceMapper.updateSignInNumberByPrimaryKey(attendanceId);
+            Attendance attendance = attendanceMapper.selectByPrimaryKey(attendanceId);
             if (result == 1) {
+                PushUtil.getSignInInfoForTeacher(String.valueOf(teaId),attendance.getAttendance_stu_count().toString());
                 apiResponse = new ApiResponse("0", "签到成功");
             } else {
                 apiResponse = new ApiResponse("1", "签到失败");
