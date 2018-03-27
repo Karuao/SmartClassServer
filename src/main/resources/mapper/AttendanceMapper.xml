@@ -20,6 +20,13 @@
     from attendance
     where attendance_id = #{attendance_id,jdbcType=INTEGER}
   </select>
+  <select id="selectByClassId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from attendance
+    where class_id = #{class_id,jdbcType=INTEGER}
+    order by attendance_id DESC
+  </select>
   <select id="selectAttendanceByClassId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
@@ -120,6 +127,11 @@
       class_id = #{class_id,jdbcType=INTEGER},
       create_date_time = #{create_date_time,jdbcType=TIMESTAMP},
       modify_date_time = #{modify_date_time,jdbcType=TIMESTAMP}
+    where attendance_id = #{attendance_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateSignInNumberByPrimaryKey" parameterType="team.qdu.smartclassserver.domain.Attendance">
+    update attendance
+    set attendance_stu_count = attendance_stu_count + 1
     where attendance_id = #{attendance_id,jdbcType=INTEGER}
   </update>
 </mapper>
