@@ -207,6 +207,7 @@ public class MemberService {
         int result = attendance_userMapper.updateByPrimaryKeySelective(au);
         if (result == 1) {
             apiResponse = new ApiResponse("0", "修改成功");
+            apiResponse.setObjList(au);
         } else {
             apiResponse = new ApiResponse("1", "修改失败");
         }
@@ -222,6 +223,7 @@ public class MemberService {
         int result = attendance_userMapper.updateByPrimaryKeySelective(au);
         if (result == 1) {
             apiResponse = new ApiResponse("0", "修改成功");
+            apiResponse.setObjList(au);
         } else {
             apiResponse = new ApiResponse("1", "修改失败");
         }

@@ -87,7 +87,7 @@ public class PushUtil {
                 .setPlatform(Platform.all())
                 .setAudience(Audience.alias(teaId))
                 .setMessage(Message.newBuilder()
-                        .setMsgContent("收到消息")
+                        .setMsgContent("教师端收到消息")
                         .build()).build();
     }
 }
