@@ -13,6 +13,7 @@ import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.notification.Notification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import team.qdu.smartclassserver.domain.Attendance_user;
 
 public class PushUtil {
 
@@ -51,7 +52,7 @@ public class PushUtil {
         }
     }
 
-    public static void getSignInInfoForTeacher(String teaId,String attendanceId) {
+    public static void getSignInInfoForTeacher(String teaId) {
         ClientConfig config = ClientConfig.getInstance();
         // Setup the custom hostname
         config.setPushHostName("https://api.jpush.cn");
@@ -59,7 +60,7 @@ public class PushUtil {
         JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY, null, config);
 
         // For push, all you need do is to build PushPayload object.
-        PushPayload payload = buildPushObject_all_alias_alert(teaId,attendanceId);
+        PushPayload payload = buildPushObject_all_alias_alert(teaId);
 
         try {
             PushResult result = jpushClient.sendPush(payload);
@@ -81,12 +82,12 @@ public class PushUtil {
         return PushPayload.alertAll(ALERT);
     }
 
-    public static PushPayload buildPushObject_all_alias_alert(String teaId,String attendanceId) {
+    public static PushPayload buildPushObject_all_alias_alert(String teaId) {
         return PushPayload.newBuilder()
                 .setPlatform(Platform.all())
                 .setAudience(Audience.alias(teaId))
                 .setMessage(Message.newBuilder()
-                        .setMsgContent(attendanceId)
+                        .setMsgContent("收到消息")
                         .build()).build();
     }
 }

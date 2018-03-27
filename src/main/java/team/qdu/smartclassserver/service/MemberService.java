@@ -130,10 +130,10 @@ public class MemberService {
             int exp = classUser.getExp() + 5;
             classUser.setExp(exp);
             attendance_user.setAttendance_status("已签到");
-            PushUtil.getSignInInfoForTeacher(String.valueOf(teaId),attendance_user.getAttendance_id().toString());
             Date date = new Date();
             classUser.setModify_date_time(date);
             attendance_user.setModify_date_time(date);
+            PushUtil.getSignInInfoForTeacher(String.valueOf(teaId));
             attendance_userMapper.updateByPrimaryKeySelective(attendance_user);
             classUserMapper.updateByPrimaryKeySelective(classUser);
             int result = attendanceMapper.updateSignInNumberByPrimaryKey(attendanceId);
