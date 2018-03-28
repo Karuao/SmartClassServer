@@ -175,7 +175,7 @@ public class ClassService  {
         cls.setAvatar(avatarPath);
         Date date = new Date();
         cls.setModify_date_time(date);
-        int result = classMapper.updateByPrimaryKey(cls);
+        int result = classMapper.updateByPrimaryKeySelective(cls);
         if (result == 1) {
             apiResponse = new ApiResponse("0", "修改班课信息成功");
         } else {
