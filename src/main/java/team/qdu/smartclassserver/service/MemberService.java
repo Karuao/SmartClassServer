@@ -106,7 +106,9 @@ public class MemberService {
     //移出班课
     public String shiftClass(int classUserId) {
         ApiResponse apiResponse;
-        int result = classUserMapper.deleteByPrimaryKey(classUserId);
+        ClassUser classUser = classUserMapper.selectByPrimaryKey(classUserId);
+        classUser.setIf_in_class("否");
+        int result = classUserMapper.updateByPrimaryKeySelective(classUser);
         if (result == 1) {
             apiResponse = new ApiResponse("0", "已成功移出班课");
         } else {
