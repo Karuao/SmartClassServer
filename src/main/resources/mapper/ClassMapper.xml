@@ -38,7 +38,7 @@
     <select id="getClass" parameterType="java.lang.Integer"  resultMap="BaseResultMap">
         SELECT *
         from class
-        where user_id=#{user_id,jdbcType=INTEGER}
+        where user_id=#{user_id,jdbcType=INTEGER} ORDER By class_id DESC
     </select>
     <select id="selectJoinClassByClassId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select class.class_id, class.avatar, class.name, class.course, class.if_allow_to_join, user.name as teacher

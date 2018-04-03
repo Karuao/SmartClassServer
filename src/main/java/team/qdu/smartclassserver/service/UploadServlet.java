@@ -1,19 +1,5 @@
 package team.qdu.smartclassserver.service;
 
-import java.io.DataInput;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Date;
-import java.util.List;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -21,6 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import team.qdu.smartclassserver.config.MyWebMvcConfigurer;
 import team.qdu.smartclassserver.dao.MaterialMapper;
 import team.qdu.smartclassserver.domain.Material;
+import team.qdu.smartclassserver.util.FileUtil;
+import team.qdu.smartclassserver.util.IdGenerator;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -99,8 +99,10 @@ public class UploadServlet extends HttpServlet {
                 for (FileItem item : formItems) {
                     // 处理不在表单中的字段
                     if (!item.isFormField()) {
+                        String generatorName=IdGenerator.generateGUID();
                         String fileName = new File(item.getName()).getName();
-                        String filePath = uploadPath + File.separator + fileName;
+                        String ext=FileUtil.getExtensionName(fileName);
+                        String filePath = uploadPath + File.separator + generatorName+"."+ext;
                         File storeFile = new File(filePath);
                         // 在控制台输出文件的上传路径
                         System.out.println(filePath);
@@ -109,7 +111,7 @@ public class UploadServlet extends HttpServlet {
                         Date date=new Date();
                         Material material=new Material();
                         material.setName(fileName);
-                        material.setUrl("SmartClass/material/url/"+fileName);
+                        material.setUrl("SmartClass/material/url/"+generatorName+"."+ext);
                         material.setClass_id(classid);
                         material.setCreate_date_time(date);
                         material.setModify_date_time(date);
