@@ -106,7 +106,9 @@ public class MemberService {
     //移出班课
     public String shiftClass(int classUserId) {
         ApiResponse apiResponse;
-        int result = classUserMapper.deleteByPrimaryKey(classUserId);
+        ClassUser classUser = classUserMapper.selectByPrimaryKey(classUserId);
+        classUser.setIf_in_class("否");
+        int result = classUserMapper.updateByPrimaryKeySelective(classUser);
         if (result == 1) {
             apiResponse = new ApiResponse("0", "已成功移出班课");
         } else {
@@ -130,14 +132,15 @@ public class MemberService {
             int exp = classUser.getExp() + 5;
             classUser.setExp(exp);
             attendance_user.setAttendance_status("已签到");
-            PushUtil.getSignInInfoForTeacher(String.valueOf(teaId),attendance_user.getAttendance_id().toString());
             Date date = new Date();
             classUser.setModify_date_time(date);
             attendance_user.setModify_date_time(date);
             attendance_userMapper.updateByPrimaryKeySelective(attendance_user);
             classUserMapper.updateByPrimaryKeySelective(classUser);
             int result = attendanceMapper.updateSignInNumberByPrimaryKey(attendanceId);
+            Attendance attendance = attendanceMapper.selectByPrimaryKey(attendanceId);
             if (result == 1) {
+                PushUtil.getSignInInfoForTeacher(String.valueOf(teaId),attendance.getAttendance_stu_count().toString());
                 apiResponse = new ApiResponse("0", "签到成功");
             } else {
                 apiResponse = new ApiResponse("1", "签到失败");

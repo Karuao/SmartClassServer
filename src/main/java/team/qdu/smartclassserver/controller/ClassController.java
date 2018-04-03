@@ -102,21 +102,25 @@ public class ClassController {
         PrintWriter out = response.getWriter();
         String responseJson = null;
         //文件处理
-        MultipartFile file = null;
-        String filename = null;
-        BufferedOutputStream stream = null;
-        file = files.get(0);
-        try {
-            byte[] bytes = file.getBytes();
-            filename = IdGenerator.generateGUID() + "." + FileUtil.getExtensionName(file.getOriginalFilename());
-            stream = new BufferedOutputStream(new FileOutputStream(
-                    new File(MyWebMvcConfigurer.UPLOAD_PATH + "resources/SmartClass/class/avatar/" + filename)));
-            stream.write(bytes);
-            stream.close();
-            responseJson = classService.modifyClass(classId, "SmartClass/class/avatar/" + filename, className, course, university, department, goal, exam);
-        } catch (Exception e) {
-            e.printStackTrace();
-            responseJson = new Gson().toJson(new ApiResponse<String>("1", "上传班课信息失败"));
+        if (!files.isEmpty()) {
+            MultipartFile file = null;
+            String filename = null;
+            BufferedOutputStream stream = null;
+            file = files.get(0);
+            try {
+                byte[] bytes = file.getBytes();
+                filename = IdGenerator.generateGUID() + "." + FileUtil.getExtensionName(file.getOriginalFilename());
+                stream = new BufferedOutputStream(new FileOutputStream(
+                        new File(MyWebMvcConfigurer.UPLOAD_PATH + "resources/SmartClass/class/avatar/" + filename)));
+                stream.write(bytes);
+                stream.close();
+                responseJson = classService.modifyClass(classId, "SmartClass/class/avatar/" + filename, className, course, university, department, goal, exam);
+            } catch (Exception e) {
+                e.printStackTrace();
+                responseJson = new Gson().toJson(new ApiResponse<String>("1", "上传班课信息失败"));
+            }
+        }else {
+            responseJson = classService.modifyClass(classId, null, className, course, university, department, goal, exam);
         }
         out.print(responseJson);
         out.close();
