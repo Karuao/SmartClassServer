@@ -104,10 +104,10 @@ public class UserController {
                 byte[] bytes = file.getBytes();
                 filename = IdGenerator.generateGUID() + "." + FileUtil.getExtensionName(file.getOriginalFilename());
                 stream = new BufferedOutputStream(new FileOutputStream(
-                        new File(MyWebMvcConfigurer.UPLOAD_PATH + "resources/user/avatar/" + filename)));
+                        new File(MyWebMvcConfigurer.UPLOAD_PATH + "resources/SmartClass/user/avatar/" + filename)));
                 stream.write(bytes);
                 stream.close();
-                responseJson = userService.updateUserInformation("user/avatar/" + filename, account, name, gender, sno, university, department, motto);
+                responseJson = userService.updateUserInformation("SmartClass/user/avatar/" + filename, account, name, gender, sno, university, department, motto);
             } catch (Exception e) {
                 e.printStackTrace();
                 stream = null;

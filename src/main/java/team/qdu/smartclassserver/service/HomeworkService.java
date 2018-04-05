@@ -3,10 +3,7 @@ package team.qdu.smartclassserver.service;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import team.qdu.smartclassserver.dao.ClassUserMapper;
-import team.qdu.smartclassserver.dao.CronMapper;
-import team.qdu.smartclassserver.dao.HomeworkAnswerMapper;
-import team.qdu.smartclassserver.dao.HomeworkMapper;
+import team.qdu.smartclassserver.dao.*;
 import team.qdu.smartclassserver.domain.*;
 
 import java.io.Serializable;
@@ -26,6 +23,9 @@ public class HomeworkService {
 
     @Autowired
     ClassUserMapper classUserMapper;
+
+    @Autowired
+    ClassUserExpMapper classUserExpMapper;
 
     public void publishHomework(String title, String detail, Date deadline, String url, int urlFileNum, int classId) {
         Date date = new Date();
@@ -104,11 +104,12 @@ public class HomeworkService {
         return jsonResponse;
     }
 
-    public String changeHomeworkStatus(int homeworkId, String homeworkStatus) {
+    public String changeHomeworkStatus(int homeworkId, String homeworkStatus, String homeworkTitle) {
         ApiResponse<Void> apiResponse;
+        Date date = new Date();
         HomeworkWithBLOBs homework = new HomeworkWithBLOBs();
         homework.setHomework_id(homeworkId);
-        homework.setModify_date_time(new Date());
+        homework.setModify_date_time(date);
         if ("进行中".equals(homeworkStatus)) {
             cronMapper.deleteByHomeworkId(homeworkId);
             homework.setHomework_status("评价中");
@@ -117,6 +118,18 @@ public class HomeworkService {
         } else {
             homework.setHomework_status("已结束");
             List<HomeworkAnswerWithBLOBs> homeworkAnswerList = homeworkAnswerMapper.selectExpsByHomeworkId(homeworkId);
+            List<ClassUserExp> classUserExpList = new ArrayList<>();
+            for (HomeworkAnswerWithBLOBs homeworkAnswer : homeworkAnswerList) {
+                ClassUserExp classUserExp = new ClassUserExp();
+                classUserExp.setClass_id(homeworkAnswer.getClass_id());
+                classUserExp.setUser_id(homeworkAnswer.getUser_id());
+                classUserExp.setExp(homeworkAnswer.getExp());
+                classUserExp.setDetail("评价作业“" + homeworkTitle + "”");
+                classUserExp.setCreate_date_time(date);
+                classUserExp.setModify_date_time(date);
+                classUserExpList.add(classUserExp);
+            }
+            classUserExpMapper.insertRecordList(classUserExpList);
             classUserMapper.addExpsByClassIdUserId(homeworkAnswerList);
             homeworkMapper.updateByPrimaryKeySelective(homework);
             apiResponse = new ApiResponse<>("0", "作业已结束");
@@ -134,9 +147,10 @@ public class HomeworkService {
         return jsonResponse;
     }
 
-    public String commitHomework(int homeworkAnswerId, int homeworkId, int classId, int userId, String ifSubmit,
+    public String commitHomework(int homeworkAnswerId, int homeworkId, int classId, int userId, String ifSubmit, String homeworkTitle,
                                  String detail, String url, int url_file_size) {
         ApiResponse<Void> apiResponse;
+        Date date = new Date();
         HomeworkAnswerWithBLOBs homeworkAnswer = new HomeworkAnswerWithBLOBs();
         homeworkAnswer.setHomework_answer_id(homeworkAnswerId);
         homeworkAnswer.setDetail(detail);
@@ -152,6 +166,14 @@ public class HomeworkService {
                 map.put("userId", userId);
                 map.put("exp", 3);
                 classUserMapper.addExpByClassIdUserId(map);
+                ClassUserExp classUserExp = new ClassUserExp();
+                classUserExp.setClass_id(classId);
+                classUserExp.setUser_id(userId);
+                classUserExp.setExp(3);
+                classUserExp.setDetail("提交作业“" + homeworkTitle + "”");
+                classUserExp.setCreate_date_time(date);
+                classUserExp.setModify_date_time(date);
+                classUserExpMapper.insert(classUserExp);
             }
             apiResponse = new ApiResponse("0", "作业提交成功");
         } else {

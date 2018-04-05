@@ -39,8 +39,10 @@ public interface ClassUserMapper {
 
     int updateIfInClassByClassIdUserId(@Param("class_id") int class_id, @Param("user_id") int user_id);
 
+    //根据class_idh和user_id给class_user表中记录增加exp
     int addExpByClassIdUserId(Map<String, Integer> map);
 
+    //根据class_idh和user_id给class_user表中多条记录增加exp
     int addExpsByClassIdUserId(List recordList);
 
     int addExpMaterial(Material_User record);
