@@ -92,8 +92,10 @@ public class InformController {
     public void clickInform(HttpServletRequest request, HttpServletResponse response) throws IOException{
         response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
         int informuserId = Integer.parseInt(request.getParameter("informuserId"));
+        int classid = Integer.parseInt(request.getParameter("classId"));
+        int userid = Integer.parseInt(request.getParameter("userId"));
         PrintWriter out = response.getWriter();
-        String responseJson = informService.ClickInform(informuserId);
+        String responseJson = informService.ClickInform(informuserId,classid,userid);
         out.print(responseJson);
         out.close();
     }

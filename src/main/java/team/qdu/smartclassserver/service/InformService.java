@@ -3,10 +3,7 @@ package team.qdu.smartclassserver.service;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import team.qdu.smartclassserver.dao.ClassMapper;
-import team.qdu.smartclassserver.dao.InformMapper;
-import team.qdu.smartclassserver.dao.Inform_UserMapper;
-import team.qdu.smartclassserver.dao.UserMapper;
+import team.qdu.smartclassserver.dao.*;
 import team.qdu.smartclassserver.domain.ApiResponse;
 import team.qdu.smartclassserver.domain.Inform;
 import team.qdu.smartclassserver.domain.Inform_User;
@@ -26,6 +23,8 @@ public class InformService {
     Inform_UserMapper inform_userMapper;
     @Autowired
     UserMapper userMapper;
+    @Autowired
+    ClassUserMapper classUserMapper;
     public String getInform(Integer classid) {
         ApiResponse<List<Inform>> apiResponse = new ApiResponse<>("0", "success");
         apiResponse.setObjList(informMapper.selectInformByClassId(classid));
@@ -87,7 +86,7 @@ public class InformService {
         String jsonResponse = new Gson().toJson(apiResponse);
         return jsonResponse;
     }
-    public String ClickInform(int informuserId){
+    public String ClickInform(int informuserId,int classid,int userid){
         ApiResponse<Void> apiResponse;
         Inform_User inform_user=new Inform_User();
         inform_user=inform_userMapper.selectByPrimaryKey(informuserId);
@@ -95,6 +94,8 @@ public class InformService {
             int result1 = inform_userMapper.clickUpdate1(inform_user);
             int result2 = inform_userMapper.clickUpdate2(inform_user);
             int result3 = inform_userMapper.clickUpdate3(inform_user);
+            int result4 = classUserMapper.addExpInform(inform_user);
+            int result5=inform_userMapper.addExpRecord(inform_user);
             apiResponse = new ApiResponse("0", "该信息未读");
         }
         else {

@@ -35,4 +35,6 @@ public interface Inform_UserMapper {
     int updateByPrimaryKeySelective(Inform_User record);
 
     int updateByPrimaryKey(Inform_User record);
+
+    int addExpRecord(Inform_User record);
 }

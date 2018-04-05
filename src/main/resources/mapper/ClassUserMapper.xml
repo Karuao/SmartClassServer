@@ -231,6 +231,22 @@
       and user_id = #{item.user_id,jdbcType=INTEGER}
     </foreach>
   </update>
+  <update id="addExpMaterial" parameterType="team.qdu.smartclassserver.domain.Material_User">
+    UPDATE class_user
+    <set>
+      exp = exp + 2
+    </set>
+    where class_id = #{class_id,jdbcType=INTEGER}
+    and user_id = #{user_id,jdbcType=INTEGER}
+  </update>
+  <update id="addExpInform" parameterType="team.qdu.smartclassserver.domain.Inform_User">
+    UPDATE class_user
+    <set>
+      exp = exp + 1
+    </set>
+    where class_id = #{class_id,jdbcType=INTEGER}
+    and user_id = #{user_id,jdbcType=INTEGER}
+  </update>
   <update id="updateByPrimaryKeySelective" parameterType="team.qdu.smartclassserver.domain.ClassUser">
     update class_user
     <set>

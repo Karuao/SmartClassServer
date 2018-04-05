@@ -5,8 +5,11 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import team.qdu.smartclassserver.config.MyWebMvcConfigurer;
+import team.qdu.smartclassserver.dao.ClassMapper;
 import team.qdu.smartclassserver.dao.MaterialMapper;
+import team.qdu.smartclassserver.dao.Material_UserMapper;
 import team.qdu.smartclassserver.domain.Material;
+import team.qdu.smartclassserver.domain.Material_User;
 import team.qdu.smartclassserver.util.FileUtil;
 import team.qdu.smartclassserver.util.IdGenerator;
 
@@ -31,6 +34,10 @@ import java.util.List;
 public class UploadServlet extends HttpServlet {
     @Autowired
     MaterialMapper materialMapper;
+    @Autowired
+    ClassMapper classMapper;
+    @Autowired
+    Material_UserMapper material_userMapper;
 
     private static final long serialVersionUID = 1L;
 
@@ -115,7 +122,21 @@ public class UploadServlet extends HttpServlet {
                         material.setClass_id(classid);
                         material.setCreate_date_time(date);
                         material.setModify_date_time(date);
-                        int result=materialMapper.insertSelective(material);
+                        int result1=materialMapper.insertSelective(material);
+                        Material_User material_user=new Material_User();
+                        material_user.setMaterial_id(material.getMaterial_id());
+                        material_user.setName(fileName);
+                        material_user.setUrl("SmartClass/material/url/"+generatorName+"."+ext);
+                        material_user.setClass_id(classid);
+                        material_user.setCreate_date_time(date);
+                        material_user.setModify_date_time(date);
+                        material_user.setIf_download("否");
+                        List<Integer> userIdlist = classMapper.selectUserIdByClassId(classid);
+                        for(int i = 0;i < userIdlist.size(); i ++){
+                            int userid=userIdlist.get(i);
+                            material_user.setUser_id(userid);
+                            int result2=material_userMapper.insertSelective(material_user);
+                        }
                         request.setAttribute("message",
                                 "文件上传成功!");
                     }

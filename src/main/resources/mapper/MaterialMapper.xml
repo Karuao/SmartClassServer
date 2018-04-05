@@ -36,7 +36,7 @@
       #{class_id,jdbcType=INTEGER}, #{create_date_time,jdbcType=TIMESTAMP}, #{modify_date_time,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="team.qdu.smartclassserver.domain.Material">
+  <insert id="insertSelective" parameterType="team.qdu.smartclassserver.domain.Material" useGeneratedKeys="true" keyProperty="material_id">
     insert into material
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="material_id != null">

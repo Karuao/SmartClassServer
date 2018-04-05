@@ -1,8 +1,9 @@
 package team.qdu.smartclassserver.dao;
 
 import org.apache.ibatis.annotations.Param;
-import team.qdu.smartclassserver.domain.Class;
 import team.qdu.smartclassserver.domain.ClassUser;
+import team.qdu.smartclassserver.domain.Inform_User;
+import team.qdu.smartclassserver.domain.Material_User;
 
 import java.util.List;
 import java.util.Map;
@@ -41,4 +42,8 @@ public interface ClassUserMapper {
     int addExpByClassIdUserId(Map<String, Integer> map);
 
     int addExpsByClassIdUserId(List recordList);
+
+    int addExpMaterial(Material_User record);
+
+    int addExpInform(Inform_User record);
 }

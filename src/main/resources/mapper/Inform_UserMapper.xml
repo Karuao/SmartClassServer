@@ -166,6 +166,11 @@
     </set>
     WHERE class_id=#{class_id,jdbcType=INTEGER} AND user_id=#{user_id,jdbcType=INTEGER}
   </update>
+
+  <insert id="addExpRecord" parameterType="team.qdu.smartclassserver.domain.Inform_User">
+    INSERT  into class_user_exp (class_id,user_id,exp,detail,create_date_time,modify_date_time)
+    VALUES (#{class_id,jdbcType=INTEGER},#{user_id,jdbcType=INTEGER},1,'查看通知',#{create_date_time,jdbcType=TIMESTAMP}, #{modify_date_time,jdbcType=TIMESTAMP})
+  </insert>
   <update id="deleteUpdate" parameterType="team.qdu.smartclassserver.domain.Inform_User">
        UPDATE class_user
     <set>

@@ -10,8 +10,9 @@
     <link rel="stylesheet" href="<%=contextPath%>/css/bootstrap.min.css">
 </head>
 <body>
+
 <div class="page-header">
-<h1>班课文件上传</h1>
+    <center><h1>班课文件上传</h1></center>
 </div>
 <form method="post" action="UploadServlet" enctype="multipart/form-data" class="form-inline" role="form">
     <label class="sr-only" for="inputfile">选择文件</label>
@@ -20,5 +21,6 @@
     <input type="submit" class="btn btn-default" value="上传" />
     <script src="<%=contextPath%>/js/bootstrap.min.js" type="text/javascript"></script>
 </form>
+
 </body>
 </html>

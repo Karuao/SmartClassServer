@@ -18,14 +18,11 @@ import team.qdu.smartclassserver.util.IdGenerator;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 @Controller
-public class UploadController {
+public class MaterialController {
 
     @Autowired
     UserService userService;
@@ -65,7 +62,7 @@ public class UploadController {
                 materialService.uploadFile(name,"material/url/" + dir,classid);
             } catch (Exception e) {
                 e.printStackTrace();
-               return"上传资源失败";
+                return"上传资源失败";
             }
 
         }
@@ -109,7 +106,50 @@ public class UploadController {
         List<Class> classList = classService.getClasses(userid);
         return classList;
     }
+    //以上为上传资源
+
+    @RequestMapping(value = "/getTeaMaterial")
+    public void getTeaMaterial(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
+        int classId = Integer.parseInt(request.getParameter("classId"));
+        PrintWriter out = response.getWriter();
+        String responseJson = materialService.getTeaMaterial(classId);
+        out.print(responseJson);
+        out.close();
+    }
+    @RequestMapping(value = "/getStuMaterial")
+    public void getStuMaterial(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
+        int classId = Integer.parseInt(request.getParameter("classId"));
+        int userId=Integer.parseInt(request.getParameter("userId"));
+        PrintWriter out = response.getWriter();
+        String responseJson = materialService.getStuMaterial(classId,userId);
+        out.print(responseJson);
+        out.close();
+    }
+    @RequestMapping(value = "/deleteMaterial")
+    public void deleteMaterial(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
+        int materialId= Integer.parseInt(request.getParameter("materialId"));
+        PrintWriter out = response.getWriter();
+        String responseJson = materialService.deleteMaterial(materialId);
+        out.print(responseJson);
+        out.close();
+    }
+    @RequestMapping(value = "/DownloadMaterial")
+    public void downloadMaterial(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
+        Integer classid=Integer.parseInt(request.getParameter("classid"));
+        Integer userid=Integer.parseInt(request.getParameter("userid"));
+        String name= request.getParameter("name");
+        Integer material_user_Id=Integer.parseInt(request.getParameter("materialuserid"));
+        PrintWriter out = response.getWriter();
+        String responseJson = materialService.downloadMaterial(classid,userid,name,material_user_Id);
+        out.print(responseJson);
+        out.close();
+    }
 }
+
 
 
 

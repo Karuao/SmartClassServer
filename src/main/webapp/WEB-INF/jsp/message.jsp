@@ -12,7 +12,7 @@
 <body>
 
 <div class="page-header">
-    <h2>${message}</h2>
+    <center><h2>${message}</h2></center>
 
 </div>
 <form method="post" action="UploadServlet" enctype="multipart/form-data" class="form-inline" role="form">
@@ -21,6 +21,7 @@
     <br/><br/>
     <input type="submit" class="btn btn-default" value="继续上传" />
 </form>
+
 <script src="<%=contextPath%>/js/jquery-1.11.1.min.js" type="text/javascript"></script>
 <script src="<%=contextPath%>/js/bootstrap.min.js" type="text/javascript"></script>
 </body>
