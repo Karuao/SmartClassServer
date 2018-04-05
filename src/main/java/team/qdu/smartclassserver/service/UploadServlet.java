@@ -111,8 +111,6 @@ public class UploadServlet extends HttpServlet {
                         String ext=FileUtil.getExtensionName(fileName);
                         String filePath = uploadPath + File.separator + generatorName+"."+ext;
                         File storeFile = new File(filePath);
-                        // 在控制台输出文件的上传路径
-                        System.out.println(filePath);
                         // 保存文件到硬盘
                         item.write(storeFile);
                         Date date=new Date();
