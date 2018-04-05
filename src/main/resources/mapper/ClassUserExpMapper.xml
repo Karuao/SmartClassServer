@@ -31,6 +31,15 @@
       #{exp,jdbcType=INTEGER}, #{detail,jdbcType=VARCHAR}, #{create_date_time,jdbcType=TIMESTAMP}, 
       #{modify_date_time,jdbcType=TIMESTAMP})
   </insert>
+  <insert id="insertRecordList" parameterType="java.util.List">
+    insert into class_user_exp (class_id, user_id,
+    exp, detail, create_date_time, modify_date_time)values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.class_id,jdbcType=INTEGER}, #{item.user_id,jdbcType=INTEGER},
+      #{item.exp,jdbcType=INTEGER}, #{item.detail,jdbcType=VARCHAR}, #{item.create_date_time,jdbcType=TIMESTAMP},
+      #{item.modify_date_time,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
   <insert id="insertSelective" parameterType="team.qdu.smartclassserver.domain.ClassUserExp">
     insert into class_user_exp
     <trim prefix="(" suffix=")" suffixOverrides=",">

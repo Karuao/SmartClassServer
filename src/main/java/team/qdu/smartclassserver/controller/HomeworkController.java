@@ -76,8 +76,9 @@ public class HomeworkController {
         response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
         int homeworkId = Integer.parseInt(request.getParameter("homeworkId"));
         String homeworkStatus = request.getParameter("homeworkStatus");
+        String homeworkTitle = request.getParameter("homeworkTitle");
         PrintWriter out = response.getWriter();
-        String responseJson = homeworkService.changeHomeworkStatus(homeworkId, homeworkStatus);
+        String responseJson = homeworkService.changeHomeworkStatus(homeworkId, homeworkStatus, homeworkTitle);
         out.print(responseJson);
         out.close();
     }
@@ -105,6 +106,7 @@ public class HomeworkController {
         int classId = Integer.parseInt(params.getParameter("classId"));
         int userId = Integer.parseInt(params.getParameter("userId"));
         String ifSubmit = params.getParameter("ifSubmit");
+        String homeworkTitle = params.getParameter("homeworkTitle");
         String detail = params.getParameter("detail");
         PrintWriter out = response.getWriter();
         //文件处理
@@ -115,10 +117,10 @@ public class HomeworkController {
             if (!FileUtil.genaratorFiles(files, out, fullDir, "提交作业失败，请稍后再试")) {
                 return;
             }
-            homeworkService.commitHomework(homeworkAnswerId, homeworkId, classId, userId, ifSubmit,
+            homeworkService.commitHomework(homeworkAnswerId, homeworkId, classId, userId, ifSubmit, homeworkTitle,
                     detail, "SmartClass/homework_answer/url/" + dir, files.size());
         } else {
-            homeworkService.commitHomework(homeworkAnswerId, homeworkId, classId, userId, ifSubmit, detail, null, files.size());
+            homeworkService.commitHomework(homeworkAnswerId, homeworkId, classId, userId, ifSubmit, homeworkTitle, detail, null, files.size());
         }
 
         out.print(new Gson().toJson(new ApiResponse<String>("0", "上传作业成功")));
