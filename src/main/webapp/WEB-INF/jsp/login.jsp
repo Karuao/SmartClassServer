@@ -77,7 +77,6 @@
                 type: "post",
                 success: function (data) {
                     if(data=="0"){
-                        alert("登录成功"),
                         window.location.href = "/chooseClass"
                     }
                      else if(data=="1"){
