@@ -70,7 +70,7 @@ public class ClassController {
                 byte[] bytes = file.getBytes();
                 filename = IdGenerator.generateGUID() + "." + FileUtil.getExtensionName(file.getOriginalFilename());
                 stream = new BufferedOutputStream(new FileOutputStream(
-                        new File(MyWebMvcConfigurer.UPLOAD_PATH + "/resources/SmartClass/class/avatar/" + filename)));
+                        new File(MyWebMvcConfigurer.UPLOAD_PATH + "resources/SmartClass/class/avatar/" + filename)));
                 stream.write(bytes);
                 stream.close();
                 responseJson = classService.createClass(name, course, userId, "SmartClass/class/avatar/" + filename);
