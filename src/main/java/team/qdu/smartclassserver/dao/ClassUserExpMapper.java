@@ -19,4 +19,6 @@ public interface ClassUserExpMapper {
     int updateByPrimaryKeySelective(ClassUserExp record);
 
     int updateByPrimaryKey(ClassUserExp record);
+
+    List<ClassUserExp> selectByClassIdAndUserId(Integer class_id,Integer user_id);
 }
