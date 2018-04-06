@@ -4,11 +4,8 @@ import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team.qdu.smartclassserver.dao.*;
-import team.qdu.smartclassserver.domain.ApiResponse;
-import team.qdu.smartclassserver.domain.Attendance;
-import team.qdu.smartclassserver.domain.Attendance_user;
+import team.qdu.smartclassserver.domain.*;
 import team.qdu.smartclassserver.domain.Class;
-import team.qdu.smartclassserver.domain.ClassUser;
 import team.qdu.smartclassserver.util.PushUtil;
 
 import javax.swing.plaf.PanelUI;
@@ -31,6 +28,9 @@ public class MemberService {
 
     @Autowired
     Attendance_userMapper attendance_userMapper;
+
+    @Autowired
+    ClassUserExpMapper classUserExpMapper;
 
     //获取用户班课列表
     public String getClassMembers(Integer classId) {
@@ -103,6 +103,21 @@ public class MemberService {
         return jsonResponse;
     }
 
+    //获取经验值明细
+    public String getExpDetail(int classId,int userId){
+        List<ClassUserExp> cue = classUserExpMapper.selectByClassIdAndUserId(classId,userId);
+        ApiResponse<List<ClassUserExp>> apiResponse;
+        if(cue!=null){
+            apiResponse = new ApiResponse<>("0","经验值列表存在");
+            apiResponse.setObjList(cue);
+        }else{
+            apiResponse = new ApiResponse<>("2", "经验值列表不存在");
+        }
+        String jsonResponse = new Gson().toJson(apiResponse);
+
+        return jsonResponse;
+    }
+
     //移出班课
     public String shiftClass(int classUserId) {
         ApiResponse apiResponse;
@@ -129,10 +144,20 @@ public class MemberService {
         if(attendance_user.getAttendance_status().equals("已签到")){
             apiResponse = new ApiResponse("3", "您已签到，请勿重复点击！");
         }else {
+            //向ClassUserExp表中插入一条记录
+            ClassUserExp classUserExp = new ClassUserExp();
+            classUserExp.setClass_id(classId);
+            classUserExp.setUser_id(userId);
+            classUserExp.setExp(5);
+            classUserExp.setDetail("签到成功");
+            Date date = new Date();
+            classUserExp.setCreate_date_time(date);
+            classUserExp.setModify_date_time(date);
+            classUserExpMapper.insert(classUserExp);
+            //更新AttendanceUser表
             int exp = classUser.getExp() + 5;
             classUser.setExp(exp);
             attendance_user.setAttendance_status("已签到");
-            Date date = new Date();
             classUser.setModify_date_time(date);
             attendance_user.setModify_date_time(date);
             attendance_userMapper.updateByPrimaryKeySelective(attendance_user);

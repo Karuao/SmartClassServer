@@ -73,6 +73,18 @@ public class MemberController {
         out.close();
     }
 
+    //获取经验值明细
+    @RequestMapping(value = "/getExpDetail")
+    public void getExpDetail(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);
+        int classId = Integer.parseInt(request.getParameter("classId"));
+        int userId = Integer.parseInt(request.getParameter("userId"));
+        PrintWriter out = response.getWriter();
+        String responseJson = memberService.getExpDetail(classId,userId);
+        out.print(responseJson);
+        out.close();
+    }
+
     //获取学生签到信息
     @RequestMapping(value = "/getAttendanceUserInfo")
     public void getAttendanceUserInfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
