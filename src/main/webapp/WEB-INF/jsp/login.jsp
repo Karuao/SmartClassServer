@@ -77,6 +77,7 @@
                 type: "post",
                 success: function (data) {
                     if(data=="0"){
+                        
                         window.location.href = "/chooseClass"
                     }
                      else if(data=="1"){
