@@ -56,7 +56,7 @@ public class MemberService {
         return jsonResponse;
     }
 
-    //获取用户班课列表
+    //获取用户班课信息
     public String getMemberInfo(int classUserId){
         ClassUser cu = classUserMapper.selectMemberInfoByPrimaryKey(classUserId);
         ApiResponse<ClassUser> apiResponse;
