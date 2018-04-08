@@ -82,7 +82,7 @@
 </select>
   <select id="selectMemberInfoByPrimaryKey" parameterType="java.lang.Integer" resultMap="DetailResultMap">
     select
-    user.name as user_name,user.sno as user_sno,user.avatar as user_avatar,class_user.exp as exp,class_user.class_user_id
+    user.name as user_name,user.sno as user_sno,user.avatar as user_avatar,class_user.exp,class_user.class_user_id
     from class_user,user
     where class_user_id = #{class_user_id,jdbcType=INTEGER}
     and class_user.if_in_class = '是'
