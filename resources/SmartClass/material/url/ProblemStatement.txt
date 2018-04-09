@@ -1,2 +1,0 @@
-Create a database NIIT which has table Employee. The table has details as ID, name, salary, department. Add 5 rows. 
-Create a web application which allows the user to search for EmployeeID and show the result in the form of a table.

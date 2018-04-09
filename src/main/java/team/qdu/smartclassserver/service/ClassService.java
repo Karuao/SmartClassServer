@@ -124,7 +124,7 @@ public class ClassService  {
 
     //创建班课
     public String createClass(String name, String course, int userId, String avatarPath) {
-        ApiResponse<String> apiResponse;
+        ApiResponse<ClassUser> apiResponse;
         User user = userMapper.selectByPrimaryKey(userId);
         //向class表插入班课信息
         Class createdclass = new Class();
@@ -157,7 +157,12 @@ public class ClassService  {
         classUserMapper.insert(classUser);
 
         apiResponse = new ApiResponse<>("0", "创建班课成功");
-        apiResponse.setObj(createdclass.getClass_id().toString());
+        ClassUser apiResponseObj = new ClassUser();
+        apiResponseObj.setClass_user_id(classUser.getClass_user_id());
+        apiResponseObj.setClass_id(classUser.getClass_id());
+        apiResponseObj.setMy_class(new Class());
+        apiResponseObj.getMy_class().setAvatar(createdclass.getAvatar());
+        apiResponse.setObj(apiResponseObj);
         String jsonResponse = new Gson().toJson(apiResponse);
         return jsonResponse;
     }
