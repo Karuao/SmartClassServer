@@ -69,7 +69,7 @@
             var password=document.getElementById("form-password").value;
             $.ajax({
                 async: false,
-                url: "http://localhost" + "/weblogin",
+                url: "<%=contextPath%>/weblogin",
                 data:{
                     account:account,
                     password:password

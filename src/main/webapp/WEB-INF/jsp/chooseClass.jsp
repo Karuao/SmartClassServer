@@ -18,7 +18,7 @@
             var classid;
             $.ajax({
                 async: false,
-                url: "http://localhost" + "/chooseClassRequest",
+                url: "<%=contextPath%>/chooseClassRequest",
                 type: "post",
                 dataType: 'json',
                 success: function (data) {
