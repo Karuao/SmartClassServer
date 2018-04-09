@@ -217,9 +217,7 @@ public class ClassService  {
     }
 
     public String confirmjoinClass(int classId, int userId) {
-        ApiResponse apiResponse;
-
-
+        ApiResponse<Integer> apiResponse;
         if (classUserMapper.updateIfInClassByClassIdUserId(classId, userId) == 1) {
             //处理该学生以前在班课，退出了，重新加入的情况
         } else {
@@ -240,6 +238,7 @@ public class ClassService  {
             classUserMapper.insert(classUser);
         }
         apiResponse = new ApiResponse("0", "加入班课成功");
+        apiResponse.setObj(classUserMapper.selectByClassIdAndUserId(classId, userId).getClass_user_id());
         String jsonResponse = new Gson().toJson(apiResponse);
         return jsonResponse;
     }
