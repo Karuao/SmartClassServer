@@ -122,7 +122,8 @@
     delete from class_user
     where class_user_id = #{class_user_id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="team.qdu.smartclassserver.domain.ClassUser">
+  <insert id="insert" parameterType="team.qdu.smartclassserver.domain.ClassUser"
+    useGeneratedKeys="true" keyProperty="class_user_id">
     insert into class_user (class_user_id, class_id, user_id, 
       title, if_in_class, if_new_material, if_new_homework, if_new_class_thing, unread_information_num,
       exp, create_date_time, modify_date_time
