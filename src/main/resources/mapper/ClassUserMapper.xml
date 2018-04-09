@@ -218,6 +218,47 @@
     where class_id = #{class_id,jdbcType=INTEGER}
     and user_id = #{user_id,jdbcType=INTEGER}
   </update>
+  <update id="updateByClassIdUserIdSelective" parameterType="team.qdu.smartclassserver.domain.ClassUser"
+          useGeneratedKeys="true" keyProperty="class_user_id">
+    update class_user
+    <set>
+      <if test="class_id != null">
+        class_id = #{class_id,jdbcType=INTEGER},
+      </if>
+      <if test="user_id != null">
+        user_id = #{user_id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="if_in_class != null">
+        if_in_class = #{if_in_class,jdbcType=VARCHAR},
+      </if>
+      <if test="if_new_material != null">
+        if_new_material = #{if_new_material,jdbcType=VARCHAR},
+      </if>
+      <if test="if_new_homework != null">
+        if_new_homework = #{if_new_homework,jdbcType=VARCHAR},
+      </if>
+      <if test="if_new_class_thing != null">
+        if_new_class_thing = #{if_new_class_thing,jdbcType=VARCHAR},
+      </if>
+      <if test="unread_information_num != null">
+        unread_information_num = #{unread_information_num,jdbcType=INTEGER},
+      </if>
+      <if test="exp != null">
+        exp = #{exp,jdbcType=INTEGER},
+      </if>
+      <if test="create_date_time != null">
+        create_date_time = #{create_date_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modify_date_time != null">
+        modify_date_time = #{modify_date_time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where class_id = #{class_id,jdbcType=INTEGER}
+      and user_id = #{user_id,jdbcType=INTEGER}
+  </update>
   <update id="addExpByClassIdUserId" parameterType="java.util.Map">
     update class_user
     set exp = exp + #{exp,jdbcType=INTEGER}

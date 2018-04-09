@@ -35,6 +35,8 @@ public interface ClassUserMapper {
 
     int updateByClassIdSelective(ClassUser record);
 
+    int updateByClassIdUserIdSelective(ClassUser record);
+
     int updateByPrimaryKey(ClassUser record);
 
     int updateIfInClassByClassIdUserId(@Param("class_id") int class_id, @Param("user_id") int user_id);

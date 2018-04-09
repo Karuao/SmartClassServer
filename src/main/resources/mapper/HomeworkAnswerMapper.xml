@@ -141,7 +141,7 @@
     modify_date_time
     )values
     <foreach collection="list" item="item" separator=",">
-      ( #{item.homework_id,jdbcType=INTEGER},
+      (#{item.homework_id,jdbcType=INTEGER},
       #{item.user_id,jdbcType=INTEGER}, #{item.url_file_num,jdbcType=INTEGER}, #{item.if_submit,jdbcType=VARCHAR},
       #{item.remark_url_file_num,jdbcType=INTEGER}, #{item.class_id,jdbcType=INTEGER}, #{item.create_date_time,jdbcType=TIMESTAMP},
       #{item.modify_date_time,jdbcType=TIMESTAMP})
