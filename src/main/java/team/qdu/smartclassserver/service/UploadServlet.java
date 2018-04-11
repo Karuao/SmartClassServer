@@ -65,6 +65,7 @@ public class UploadServlet extends HttpServlet {
             return;
         }
 
+
         // 配置上传参数
         DiskFileItemFactory factory = new DiskFileItemFactory();
         // 设置内存临界值 - 超过后将产生临时文件并存储于临时目录中
@@ -108,6 +109,10 @@ public class UploadServlet extends HttpServlet {
                     if (!item.isFormField()) {
                         String generatorName=IdGenerator.generateGUID();
                         String fileName = new File(item.getName()).getName();
+                        if(fileName.length()>32){
+                            request.setAttribute("message", "上传文件名过长，请重试");
+                            break;
+                        }
                         String ext=FileUtil.getExtensionName(fileName);
                         String filePath = uploadPath + File.separator + generatorName+"."+ext;
                         File storeFile = new File(filePath);
