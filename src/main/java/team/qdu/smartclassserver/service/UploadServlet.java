@@ -141,7 +141,7 @@ public class UploadServlet extends HttpServlet {
                             int result2=material_userMapper.insertSelective(material_user);
                         }
                         request.setAttribute("message",
-                                "文件上传成功!");
+                                fileName+"上传成功!");
                     }
                 }
             }
