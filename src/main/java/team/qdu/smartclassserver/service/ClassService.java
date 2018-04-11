@@ -269,8 +269,10 @@ public class ClassService  {
         classUser.setClass_user_id(classUserId);
         if ("material".equals(whichPage)) {
             classUser.setIf_new_material("否");
+            classUser.setIf_new_class_thing("否");
         } else if ("homework".equals(whichPage)){
             classUser.setIf_new_homework("否");
+            classUser.setIf_new_class_thing("否");
         } else {
             classUser.setIf_new_class_thing("否");
         }
