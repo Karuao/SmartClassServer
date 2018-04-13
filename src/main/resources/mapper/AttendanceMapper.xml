@@ -134,4 +134,9 @@
     set attendance_stu_count = attendance_stu_count + 1
     where attendance_id = #{attendance_id,jdbcType=INTEGER}
   </update>
+  <update id="updateSignInNumberByPrimaryKey2" parameterType="team.qdu.smartclassserver.domain.Attendance">
+    update attendance
+    set attendance_stu_count = attendance_stu_count - 1
+    where attendance_id = #{attendance_id,jdbcType=INTEGER}
+  </update>
 </mapper>

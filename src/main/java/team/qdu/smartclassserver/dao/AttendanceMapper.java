@@ -22,4 +22,6 @@ public interface AttendanceMapper {
     int updateByPrimaryKey(Attendance record);
 
     int updateSignInNumberByPrimaryKey(Integer attendance_id);
+
+    int updateSignInNumberByPrimaryKey2(Integer attendance_id);
 }

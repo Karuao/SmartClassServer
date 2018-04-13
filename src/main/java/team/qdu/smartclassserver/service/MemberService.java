@@ -231,7 +231,27 @@ public class MemberService {
     public String setStudentSignIn(int attendanceUserId) {
         ApiResponse apiResponse;
         Attendance_user au = attendance_userMapper.selectByPrimaryKey(attendanceUserId);
+        Attendance at = attendanceMapper.selectByPrimaryKey(au.getAttendance_id());
+        //向ClassUserExp表中插入一条记录
+        ClassUserExp classUserExp = new ClassUserExp();
+        classUserExp.setClass_id(at.getClass_id());
+        classUserExp.setUser_id(au.getUser_id());
+        classUserExp.setExp(5);
+        classUserExp.setDetail("签到成功");
+        Date date = new Date();
+        classUserExp.setCreate_date_time(date);
+        classUserExp.setModify_date_time(date);
+        classUserExpMapper.insert(classUserExp);
+        ClassUser classUser = classUserMapper.selectByClassIdAndUserId(at.getClass_id(),au.getUser_id());
+        //更新AttendanceUser表
+        int exp = classUser.getExp() + 5;
+        classUser.setExp(exp);
+        classUser.setModify_date_time(date);
         au.setAttendance_status("已签到");
+        au.setModify_date_time(date);
+        attendance_userMapper.updateByPrimaryKeySelective(au);
+        classUserMapper.updateByPrimaryKeySelective(classUser);
+        attendanceMapper.updateSignInNumberByPrimaryKey(au.getAttendance_id());
         int result = attendance_userMapper.updateByPrimaryKeySelective(au);
         if (result == 1) {
             apiResponse = new ApiResponse("0", "修改成功");
@@ -246,7 +266,21 @@ public class MemberService {
     public String setStudentNotSignIn(int attendanceUserId) {
         ApiResponse apiResponse;
         Attendance_user au = attendance_userMapper.selectByPrimaryKey(attendanceUserId);
+        Attendance at = attendanceMapper.selectByPrimaryKey(au.getAttendance_id());
+        ClassUser cu = classUserMapper.selectByClassIdAndUserId(at.getClass_id(),au.getUser_id());
         au.setAttendance_status("未签到");
+        attendanceMapper.updateSignInNumberByPrimaryKey2(au.getAttendance_id());
+        ClassUserExp cux = new ClassUserExp();
+        cux.setUser_id(au.getUser_id());
+        cux.setClass_id(at.getClass_id());
+        cux.setExp(-5);
+        Date date = new Date();
+        int exp = cu.getExp() - 5;
+        cu.setExp(exp);
+        cu.setModify_date_time(date);
+        cux.setCreate_date_time(date);
+        cux.setModify_date_time(date);
+        classUserExpMapper.insert(cux);
         int result = attendance_userMapper.updateByPrimaryKeySelective(au);
         if (result == 1) {
             apiResponse = new ApiResponse("0", "修改成功");
