@@ -237,7 +237,7 @@ public class MemberService {
         classUserExp.setClass_id(at.getClass_id());
         classUserExp.setUser_id(au.getUser_id());
         classUserExp.setExp(5);
-        classUserExp.setDetail("签到成功");
+        classUserExp.setDetail("教师端签到");
         Date date = new Date();
         classUserExp.setCreate_date_time(date);
         classUserExp.setModify_date_time(date);
@@ -249,7 +249,6 @@ public class MemberService {
         classUser.setModify_date_time(date);
         au.setAttendance_status("已签到");
         au.setModify_date_time(date);
-        attendance_userMapper.updateByPrimaryKeySelective(au);
         classUserMapper.updateByPrimaryKeySelective(classUser);
         attendanceMapper.updateSignInNumberByPrimaryKey(au.getAttendance_id());
         int result = attendance_userMapper.updateByPrimaryKeySelective(au);
@@ -274,6 +273,7 @@ public class MemberService {
         cux.setUser_id(au.getUser_id());
         cux.setClass_id(at.getClass_id());
         cux.setExp(-5);
+        cux.setDetail("教师设为未签到");
         Date date = new Date();
         int exp = cu.getExp() - 5;
         cu.setExp(exp);
@@ -281,6 +281,8 @@ public class MemberService {
         cux.setCreate_date_time(date);
         cux.setModify_date_time(date);
         classUserExpMapper.insert(cux);
+        classUserMapper.updateByPrimaryKeySelective(cu);
+        attendanceMapper.updateByPrimaryKeySelective(at);
         int result = attendance_userMapper.updateByPrimaryKeySelective(au);
         if (result == 1) {
             apiResponse = new ApiResponse("0", "修改成功");
