@@ -23,7 +23,7 @@ public class VersionController {
         String responseJson;
         //从version.json中读取版本信息
         String versionFilePath = MyWebMvcConfigurer.UPLOAD_PATH + "resources/SmartClass/apk/version.json";
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(versionFilePath)));
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(versionFilePath), "utf-8"));
         StringBuilder stringBuilder = new StringBuilder();
         while ((responseJson = bufferedReader.readLine()) != null) {
             stringBuilder.append(responseJson);

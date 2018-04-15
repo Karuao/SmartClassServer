@@ -45,9 +45,9 @@ public class UploadServlet extends HttpServlet {
     private static final String UPLOAD_DIRECTORY = "material/url";
 
     // 上传配置
-    private static final int MEMORY_THRESHOLD   = 1024 * 1024 * 3;  // 3MB
-    private static final int MAX_FILE_SIZE      = 1024 * 1024 * 40; // 40MB
-    private static final int MAX_REQUEST_SIZE   = 1024 * 1024 * 50; // 50MB
+    private static final int MEMORY_THRESHOLD = 1024 * 1024 * 3;  // 3MB
+    private static final int MAX_FILE_SIZE = 1024 * 1024 * 40; // 40MB
+    private static final int MAX_REQUEST_SIZE = 1024 * 1024 * 50; // 50MB
 
     /**
      * 上传数据及保存文件
@@ -83,12 +83,12 @@ public class UploadServlet extends HttpServlet {
 
         // 中文处理
         upload.setHeaderEncoding("UTF-8");
-        HttpSession session=request.getSession();
-        int classid= (int) session.getAttribute("classid");
-        String responseJson=null;
+        HttpSession session = request.getSession();
+        int classid = (int) session.getAttribute("classid");
+        String responseJson = null;
         // 构造临时路径来存储上传的文件
         // 这个路径相对当前应用的目录
-        String uploadPath = MyWebMvcConfigurer.UPLOAD_PATH +"resources/SmartClass"+ File.separator + UPLOAD_DIRECTORY;
+        String uploadPath = MyWebMvcConfigurer.UPLOAD_PATH + "resources/SmartClass" + File.separator + UPLOAD_DIRECTORY;
 
 
         // 如果目录不存在则创建
@@ -107,41 +107,41 @@ public class UploadServlet extends HttpServlet {
                 for (FileItem item : formItems) {
                     // 处理不在表单中的字段
                     if (!item.isFormField()) {
-                        String generatorName=IdGenerator.generateGUID();
+                        String generatorName = IdGenerator.generateGUID();
                         String fileName = new File(item.getName()).getName();
-                        if(fileName.length()>32){
+                        if (fileName.length() > 32) {
                             request.setAttribute("message", "上传文件名过长，请重试");
                             break;
                         }
-                        String ext=FileUtil.getExtensionName(fileName);
-                        String filePath = uploadPath + File.separator + generatorName+"."+ext;
+                        String ext = FileUtil.getExtensionName(fileName);
+                        String filePath = uploadPath + File.separator + generatorName + "." + ext;
                         File storeFile = new File(filePath);
                         // 保存文件到硬盘
                         item.write(storeFile);
-                        Date date=new Date();
-                        Material material=new Material();
+                        Date date = new Date();
+                        Material material = new Material();
                         material.setName(fileName);
-                        material.setUrl("SmartClass/material/url/"+generatorName+"."+ext);
+                        material.setUrl("SmartClass/material/url/" + generatorName + "." + ext);
                         material.setClass_id(classid);
                         material.setCreate_date_time(date);
                         material.setModify_date_time(date);
-                        int result1=materialMapper.insertSelective(material);
-                        Material_User material_user=new Material_User();
+                        int result1 = materialMapper.insertSelective(material);
+                        Material_User material_user = new Material_User();
                         material_user.setMaterial_id(material.getMaterial_id());
                         material_user.setName(fileName);
-                        material_user.setUrl("SmartClass/material/url/"+generatorName+"."+ext);
+                        material_user.setUrl("SmartClass/material/url/" + generatorName + "." + ext);
                         material_user.setClass_id(classid);
                         material_user.setCreate_date_time(date);
                         material_user.setModify_date_time(date);
                         material_user.setIf_download("否");
                         List<Integer> userIdlist = classMapper.selectUserIdByClassId(classid);
-                        for(int i = 0;i < userIdlist.size(); i ++){
-                            int userid=userIdlist.get(i);
+                        for (int i = 0; i < userIdlist.size(); i++) {
+                            int userid = userIdlist.get(i);
                             material_user.setUser_id(userid);
-                            int result2=material_userMapper.insertSelective(material_user);
+                            int result2 = material_userMapper.insertSelective(material_user);
                         }
                         request.setAttribute("message",
-                                fileName+"上传成功!");
+                                fileName + "上传成功!");
                     }
                 }
             }
