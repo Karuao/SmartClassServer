@@ -1,5 +1,6 @@
 package team.qdu.smartclassserver.service;
 
+import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,7 @@ public class MemberService {
     public String getClassMembers(Integer classId) {
         ApiResponse<List<ClassUser>> apiResponse = new ApiResponse<>("0", "success");
         apiResponse.setObjList(classUserMapper.selectClassMembersByClassId(classId));
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
 
@@ -44,7 +45,7 @@ public class MemberService {
     public String getTeacherSignInHistory(Integer classId) {
         ApiResponse<List<Attendance>> apiResponse = new ApiResponse<>("0", "success");
         apiResponse.setObjList(attendanceMapper.selectAttendanceByClassId(classId));
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
 
@@ -52,7 +53,7 @@ public class MemberService {
     public String getStudentSignInHistory(Integer userId,Integer classId) {
         ApiResponse<List<Attendance_user>> apiResponse = new ApiResponse<>("0", "success");
         apiResponse.setObjList(attendance_userMapper.selectAttendanceUserByUserIdAndClassId(userId,classId));
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
 
@@ -68,7 +69,7 @@ public class MemberService {
             //该用户不存在
             apiResponse = new ApiResponse<>("2", "成员不存在");
         }
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
 
         return jsonResponse;
     }
@@ -83,7 +84,7 @@ public class MemberService {
         }else{
             apiResponse = new ApiResponse<>("2", "签到记录不存在");
         }
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
 
         return jsonResponse;
     }
@@ -98,7 +99,7 @@ public class MemberService {
         }else{
             apiResponse = new ApiResponse<>("2", "签到列表不存在");
         }
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
 
         return jsonResponse;
     }
@@ -113,7 +114,7 @@ public class MemberService {
         }else{
             apiResponse = new ApiResponse<>("2", "经验值列表不存在");
         }
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
 
         return jsonResponse;
     }
@@ -129,7 +130,7 @@ public class MemberService {
         } else {
             apiResponse = new ApiResponse("1", "移出班课失败");
         }
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
 
@@ -171,7 +172,7 @@ public class MemberService {
                 apiResponse = new ApiResponse("1", "签到失败");
             }
         }
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
 
@@ -209,7 +210,7 @@ public class MemberService {
                 apiResponse = new ApiResponse("1", "签到失败");
             }
         }
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
 
@@ -223,7 +224,7 @@ public class MemberService {
         } else {
             apiResponse = new ApiResponse("1", "放弃失败");
         }
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
 
@@ -257,7 +258,7 @@ public class MemberService {
         } else {
             apiResponse = new ApiResponse("1", "修改失败");
         }
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
 
@@ -289,7 +290,7 @@ public class MemberService {
         } else {
             apiResponse = new ApiResponse("1", "修改失败");
         }
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
 
@@ -306,7 +307,7 @@ public class MemberService {
         } else {
             apiResponse = new ApiResponse("1", "结束失败");
         }
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
 }

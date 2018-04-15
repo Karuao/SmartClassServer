@@ -1,5 +1,6 @@
 package team.qdu.smartclassserver.service;
 
+import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,7 @@ public class InformService {
     public String getInform(Integer classid) {
         ApiResponse<List<Inform>> apiResponse = new ApiResponse<>("0", "success");
         apiResponse.setObjList(informMapper.selectInformByClassId(classid));
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
     public String  getReadPeople(Integer informId){
@@ -40,7 +41,7 @@ public class InformService {
             userList.add(userMapper.selectByPrimaryKey(id));
         }
         apiResponse.setObjList(userList);
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
     public String  getUnReadPeople(Integer informId){
@@ -52,13 +53,13 @@ public class InformService {
             userList.add(userMapper.selectByPrimaryKey(id));
         }
         apiResponse.setObjList(userList);
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
     public String  getUnReadNum(Integer informId){
         String unreadNum=String.valueOf(informMapper.selectUnReadPeople(informId));
         ApiResponse<Void> apiResponse = new ApiResponse<>("0", unreadNum);
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
     public String getUserInform(Integer classid,Integer userid) {
@@ -67,7 +68,7 @@ public class InformService {
         inform_user.setClass_id(classid);
         inform_user.setUser_id(userid);
         apiResponse.setObjList(inform_userMapper.selectInformByClassIdUserId(inform_user));
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
     public String judgeClicked(int informid,int userid){
@@ -83,7 +84,7 @@ public class InformService {
         else {
             apiResponse = new ApiResponse<>("0", "已读");
         }
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
     public String ClickInform(int informuserId,int classid,int userid){
@@ -101,7 +102,7 @@ public class InformService {
         else {
             apiResponse = new ApiResponse("0", "该信息已读");
         }
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
 
     }
@@ -121,7 +122,7 @@ public class InformService {
         }else{
             apiResponse = new ApiResponse("1", "删除通知失败");
         }
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
 
@@ -154,7 +155,7 @@ public class InformService {
         }else{
             apiResponse = new ApiResponse("1", "创建通知失败");
         }
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
 }

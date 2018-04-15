@@ -1,5 +1,6 @@
 package team.qdu.smartclassserver.service;
 
+import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,7 @@ public class ClassService  {
     public String getJoinedClasses(Integer userId) {
         ApiResponse<List<ClassUser>> apiResponse = new ApiResponse<>("0", "success");
         apiResponse.setObjList(classUserMapper.selectJoinedClassesByUserId(userId));
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
 
@@ -45,7 +46,7 @@ public class ClassService  {
         ClassUser clickedClass = classUserMapper.selectMyClassByClassIdUserId(classId, userId);
         apiResponse = new ApiResponse<>("0", "");
         apiResponse.setObj(clickedClass);
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
 
@@ -60,7 +61,7 @@ public class ClassService  {
         } else {
             apiResponse = new ApiResponse("1", "设置失败");
         }
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
 
@@ -74,7 +75,7 @@ public class ClassService  {
         } else {
             apiResponse = new ApiResponse("1", "设置失败");
         }
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
 
@@ -89,7 +90,7 @@ public class ClassService  {
             //该课程不存在
             apiResponse = new ApiResponse<>("2", "课程不存在");
         }
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
 
         return jsonResponse;
     }
@@ -104,7 +105,7 @@ public class ClassService  {
         } else {
             apiResponse = new ApiResponse("1", "失败");
         }
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
 
@@ -118,7 +119,7 @@ public class ClassService  {
         } else {
             apiResponse = new ApiResponse("1", "删除失败");
         }
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
 
@@ -163,7 +164,7 @@ public class ClassService  {
         apiResponseObj.setMy_class(new Class());
         apiResponseObj.getMy_class().setAvatar(createdclass.getAvatar());
         apiResponse.setObj(apiResponseObj);
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
 
@@ -186,7 +187,7 @@ public class ClassService  {
         } else {
             apiResponse = new ApiResponse("1", "修改班课信息失败");
         }
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
 
@@ -217,7 +218,7 @@ public class ClassService  {
             apiResponse.setObj(joinedClass);
         }
 
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
 
@@ -244,7 +245,7 @@ public class ClassService  {
         }
         apiResponse = new ApiResponse("0", "加入班课成功");
         apiResponse.setObj(classUserMapper.selectByClassIdAndUserId(classId, userId).getClass_user_id());
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
 
@@ -260,7 +261,7 @@ public class ClassService  {
         } else {
             apiResponse = new ApiResponse("1", "退出班课失败");
         }
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
 

@@ -1,5 +1,6 @@
 package team.qdu.smartclassserver.service;
 
+import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,7 @@ public class MaterialService {
     public String getTeaMaterial(Integer classid) {
         ApiResponse<List<Material>> apiResponse = new ApiResponse<>("0", "success");
         apiResponse.setObjList(materialMapper.selectByClassid(classid));
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
 
@@ -43,7 +44,7 @@ public class MaterialService {
         material_user.setClass_id(classid);
         material_user.setUser_id(userid);
         apiResponse.setObjList(material_userMapper.selectByClassidUserid(material_user));
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
     public String downloadMaterial(Integer classid,Integer userid,String name,Integer material_user_id) {
@@ -60,12 +61,12 @@ public class MaterialService {
             int result = material_userMapper.downloadMaterial1(material_user_id);
             int result2 = classUserMapper.addExpMaterial(material_user);
             int result3 = material_userMapper.addExpRecord(material_user);
-            String jsonResponse = new Gson().toJson(apiResponse);
+            String jsonResponse = JSON.toJSONString(apiResponse);
             return jsonResponse;
         }
         else {
             ApiResponse<List<Material_User>> apiResponse = new ApiResponse<>("1", "已经下载过此资源");
-            String jsonResponse = new Gson().toJson(apiResponse);
+            String jsonResponse = JSON.toJSONString(apiResponse);
             return jsonResponse;
         }
     }
@@ -78,7 +79,7 @@ public class MaterialService {
         }else{
             apiResponse = new ApiResponse("1", "删除资源失败");
         }
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
 

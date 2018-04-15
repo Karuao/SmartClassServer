@@ -13,6 +13,8 @@ public class ApiResponse<T> implements Serializable {
 
     private T objList;
 
+    public ApiResponse(){}
+
     public ApiResponse(String event, String msg) {
         this.event = event;
         this.msg = msg;

@@ -1,5 +1,6 @@
 package team.qdu.smartclassserver.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -77,7 +78,7 @@ public class ClassController {
             } catch (Exception e) {
                 e.printStackTrace();
                 stream = null;
-                responseJson = new Gson().toJson(new ApiResponse<String>("1", "上传班课信息失败"));
+                responseJson = JSON.toJSONString(new ApiResponse<String>("1", "上传班课信息失败"));
             }
         } else {
             responseJson = classService.createClass(name, course, userId, null);
@@ -117,7 +118,7 @@ public class ClassController {
                 responseJson = classService.modifyClass(classId, "SmartClass/class/avatar/" + filename, className, course, university, department, goal, exam);
             } catch (Exception e) {
                 e.printStackTrace();
-                responseJson = new Gson().toJson(new ApiResponse<String>("1", "上传班课信息失败"));
+                responseJson = JSON.toJSONString(new ApiResponse<String>("1", "上传班课信息失败"));
             }
         }else {
             responseJson = classService.modifyClass(classId, null, className, course, university, department, goal, exam);

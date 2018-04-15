@@ -1,5 +1,6 @@
 package team.qdu.smartclassserver.util;
 
+import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import org.springframework.web.multipart.MultipartFile;
 import team.qdu.smartclassserver.domain.ApiResponse;
@@ -83,7 +84,7 @@ public class FileUtil {
                 stream.close();
             } catch (Exception e) {
                 e.printStackTrace();
-                out.print(new Gson().toJson(new ApiResponse<String>("1", failMessage)));
+                out.print(JSON.toJSONString(new ApiResponse<String>("1", failMessage)));
                 out.close();
                 return false;
             }

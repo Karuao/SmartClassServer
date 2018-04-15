@@ -1,5 +1,6 @@
 package team.qdu.smartclassserver.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -111,7 +112,7 @@ public class UserController {
             } catch (Exception e) {
                 e.printStackTrace();
                 stream = null;
-                responseJson = new Gson().toJson(new ApiResponse<String>("1", "上传个人信息失败"));
+                responseJson = JSON.toJSONString(new ApiResponse<String>("1", "上传个人信息失败"));
             }
         } else {
             responseJson = userService.updateUserInformation(null, account, name, gender, sno, university, department, motto);

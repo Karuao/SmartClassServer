@@ -1,5 +1,6 @@
 package team.qdu.smartclassserver.service;
 
+import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,7 @@ public class UserService {
             // 用户不存在
             apiResponse = new ApiResponse("2", "用户不存在");
         }
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
 
         return jsonResponse;
     }
@@ -80,7 +81,7 @@ public class UserService {
             int msg=userMapper.insert(user1);
             apiResponse = new ApiResponse("0", "注册成功");
         }
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
 
         return jsonResponse;
     }
@@ -98,7 +99,7 @@ public class UserService {
             //该用户不存在
             apiResponse = new ApiResponse<>("2", "用户不存在");
         }
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
 
         return jsonResponse;
     }
@@ -114,7 +115,7 @@ public class UserService {
             //该用户不存在
             apiResponse = new ApiResponse<>("2", "用户不存在");
         }
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
 
         return jsonResponse;
     }
@@ -136,7 +137,7 @@ public class UserService {
         }else{
             apiResponse = new ApiResponse("1", "修改密码失败");
         }
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
 
         return jsonResponse;
     }
@@ -161,7 +162,7 @@ public class UserService {
         }else{
             apiResponse = new ApiResponse("1", "修改个人信息失败");
         }
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
 
         return jsonResponse;
     }

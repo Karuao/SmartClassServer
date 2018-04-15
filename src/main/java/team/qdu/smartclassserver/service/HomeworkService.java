@@ -1,5 +1,6 @@
 package team.qdu.smartclassserver.service;
 
+import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -100,7 +101,7 @@ public class HomeworkService {
             }
         }
 
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
 
@@ -135,7 +136,7 @@ public class HomeworkService {
             apiResponse = new ApiResponse<>("0", "作业已结束");
         }
 
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
 
@@ -143,7 +144,7 @@ public class HomeworkService {
         ApiResponse<HomeworkAnswerWithBLOBs> apiResponse = new ApiResponse<>("0", "");
         apiResponse.setObj(homeworkAnswerMapper.selectDetailByPrimaryKey(homeworkAnswerId));
 
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
 
@@ -180,7 +181,7 @@ public class HomeworkService {
             apiResponse = new ApiResponse("1", "作业提交失败，请稍后再试");
         }
 
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
 
@@ -188,7 +189,7 @@ public class HomeworkService {
         ApiResponse<HomeworkWithBLOBs> apiResponse = new ApiResponse<>("0", "");
         apiResponse.setObj(homeworkMapper.selectByPrimaryKey(homeworkId));
 
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
 
@@ -196,7 +197,7 @@ public class HomeworkService {
         ApiResponse<List<HomeworkAnswerWithBLOBs>> apiResponse = new ApiResponse<>("0", null);
         apiResponse.setObjList(homeworkAnswerMapper.selectByHomeworkId(homeworkId));
 
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
 
@@ -216,7 +217,7 @@ public class HomeworkService {
         ApiResponse<Integer> apiResponse = new ApiResponse<>("0", null);
         apiResponse.setObj(homeworkAnswerMapper.selectNotEvaluateStuNumByHomeworkId(homeworkId));
 
-        String jsonResponse = new Gson().toJson(apiResponse);
+        String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
 }

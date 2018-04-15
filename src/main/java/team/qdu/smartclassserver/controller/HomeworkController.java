@@ -1,5 +1,6 @@
 package team.qdu.smartclassserver.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,7 +53,7 @@ public class HomeworkController {
         } else {
             homeworkService.publishHomework(title, detail, deadline, null, 0, classId);
         }
-        out.print(new Gson().toJson(new ApiResponse<String>("0", "发布作业成功")));
+        out.print(JSON.toJSONString(new ApiResponse<String>("0", "发布作业成功")));
         out.close();
     }
 
@@ -123,7 +124,7 @@ public class HomeworkController {
             homeworkService.commitHomework(homeworkAnswerId, homeworkId, classId, userId, ifSubmit, homeworkTitle, detail, null, files.size());
         }
 
-        out.print(new Gson().toJson(new ApiResponse<String>("0", "上传作业成功")));
+        out.print(JSON.toJSONString(new ApiResponse<String>("0", "上传作业成功")));
         out.close();
         //删除之前的文件
         String delPhotoesUrl = params.getParameter("delPhotoesUrl");
@@ -177,7 +178,7 @@ public class HomeworkController {
             homeworkService.commitHomeworkEvaluation(homeworkAnswerId, exp, remark, null, files.size());
         }
 
-        out.print(new Gson().toJson(new ApiResponse<String>("0", "评价成功")));
+        out.print(JSON.toJSONString(new ApiResponse<String>("0", "评价成功")));
         out.close();
         //删除之前的文件
         String delPhotoesUrl = params.getParameter("delPhotoesUrl");
@@ -231,7 +232,7 @@ public class HomeworkController {
 //                responseJson = homeworkService.publishHomework(title, detail, deadline, "homework/url/" + filename, classId);
 //            } catch (Exception e) {
 //                e.printStackTrace();
-//                responseJson = new Gson().toJson(new ApiResponse<String>("1", "上传作业信息失败"));
+//                responseJson = JSON.toJSONString(new ApiResponse<String>("1", "上传作业信息失败"));
 //            }
 //        } else {
 //            responseJson = homeworkService.publishHomework(title, detail, deadline, null, classId);
