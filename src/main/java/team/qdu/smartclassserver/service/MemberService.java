@@ -269,7 +269,6 @@ public class MemberService {
         Attendance at = attendanceMapper.selectByPrimaryKey(au.getAttendance_id());
         ClassUser cu = classUserMapper.selectByClassIdAndUserId(at.getClass_id(),au.getUser_id());
         au.setAttendance_status("未签到");
-        attendanceMapper.updateSignInNumberByPrimaryKey2(au.getAttendance_id());
         ClassUserExp cux = new ClassUserExp();
         cux.setUser_id(au.getUser_id());
         cux.setClass_id(at.getClass_id());
@@ -284,6 +283,7 @@ public class MemberService {
         classUserExpMapper.insert(cux);
         classUserMapper.updateByPrimaryKeySelective(cu);
         attendanceMapper.updateByPrimaryKeySelective(at);
+        attendanceMapper.updateSignInNumberByPrimaryKey2(au.getAttendance_id());
         int result = attendance_userMapper.updateByPrimaryKeySelective(au);
         if (result == 1) {
             apiResponse = new ApiResponse("0", "修改成功");
