@@ -126,6 +126,7 @@ public class UploadServlet extends HttpServlet {
                         material.setCreate_date_time(date);
                         material.setModify_date_time(date);
                         int result1 = materialMapper.insertSelective(material);
+                        int result3=classMapper.updateMaterialByClassId(classid);
                         Material_User material_user = new Material_User();
                         material_user.setMaterial_id(material.getMaterial_id());
                         material_user.setName(fileName);
