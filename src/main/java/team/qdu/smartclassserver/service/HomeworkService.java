@@ -121,6 +121,9 @@ public class HomeworkService {
             List<HomeworkAnswerWithBLOBs> homeworkAnswerList = homeworkAnswerMapper.selectExpsByHomeworkId(homeworkId);
             List<ClassUserExp> classUserExpList = new ArrayList<>();
             for (HomeworkAnswerWithBLOBs homeworkAnswer : homeworkAnswerList) {
+                if (homeworkAnswer.getExp() == null) {
+                    continue;
+                }
                 ClassUserExp classUserExp = new ClassUserExp();
                 classUserExp.setClass_id(homeworkAnswer.getClass_id());
                 classUserExp.setUser_id(homeworkAnswer.getUser_id());
@@ -131,7 +134,7 @@ public class HomeworkService {
                 classUserExpList.add(classUserExp);
             }
             classUserExpMapper.insertRecordList(classUserExpList);
-            classUserMapper.addExpsByClassIdUserId(homeworkAnswerList);
+            classUserMapper.addExpsByClassIdUserId(classUserExpList);
             homeworkMapper.updateByPrimaryKeySelective(homework);
             apiResponse = new ApiResponse<>("0", "作业已结束");
         }
@@ -162,10 +165,11 @@ public class HomeworkService {
         if (homeworkAnswerMapper.updateByPrimaryKeySelective(homeworkAnswer) > 0) {
             if ("否".equals(ifSubmit)) {
                 homeworkMapper.addSubmitNumByPrimaryKey(homeworkId);
-                Map<String, Integer> map = new HashMap<>();
+                Map<String, Object> map = new HashMap<>();
                 map.put("classId", classId);
                 map.put("userId", userId);
                 map.put("exp", 3);
+                map.put("modify_date_time", date);
                 classUserMapper.addExpByClassIdUserId(map);
                 ClassUserExp classUserExp = new ClassUserExp();
                 classUserExp.setClass_id(classId);
@@ -202,7 +206,6 @@ public class HomeworkService {
     }
 
     public void commitHomeworkEvaluation(int homeworkAnswerId, int exp, String remark, String remarkUrl, int remarkUrlFileNum) {
-        ApiResponse<Void> apiResponse;
         HomeworkAnswerWithBLOBs homeworkAnswer = new HomeworkAnswerWithBLOBs();
         homeworkAnswer.setHomework_answer_id(homeworkAnswerId);
         homeworkAnswer.setExp(exp);

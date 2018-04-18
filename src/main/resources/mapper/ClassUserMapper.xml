@@ -262,16 +262,20 @@
   </update>
   <update id="addExpByClassIdUserId" parameterType="java.util.Map">
     update class_user
-    set exp = exp + #{exp,jdbcType=INTEGER}
+    set exp = exp + #{exp,jdbcType=INTEGER},
+      modify_date_time = #{modify_date_time,jdbcType=TIMESTAMP}
     where class_id = #{classId,jdbcType=INTEGER}
       and user_id = #{userId,jdbcType=INTEGER}
   </update>
   <update id="addExpsByClassIdUserId" parameterType="java.util.List">
-    <foreach collection="list" item="item">
+    <foreach collection="list" item="item" separator=";">
       update class_user
-      set exp = exp + #{item.exp,jdbcType=INTEGER}
+      <set>
+        exp = exp + #{item.exp,jdbcType=INTEGER},
+        modify_date_time = #{item.modify_date_time,jdbcType=TIMESTAMP}
+      </set>
       where class_id = #{item.class_id,jdbcType=INTEGER}
-      and user_id = #{item.user_id,jdbcType=INTEGER}
+        and user_id = #{item.user_id,jdbcType=INTEGER}
     </foreach>
   </update>
   <update id="addExpMaterial" parameterType="team.qdu.smartclassserver.domain.Material_User">
