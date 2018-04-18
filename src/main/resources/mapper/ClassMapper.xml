@@ -210,6 +210,12 @@
     if_new_class_thing='是'
     WHERE class_id=#{class_id,jdbcType=INTEGER} AND title='学生'
 </update>
+ <update id="updateMaterialByClassId" parameterType="java.lang.Integer">
+    UPDATE class_user
+    SET  if_new_material='是',
+    if_new_class_thing='是'
+    WHERE class_id=#{class_id,jdbcType=INTEGER} AND title='学生'
+</update>
     <update id="updateByPrimaryKey" parameterType="team.qdu.smartclassserver.domain.Class">
     update class
     set name = #{name,jdbcType=VARCHAR},
