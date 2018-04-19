@@ -58,7 +58,8 @@ public class InformService {
     }
     public String  getUnReadNum(Integer informId){
         String unreadNum=String.valueOf(informMapper.selectUnReadPeople(informId));
-        ApiResponse<Void> apiResponse = new ApiResponse<>("0", unreadNum);
+        ApiResponse<Inform> apiResponse = new ApiResponse<>("0", unreadNum);
+        apiResponse.setObj(informMapper.selectByPrimaryKey(informId));
         String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
     }
