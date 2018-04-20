@@ -59,8 +59,8 @@ public class CronJob {
 //        PushUtil.testSendPushWithCustomConfig();
 //    }
 
-    //每隔一小时执行一次
-    @Scheduled(cron = "0 0 * * * ?")
+    //每隔一分钟执行一次
+    @Scheduled(cron = "0 * * * * ?")
     public void cronJob() {
 //        PushUtil.testSendPushWithCustomConfig();
         currentDate = new Date();

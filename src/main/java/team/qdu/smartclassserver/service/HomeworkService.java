@@ -133,8 +133,11 @@ public class HomeworkService {
                 classUserExp.setModify_date_time(date);
                 classUserExpList.add(classUserExp);
             }
-            classUserExpMapper.insertRecordList(classUserExpList);
-            classUserMapper.addExpsByClassIdUserId(classUserExpList);
+            //计算提交同学的经验
+            if (classUserExpList.size() != 0) {
+                classUserExpMapper.insertRecordList(classUserExpList);
+                classUserMapper.addExpsByClassIdUserId(classUserExpList);
+            }
             homeworkMapper.updateByPrimaryKeySelective(homework);
             apiResponse = new ApiResponse<>("0", "作业已结束");
         }
