@@ -126,6 +126,7 @@ public class MemberService {
         classUser.setIf_in_class("否");
         int result = classUserMapper.updateByPrimaryKeySelective(classUser);
         if (result == 1) {
+            PushUtil.getStudentInfo(classUser.getUser_id().toString());
             apiResponse = new ApiResponse("0", "已成功移出班课");
         } else {
             apiResponse = new ApiResponse("1", "移出班课失败");
