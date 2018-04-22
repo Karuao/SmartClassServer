@@ -111,13 +111,13 @@ public class InformService {
         ApiResponse apiResponse;
         List<Inform_User> list=inform_userMapper.selectInformByInformId(informId);
         int result=informMapper.deleteByPrimaryKey(informId);
-        int result2=inform_userMapper.deleteByInformId(informId);
         for(int i=0;i<list.size();i++){
             Inform_User inform_user=list.get(i);
             if(inform_user.getIf_read().equals("否")){
                 int result3=inform_userMapper.deleteUpdate(inform_user);
             }
         }
+        int result2=inform_userMapper.deleteByInformId(informId);
         if(result==1){
             apiResponse = new ApiResponse("0", "删除通知成功");
         }else{

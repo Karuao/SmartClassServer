@@ -25,5 +25,9 @@ public interface Material_UserMapper {
 
     int addExpRecord(Material_User record);
 
+    int updateBrowse(Material_User record);
+
+    List<Material_User> selectUnBrowseList(Integer materialId);
+
     String checkIfFirsttime(Integer material_user_id);
 }

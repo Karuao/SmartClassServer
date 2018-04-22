@@ -7,13 +7,14 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="if_download" jdbcType="VARCHAR" property="if_download" />
+    <result column="if_browse" jdbcType="VARCHAR" property="if_browse" />
     <result column="class_id" jdbcType="INTEGER" property="class_id" />
     <result column="user_id" jdbcType="INTEGER" property="user_id" />
     <result column="create_date_time" jdbcType="TIMESTAMP" property="create_date_time" />
     <result column="modify_date_time" jdbcType="TIMESTAMP" property="modify_date_time" />
   </resultMap>
   <sql id="Base_Column_List">
-    material_user_id, material_id, name, url, if_download, class_id, user_id, create_date_time, 
+    material_user_id, material_id, name, url, if_download,if_browse, class_id, user_id, create_date_time,
     modify_date_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -44,11 +45,11 @@
   </delete>
   <insert id="insert" parameterType="team.qdu.smartclassserver.domain.Material_User">
     insert into material_user (material_user_id, material_id, name, 
-      url, if_download, class_id, 
+      url, if_download,if_browse class_id,
       user_id, create_date_time, modify_date_time
       )
     values (#{material_user_id,jdbcType=INTEGER}, #{material_id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{url,jdbcType=VARCHAR}, #{if_download,jdbcType=VARCHAR}, #{class_id,jdbcType=INTEGER}, 
+      #{url,jdbcType=VARCHAR}, #{if_download,jdbcType=VARCHAR}, #{if_browse,jdbcType=VARCHAR},  #{class_id,jdbcType=INTEGER},
       #{user_id,jdbcType=INTEGER}, #{create_date_time,jdbcType=TIMESTAMP}, #{modify_date_time,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -73,6 +74,9 @@
       </if>
       <if test="if_download != null">
         if_download,
+      </if>
+      <if test="if_browse != null">
+        if_browse,
       </if>
       <if test="class_id != null">
         class_id,
@@ -102,6 +106,9 @@
       </if>
       <if test="if_download != null">
         #{if_download,jdbcType=VARCHAR},
+      </if>
+      <if test="if_browse != null">
+        #{if_browse,jdbcType=VARCHAR},
       </if>
       <if test="class_id != null">
         #{class_id,jdbcType=INTEGER},
@@ -133,6 +140,9 @@
       <if test="if_download != null">
         if_download = #{if_download,jdbcType=VARCHAR},
       </if>
+      <if test="if_browse != null">
+        if_browse = #{if_browse,jdbcType=VARCHAR},
+      </if>
       <if test="class_id != null">
         class_id = #{class_id,jdbcType=INTEGER},
       </if>
@@ -154,6 +164,7 @@
       name = #{name,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
       if_download = #{if_download,jdbcType=VARCHAR},
+      if_browse=#{if_browse,jdbcType=VARCHAR},
       class_id = #{class_id,jdbcType=INTEGER},
       user_id = #{user_id,jdbcType=INTEGER},
       create_date_time = #{create_date_time,jdbcType=TIMESTAMP},
@@ -166,5 +177,19 @@
         if_download='是'
     </set>
     WHERE material_user_id=#{material_user_id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectUnBrowseList" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT *
+    FROM material_user
+    where material_id = #{material_id,jdbcType=INTEGER} AND if_browse='否'
+  </select>
+
+  <update id="updateBrowse" parameterType="team.qdu.smartclassserver.domain.Material_User" >
+    UPDATE material_user
+    <set>
+      if_browse='是'
+    </set>
+    WHERE user_id=#{user_id,jdbcType=INTEGER} AND class_id=#{class_id,jdbcType=INTEGER}
   </update>
 </mapper>

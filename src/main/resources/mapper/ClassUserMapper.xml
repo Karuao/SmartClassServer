@@ -288,6 +288,24 @@
         and user_id = #{item.user_id,jdbcType=INTEGER}
     </foreach>
   </update>
+  <update id="deleteUpdateBrowse" parameterType="java.util.List">
+    <foreach collection="list" item="item" separator=";">
+      update class_user
+      <set>
+        unbrowse_material_num=unbrowse_material_num-1
+      </set>
+      where class_id = #{item.class_id,jdbcType=INTEGER}
+      and user_id = #{item.user_id,jdbcType=INTEGER}
+    </foreach>
+  </update>
+  <update id="updateBrowseNum" parameterType="team.qdu.smartclassserver.domain.Material_User">
+    UPDATE class_user
+    <set>
+      unbrowse_material_num=unbrowse_material_num-1
+    </set>
+    where class_id = #{class_id,jdbcType=INTEGER}
+    and user_id = #{user_id,jdbcType=INTEGER}
+  </update>
   <update id="addExpMaterial" parameterType="team.qdu.smartclassserver.domain.Material_User">
     UPDATE class_user
     <set>

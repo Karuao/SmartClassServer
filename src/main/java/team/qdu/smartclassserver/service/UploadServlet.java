@@ -135,6 +135,7 @@ public class UploadServlet extends HttpServlet {
                         material_user.setCreate_date_time(date);
                         material_user.setModify_date_time(date);
                         material_user.setIf_download("否");
+                        material_user.setIf_browse("否");
                         List<Integer> userIdlist = classMapper.selectUserIdByClassId(classid);
                         for (int i = 0; i < userIdlist.size(); i++) {
                             int userid = userIdlist.get(i);

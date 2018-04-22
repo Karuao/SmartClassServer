@@ -11,6 +11,7 @@ import team.qdu.smartclassserver.domain.ApiResponse;
 import team.qdu.smartclassserver.domain.Material;
 import team.qdu.smartclassserver.domain.Material_User;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -43,6 +44,8 @@ public class MaterialService {
         Material_User material_user=new Material_User();
         material_user.setClass_id(classid);
         material_user.setUser_id(userid);
+        int result=material_userMapper.updateBrowse(material_user);
+        int result2=classUserMapper.updateBrowseNum(material_user);
         apiResponse.setObjList(material_userMapper.selectByClassidUserid(material_user));
         String jsonResponse = JSON.toJSONString(apiResponse);
         return jsonResponse;
@@ -72,6 +75,8 @@ public class MaterialService {
     }
     public String deleteMaterial(Integer materialId){
         ApiResponse apiResponse;
+        List<Material_User> unBrowseList=material_userMapper.selectUnBrowseList(materialId);
+        int result3=classUserMapper.deleteUpdateBrowse(unBrowseList);
         int result1=materialMapper.deleteByPrimaryKey(materialId);
         int result2=material_userMapper.deleteBymaterialId(materialId);
         if(result1==1){

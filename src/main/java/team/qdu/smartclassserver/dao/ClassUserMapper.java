@@ -47,6 +47,10 @@ public interface ClassUserMapper {
     //根据class_idh和user_id给class_user表中多条记录增加exp
     int addExpsByClassIdUserId(List recordList);
 
+    int deleteUpdateBrowse(List recordList);
+
+    int updateBrowseNum(Material_User record);
+
     int addExpMaterial(Material_User record);
 
     int addExpInform(Inform_User record);
