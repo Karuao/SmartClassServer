@@ -110,6 +110,7 @@ public class HomeworkController {
         String homeworkTitle = params.getParameter("homeworkTitle");
         String detail = params.getParameter("detail");
         PrintWriter out = response.getWriter();
+        String responseJson;
         //文件处理
         if (!files.isEmpty()) {
             //新建文件夹存放上传的文件
@@ -118,13 +119,13 @@ public class HomeworkController {
             if (!FileUtil.genaratorFiles(files, out, fullDir, "提交作业失败，请稍后再试")) {
                 return;
             }
-            homeworkService.commitHomework(homeworkAnswerId, homeworkId, classId, userId, ifSubmit, homeworkTitle,
+            responseJson = homeworkService.commitHomework(homeworkAnswerId, homeworkId, classId, userId, ifSubmit, homeworkTitle,
                     detail, "SmartClass/homework_answer/url/" + dir, files.size());
         } else {
-            homeworkService.commitHomework(homeworkAnswerId, homeworkId, classId, userId, ifSubmit, homeworkTitle, detail, null, files.size());
+            responseJson = homeworkService.commitHomework(homeworkAnswerId, homeworkId, classId, userId, ifSubmit, homeworkTitle, detail, null, files.size());
         }
 
-        out.print(JSON.toJSONString(new ApiResponse<String>("0", "上传作业成功")));
+        out.print(responseJson);
         out.close();
         //删除之前的文件
         String delPhotoesUrl = params.getParameter("delPhotoesUrl");

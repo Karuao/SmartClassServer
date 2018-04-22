@@ -157,35 +157,40 @@ public class HomeworkService {
     public String commitHomework(int homeworkAnswerId, int homeworkId, int classId, int userId, String ifSubmit, String homeworkTitle,
                                  String detail, String url, int url_file_size) {
         ApiResponse<Void> apiResponse;
-        Date date = new Date();
-        HomeworkAnswerWithBLOBs homeworkAnswer = new HomeworkAnswerWithBLOBs();
-        homeworkAnswer.setHomework_answer_id(homeworkAnswerId);
-        homeworkAnswer.setDetail(detail);
-        homeworkAnswer.setUrl(url);
-        homeworkAnswer.setUrl_file_num(url_file_size);
-        homeworkAnswer.setIf_submit("是");
-        homeworkAnswer.setModify_date_time(new Date());
-        if (homeworkAnswerMapper.updateByPrimaryKeySelective(homeworkAnswer) > 0) {
-            if ("否".equals(ifSubmit)) {
-                homeworkMapper.addSubmitNumByPrimaryKey(homeworkId);
-                Map<String, Object> map = new HashMap<>();
-                map.put("classId", classId);
-                map.put("userId", userId);
-                map.put("exp", 3);
-                map.put("modify_date_time", date);
-                classUserMapper.addExpByClassIdUserId(map);
-                ClassUserExp classUserExp = new ClassUserExp();
-                classUserExp.setClass_id(classId);
-                classUserExp.setUser_id(userId);
-                classUserExp.setExp(3);
-                classUserExp.setDetail("提交作业“" + homeworkTitle + "”");
-                classUserExp.setCreate_date_time(date);
-                classUserExp.setModify_date_time(date);
-                classUserExpMapper.insert(classUserExp);
-            }
-            apiResponse = new ApiResponse("0", "作业提交成功");
+        Homework homework = homeworkMapper.selectByPrimaryKey(homeworkId);
+        if (!"进行中".equals(homework.getHomework_status())) {
+            apiResponse = new ApiResponse(ErrorEvent.HOMEWORK_BAN_COMMIT, "作业已开始评价或已结束");
         } else {
-            apiResponse = new ApiResponse("1", "作业提交失败，请稍后再试");
+            Date date = new Date();
+            HomeworkAnswerWithBLOBs homeworkAnswer = new HomeworkAnswerWithBLOBs();
+            homeworkAnswer.setHomework_answer_id(homeworkAnswerId);
+            homeworkAnswer.setDetail(detail);
+            homeworkAnswer.setUrl(url);
+            homeworkAnswer.setUrl_file_num(url_file_size);
+            homeworkAnswer.setIf_submit("是");
+            homeworkAnswer.setModify_date_time(new Date());
+            if (homeworkAnswerMapper.updateByPrimaryKeySelective(homeworkAnswer) > 0) {
+                if ("否".equals(ifSubmit)) {
+                    homeworkMapper.addSubmitNumByPrimaryKey(homeworkId);
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("classId", classId);
+                    map.put("userId", userId);
+                    map.put("exp", 3);
+                    map.put("modify_date_time", date);
+                    classUserMapper.addExpByClassIdUserId(map);
+                    ClassUserExp classUserExp = new ClassUserExp();
+                    classUserExp.setClass_id(classId);
+                    classUserExp.setUser_id(userId);
+                    classUserExp.setExp(3);
+                    classUserExp.setDetail("提交作业“" + homeworkTitle + "”");
+                    classUserExp.setCreate_date_time(date);
+                    classUserExp.setModify_date_time(date);
+                    classUserExpMapper.insert(classUserExp);
+                }
+                apiResponse = new ApiResponse("0", "作业提交成功");
+            } else {
+                apiResponse = new ApiResponse("1", "作业提交失败，请稍后再试");
+            }
         }
 
         String jsonResponse = JSON.toJSONString(apiResponse);
