@@ -4,13 +4,16 @@ import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import team.qdu.smartclassserver.config.MyWebMvcConfigurer;
 import team.qdu.smartclassserver.dao.ClassUserMapper;
 import team.qdu.smartclassserver.dao.MaterialMapper;
 import team.qdu.smartclassserver.dao.Material_UserMapper;
 import team.qdu.smartclassserver.domain.ApiResponse;
 import team.qdu.smartclassserver.domain.Material;
 import team.qdu.smartclassserver.domain.Material_User;
+import team.qdu.smartclassserver.util.FileUtil;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -75,12 +78,18 @@ public class MaterialService {
     }
     public String deleteMaterial(Integer materialId){
         ApiResponse apiResponse;
+        Material material=materialMapper.selectByPrimaryKey(materialId);
+        String url=material.getUrl();
         List<Material_User> unBrowseList=material_userMapper.selectUnBrowseList(materialId);
-        if(unBrowseList!=null ){
+        if(unBrowseList.size()!=0 ){
             int result3 = classUserMapper.deleteUpdateBrowse(unBrowseList);
         }
         int result1=materialMapper.deleteByPrimaryKey(materialId);
         int result2=material_userMapper.deleteBymaterialId(materialId);
+
+        if (url != null) {
+            FileUtil.deleteDir(new File(MyWebMvcConfigurer.UPLOAD_PATH + "resources/" + url));
+        }
         if(result1==1){
             apiResponse = new ApiResponse("0", "删除资源成功");
         }else{
