@@ -149,6 +149,7 @@ public class ClassService  {
         classUser.setTitle("老师");
         classUser.setIf_in_class("是");
         classUser.setIf_new_material("否");
+        classUser.setUnbrowse_material_num(0);
         classUser.setIf_new_homework("否");
         classUser.setIf_new_class_thing("否");
         classUser.setUnread_information_num(0);
@@ -235,6 +236,7 @@ public class ClassService  {
             classUser.setTitle("学生");
             classUser.setIf_in_class("是");
             classUser.setIf_new_material("否");
+            classUser.setUnbrowse_material_num(0);
             classUser.setIf_new_homework("否");
             classUser.setIf_new_class_thing("否");
             classUser.setUnread_information_num(0);
