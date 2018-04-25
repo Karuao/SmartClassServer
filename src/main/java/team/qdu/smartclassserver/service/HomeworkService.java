@@ -99,6 +99,12 @@ public class HomeworkService {
             } else {
                 apiResponse.setObjList(homeworkAnswerMapper.selectStudentHomeworkListByMapFinish(paramMap));
             }
+            //更新数据库，设置作业已查看
+            ClassUser classUser = new ClassUser();
+            classUser.setClass_id(classId);
+            classUser.setUser_id(userId);
+            classUser.setIf_new_homework("否");
+            classUserMapper.updateByClassIdUserIdSelective(classUser);
         }
 
         String jsonResponse = JSON.toJSONString(apiResponse);
@@ -155,7 +161,7 @@ public class HomeworkService {
     }
 
     public String commitHomework(int homeworkAnswerId, int homeworkId, int classId, int userId, String ifSubmit, String homeworkTitle,
-                                 String detail, String url, int url_file_size) {
+                                 String detail, String url, int url_file_size, String ifChangePhotoes) {
         ApiResponse<Void> apiResponse;
         Homework homework = homeworkMapper.selectByPrimaryKey(homeworkId);
         if (!"进行中".equals(homework.getHomework_status())) {
@@ -165,8 +171,10 @@ public class HomeworkService {
             HomeworkAnswerWithBLOBs homeworkAnswer = new HomeworkAnswerWithBLOBs();
             homeworkAnswer.setHomework_answer_id(homeworkAnswerId);
             homeworkAnswer.setDetail(detail);
-            homeworkAnswer.setUrl(url);
-            homeworkAnswer.setUrl_file_num(url_file_size);
+            if ("是".equals(ifChangePhotoes) || url_file_size > 0) {
+                homeworkAnswer.setUrl(url);
+                homeworkAnswer.setUrl_file_num(url_file_size);
+            }
             homeworkAnswer.setIf_submit("是");
             homeworkAnswer.setModify_date_time(new Date());
             if (homeworkAnswerMapper.updateByPrimaryKeySelective(homeworkAnswer) > 0) {
@@ -213,13 +221,15 @@ public class HomeworkService {
         return jsonResponse;
     }
 
-    public void commitHomeworkEvaluation(int homeworkAnswerId, int exp, String remark, String remarkUrl, int remarkUrlFileNum) {
+    public void commitHomeworkEvaluation(int homeworkAnswerId, int exp, String remark, String remarkUrl, int remarkUrlFileNum, String ifChangePhotoes) {
         HomeworkAnswerWithBLOBs homeworkAnswer = new HomeworkAnswerWithBLOBs();
         homeworkAnswer.setHomework_answer_id(homeworkAnswerId);
         homeworkAnswer.setExp(exp);
         homeworkAnswer.setRemark(remark);
-        homeworkAnswer.setRemark_url(remarkUrl);
-        homeworkAnswer.setRemark_url_file_num(remarkUrlFileNum);
+        if ("是".equals(ifChangePhotoes) || remarkUrlFileNum > 0) {
+            homeworkAnswer.setRemark_url(remarkUrl);
+            homeworkAnswer.setRemark_url_file_num(remarkUrlFileNum);
+        }
         homeworkAnswer.setModify_date_time(new Date());
         homeworkAnswerMapper.updateByPrimaryKeySelective(homeworkAnswer);
     }

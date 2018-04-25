@@ -1,7 +1,6 @@
 package team.qdu.smartclassserver.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,7 +45,7 @@ public class HomeworkController {
         if (!files.isEmpty()) {
             String dir = IdGenerator.generateGUID();    //新建文件夹名
             String fullDir = MyWebMvcConfigurer.UPLOAD_PATH + "resources/SmartClass/homework/url/" + dir + "/";
-            if (!FileUtil.genaratorFiles(files, out, fullDir , "上传作业失败，请稍后再试")) {
+            if (!FileUtil.genaratorFiles(files, out, fullDir, "上传作业失败，请稍后再试")) {
                 return;
             }
             homeworkService.publishHomework(title, detail, deadline, "SmartClass/homework/url/" + dir, files.size(), classId);
@@ -109,6 +108,7 @@ public class HomeworkController {
         String ifSubmit = params.getParameter("ifSubmit");
         String homeworkTitle = params.getParameter("homeworkTitle");
         String detail = params.getParameter("detail");
+        String ifChangePhotoes = params.getParameter("ifChangePhotoes");
         PrintWriter out = response.getWriter();
         String responseJson;
         //文件处理
@@ -120,9 +120,10 @@ public class HomeworkController {
                 return;
             }
             responseJson = homeworkService.commitHomework(homeworkAnswerId, homeworkId, classId, userId, ifSubmit, homeworkTitle,
-                    detail, "SmartClass/homework_answer/url/" + dir, files.size());
+                    detail, "SmartClass/homework_answer/url/" + dir, files.size(), ifChangePhotoes);
         } else {
-            responseJson = homeworkService.commitHomework(homeworkAnswerId, homeworkId, classId, userId, ifSubmit, homeworkTitle, detail, null, files.size());
+            responseJson = homeworkService.commitHomework(homeworkAnswerId, homeworkId, classId, userId, ifSubmit,
+                    homeworkTitle, detail, null, files.size(), ifChangePhotoes);
         }
 
         out.print(responseJson);
@@ -165,6 +166,7 @@ public class HomeworkController {
         int homeworkAnswerId = Integer.parseInt(params.getParameter("homeworkAnswerId"));
         int exp = Integer.parseInt(params.getParameter("exp"));
         String remark = params.getParameter("remark");
+        String ifChangePhotoes = params.getParameter("ifChangePhotoes");
         PrintWriter out = response.getWriter();
         //文件处理
         if (!files.isEmpty()) {
@@ -174,9 +176,9 @@ public class HomeworkController {
             if (!FileUtil.genaratorFiles(files, out, fullDir, "评价失败，请稍后再试")) {
                 return;
             }
-            homeworkService.commitHomeworkEvaluation(homeworkAnswerId, exp, remark, "SmartClass/homework_answer/remark_url/" + dir, files.size());
+            homeworkService.commitHomeworkEvaluation(homeworkAnswerId, exp, remark, "SmartClass/homework_answer/remark_url/" + dir, files.size(), ifChangePhotoes);
         } else {
-            homeworkService.commitHomeworkEvaluation(homeworkAnswerId, exp, remark, null, files.size());
+            homeworkService.commitHomeworkEvaluation(homeworkAnswerId, exp, remark, null, files.size(), ifChangePhotoes);
         }
 
         out.print(JSON.toJSONString(new ApiResponse<String>("0", "评价成功")));
