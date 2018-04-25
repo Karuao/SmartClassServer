@@ -76,7 +76,9 @@ public class MaterialService {
     public String deleteMaterial(Integer materialId){
         ApiResponse apiResponse;
         List<Material_User> unBrowseList=material_userMapper.selectUnBrowseList(materialId);
-        int result3=classUserMapper.deleteUpdateBrowse(unBrowseList);
+        if(unBrowseList!=null ){
+            int result3 = classUserMapper.deleteUpdateBrowse(unBrowseList);
+        }
         int result1=materialMapper.deleteByPrimaryKey(materialId);
         int result2=material_userMapper.deleteBymaterialId(materialId);
         if(result1==1){
