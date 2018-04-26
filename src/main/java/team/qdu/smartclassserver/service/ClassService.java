@@ -148,7 +148,6 @@ public class ClassService  {
         classUser.setUser_id(userId);
         classUser.setTitle("老师");
         classUser.setIf_in_class("是");
-        classUser.setIf_new_material("否");
         classUser.setUnbrowse_material_num(0);
         classUser.setIf_new_homework("否");
         classUser.setIf_new_class_thing("否");
@@ -235,7 +234,6 @@ public class ClassService  {
             classUser.setUser_id(userId);
             classUser.setTitle("学生");
             classUser.setIf_in_class("是");
-            classUser.setIf_new_material("否");
             classUser.setUnbrowse_material_num(0);
             classUser.setIf_new_homework("否");
             classUser.setIf_new_class_thing("否");
@@ -271,7 +269,6 @@ public class ClassService  {
         ClassUser classUser = new ClassUser();
         classUser.setClass_user_id(classUserId);
         if ("material".equals(whichPage)) {
-            classUser.setIf_new_material("否");
             classUser.setIf_new_class_thing("否");
         } else if ("homework".equals(whichPage)){
             classUser.setIf_new_homework("否");
