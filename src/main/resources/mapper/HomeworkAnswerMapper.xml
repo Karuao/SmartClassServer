@@ -82,7 +82,7 @@
       and homework_id = #{homework_id,jdbcType=INTEGER}
   </select>
   <select id="selectStudentHomeworkListByMapUnderway" parameterType="java.util.Map" resultMap="DetailResultMap">
-    select homework_answer.homework_answer_id,
+    select homework_answer.homework_answer_id, homework_answer.if_submit,
       homework.name as homework_name, homework.submit_num homework_submit_num, homework.exp homework_exp, homework.homework_status
     from homework, homework_answer
     where homework.homework_id = homework_answer.homework_id
@@ -92,7 +92,7 @@
     order by homework_answer_id desc
   </select>
   <select id="selectStudentHomeworkListByMapFinish" parameterType="java.util.Map" resultMap="DetailResultMap">
-    select homework_answer.homework_answer_id,
+    select homework_answer.homework_answer_id, homework_answer.if_submit,
       homework.name as homework_name, homework.submit_num as homework_submit_num, homework.exp homework_exp, homework.homework_status
     from homework, homework_answer
     where homework.homework_id = homework_answer.homework_id
