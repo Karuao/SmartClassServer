@@ -212,7 +212,7 @@
 </update>
  <update id="updateMaterialByClassId" parameterType="java.lang.Integer">
     UPDATE class_user
-    SET  if_new_material='是',
+    SET
     if_new_class_thing='是',
     unbrowse_material_num=unbrowse_material_num+1
     WHERE class_id=#{class_id,jdbcType=INTEGER} AND title='学生'
