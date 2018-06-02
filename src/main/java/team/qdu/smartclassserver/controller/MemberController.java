@@ -17,7 +17,7 @@ public class MemberController {
     @Autowired
     MemberService memberService;
 
-    //获取用户班课列表
+    //获取班课成员列表
     @RequestMapping(value = "/getClassMembers")
     public void getClassMembers(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType(MyWebMvcConfigurer.CONTENT_TYPE);

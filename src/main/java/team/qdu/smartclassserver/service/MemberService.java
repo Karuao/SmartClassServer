@@ -33,7 +33,7 @@ public class MemberService {
     @Autowired
     ClassUserExpMapper classUserExpMapper;
 
-    //获取用户班课列表
+    //获取班课成员列表
     public String getClassMembers(Integer classId) {
         ApiResponse<List<ClassUser>> apiResponse = new ApiResponse<>("0", "success");
         apiResponse.setObjList(classUserMapper.selectClassMembersByClassId(classId));
