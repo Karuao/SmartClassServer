@@ -7,7 +7,6 @@
     <result column="user_id" jdbcType="INTEGER" property="user_id" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="if_in_class" jdbcType="VARCHAR" property="if_in_class" />
-    <result column="if_new_material" jdbcType="VARCHAR" property="if_new_material" />
     <result column="unbrowse_material_num" jdbcType="INTEGER" property="unbrowse_material_num" />
     <result column="if_new_homework" jdbcType="VARCHAR" property="if_new_homework" />
     <result column="if_new_class_thing" jdbcType="VARCHAR" property="if_new_class_thing" />
@@ -53,22 +52,22 @@
     </association>
   </resultMap>
   <sql id="Base_Column_List">
-    class_user_id, class_id, user_id, title, if_in_class, if_new_material, unbrowse_material_num, if_new_homework, if_new_class_thing, unread_information_num, exp,
+    class_user_id, class_id, user_id, title, if_in_class, unbrowse_material_num, if_new_homework, if_new_class_thing, unread_information_num, exp,
     create_date_time, modify_date_time
   </sql>
   <select id="selectJoinedClassesByUserId" parameterType="java.lang.Integer" resultMap="DetailResultMap">
-    select class_user_id, title, if_new_material, unbrowse_material_num, if_new_homework, if_new_class_thing, unread_information_num, class.class_id as my_class_class_id,
+    select class_user_id, title, unbrowse_material_num, if_new_homework, if_new_class_thing, unread_information_num, class.class_id as my_class_class_id,
     class.name as my_class_name, class.avatar as my_class_avatar, class.course as my_class_course, user.name as user_name
     from user, class, class_user
     where user.user_id = class.user_id
       and class.class_id = class_user.class_id
       and class_user.if_in_class = '是'
-      and class.if_allow_to_join = '是'
+      and class.if_allow_to_join != '已删除'
       and class_user.user_id = #{user_id, jdbcType=INTEGER}
     order by class_user_id desc
   </select>
   <select id="selectMyClassByClassIdUserId" resultMap="DetailResultMap">
-    select class_user_id, title, if_new_material, unbrowse_material_num, if_new_homework, unread_information_num, if_in_class, class.course as my_class_course
+    select class_user_id, title, unbrowse_material_num, if_new_homework, unread_information_num, if_in_class, class.course as my_class_course
     from class_user, class
     where class_user.class_id = class.class_id
       and class_user.class_id = #{class_id,jdbcType=INTEGER}
@@ -126,11 +125,11 @@
   <insert id="insert" parameterType="team.qdu.smartclassserver.domain.ClassUser"
     useGeneratedKeys="true" keyProperty="class_user_id">
     insert into class_user (class_user_id, class_id, user_id, 
-      title, if_in_class, if_new_material, unbrowse_material_num, if_new_homework, if_new_class_thing, unread_information_num,
+      title, if_in_class, unbrowse_material_num, if_new_homework, if_new_class_thing, unread_information_num,
       exp, create_date_time, modify_date_time
       )
     values (#{class_user_id,jdbcType=INTEGER}, #{class_id,jdbcType=INTEGER}, #{user_id,jdbcType=INTEGER}, 
-      #{title,jdbcType=VARCHAR}, #{if_in_class,jdbcType=VARCHAR}, #{if_new_material,jdbcType=VARCHAR}, #{unbrowse_material_num,jdbcType=INTEGER},
+      #{title,jdbcType=VARCHAR}, #{if_in_class,jdbcType=VARCHAR}, #{unbrowse_material_num,jdbcType=INTEGER},
       #{if_new_homework,jdbcType=VARCHAR}, #{if_new_class_thing,jdbcType=VARCHAR}, #{unread_information_num,jdbcType=INTEGER},
       #{exp,jdbcType=INTEGER}, #{create_date_time,jdbcType=TIMESTAMP}, #{modify_date_time,jdbcType=TIMESTAMP}
       )
@@ -152,9 +151,6 @@
       </if>
       <if test="if_in_class != null">
         if_in_class,
-      </if>
-      <if test="if_new_material != null">
-        if_new_material,
       </if>
       <if test="unbrowse_material_num != null">
         unbrowse_material_num,
@@ -193,9 +189,6 @@
       </if>
       <if test="if_in_class != null">
         #{if_in_class,jdbcType=VARCHAR},
-      </if>
-      <if test="if_new_material != null">
-        #{if_new_material,jdbcType=INTEGER},
       </if>
       <if test="unbrowse_material_num != null">
         #{unbrowse_material_num,jdbcType=VARCHAR},
@@ -241,9 +234,6 @@
       </if>
       <if test="if_in_class != null">
         if_in_class = #{if_in_class,jdbcType=VARCHAR},
-      </if>
-      <if test="if_new_material != null">
-        if_new_material = #{if_new_material,jdbcType=INTEGER},
       </if>
       <if test="unbrowse_material_num != null">
         unbrowse_material_num = #{unbrowse_material_num,jdbcType=VARCHAR},
@@ -337,9 +327,6 @@
       <if test="if_in_class != null">
         if_in_class = #{if_in_class,jdbcType=VARCHAR},
       </if>
-      <if test="if_new_material != null">
-        if_new_material = #{if_new_material,jdbcType=INTEGER},
-      </if>
       <if test="unbrowse_material_num != null">
         unbrowse_material_num = #{unbrowse_material_num,jdbcType=INTEGER},
       </if>
@@ -376,9 +363,6 @@
       <if test="if_in_class != null">
         if_in_class = #{if_in_class,jdbcType=VARCHAR},
       </if>
-      <if test="if_new_material != null">
-        if_new_material = #{if_new_material,jdbcType=VARCHAR},
-      </if>
       <if test="unbrowse_material_num != null">
         unbrowse_material_num = #{unbrowse_material_num,jdbcType=INTEGER},
       </if>
@@ -411,7 +395,6 @@
       user_id = #{user_id,jdbcType=INTEGER},
       title = #{title,jdbcType=VARCHAR},
       if_in_class = #{if_in_class,jdbcType=VARCHAR},
-      if_new_material = #{if_new_material,jdbcType=VARCHAR},
       unbrowse_material_num = #{unbrowse_material_num,jdbcType=INTEGER},
       if_new_homework = #{if_new_homework,jdbcType=VARCHAR},
       if_new_class_thing = #{if_new_class_thing,jdbcType=VARCHAR},
